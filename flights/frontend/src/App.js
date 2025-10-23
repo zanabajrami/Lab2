@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <main className="flex-grow">
       </main>
       <Footer />
+      
     </div>
   );
 }
