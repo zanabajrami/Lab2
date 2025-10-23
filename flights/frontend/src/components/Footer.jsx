@@ -54,7 +54,7 @@ export default function Footer() {
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Deals</h3>
-                    <ul className="space-y-2 text-gray-200">
+                    <ul className="space-y-2 text-gray-00">
                         <li className="hover:text-white cursor-pointer">Last Minute Deals</li>
                         <li className="hover:text-white cursor-pointer">Memberships</li>
 
@@ -63,12 +63,12 @@ export default function Footer() {
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                    <li className="hover:text-white cursor-pointer">Contact us</li>
+                    <li className="hover:text-gray-500 cursor-pointer">Contact us</li>
                 </div>
             </div>
 
             <div className="border-t border-gray-500 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-4 text-sm text-gray-300">
-                <p>© {new Date().getFullYear()} FlyHigh. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} Flyhigh. All rights reserved.</p>
                 <div className="flex gap-5 mt-3 md:mt-0">
                     <span className="cursor-pointer hover:text-white transition"><IconFacebook /></span>
                     <span className="cursor-pointer hover:text-white transition"><IconInstagram /></span>

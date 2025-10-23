@@ -14,7 +14,7 @@ function Header() {
 
           {/* Log In & Sign Up */}
           <div className="flex items-center space-x-3">
-            <button className="bg-transparent border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-gray-900 transition-colors">
+            <button className="bg-transparent border border-white text-white px-4 py-2 rounded-lg hover:bg-blue-200 hover:text-gray-900 transition-colors">
               Log In
             </button>
             <button className="bg-blue-500 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-200 transition-colors">
