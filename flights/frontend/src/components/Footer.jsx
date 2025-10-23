@@ -35,35 +35,35 @@ export default function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Services</h3>
                     <ul className="space-y-2 text-gray-200">
-                        <li className="hover:text-white cursor-pointer">Flight Booking</li>
-                        <li className="hover:text-white cursor-pointer">Fare Lock</li>
-                        <li className="hover:text-white cursor-pointer">Flight Cancellation</li>
-                        <li className="hover:text-white cursor-pointer">Customer Support</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Flight Booking</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Fare Lock</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Flight Cancellation</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Customer Support</li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Destinations</h3>
                     <ul className="space-y-2 text-gray-200">
-                        <li className="hover:text-white cursor-pointer">Paris</li>
-                        <li className="hover:text-white cursor-pointer">London</li>
-                        <li className="hover:text-white cursor-pointer">Rome</li>
-                        <li className="hover:text-white cursor-pointer">Barcelona</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Paris</li>
+                        <li className="hover:text-gray-900 cursor-pointer">London</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Rome</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Barcelona</li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Deals</h3>
                     <ul className="space-y-2 text-gray-00">
-                        <li className="hover:text-white cursor-pointer">Last Minute Deals</li>
-                        <li className="hover:text-white cursor-pointer">Memberships</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Last Minute Deals</li>
+                        <li className="hover:text-gray-900 cursor-pointer">Memberships</li>
 
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                    <li className="hover:text-gray-500 cursor-pointer">Contact us</li>
+                    <li className="hover:text-gray-900 cursor-pointer">Contact us</li>
                 </div>
             </div>
 
