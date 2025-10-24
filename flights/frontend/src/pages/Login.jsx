@@ -13,7 +13,7 @@ function Login() {
     <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 font-[Poppins]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white/10 backdrop-blur-lg border border-white/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-white"
+        className="bg-white/10 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-white"
       >
         <h2 className="text-3xl font-semibold mb-3">Welcome Back 👋</h2>
         <p className="text-sm text-white/80 mb-8">

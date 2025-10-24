@@ -17,16 +17,9 @@ function Header() {
 
         {/* Log In & Sign Up */}
         <div className="flex items-center space-x-3">
-          <Link
+           <Link
             to="/login"
-            style={{
-              backgroundColor: "white",
-              color: "#007bff",
-              padding: "8px 16px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
+            className="bg-transparent border border-blue text-blue-600 font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-blue-100 hover:shadow-lg transition-all duration-300"
           >
             Login
           </Link>
