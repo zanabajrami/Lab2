@@ -1,83 +1,62 @@
 import React, { useState } from "react";
 
 function Login() {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const handleSubmit = (e) => {
-e.preventDefault();
-alert(`Email: ${email}\nPassword: ${password}`);
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Email: ${email}\nPassword: ${password}`);
+  };
 
-return (
-<div style={{
-display: "flex",
-justifyContent: "center",
-alignItems: "center",
-height: "100vh",
-backgroundColor: "#f2f2f2"
-}}>
-<form
-onSubmit={handleSubmit}
-style={{
-backgroundColor: "#fff",
-padding: "30px",
-borderRadius: "10px",
-boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-width: "300px"
-}}
->
-<h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
+  return (
+    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 font-[Poppins]">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white/10 backdrop-blur-lg border border-white/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-white"
+      >
+        <h2 className="text-3xl font-semibold mb-3">Welcome Back 👋</h2>
+        <p className="text-sm text-white/80 mb-8">
+          Please login to continue
+        </p>
 
-    <input 
-      type="email" 
-      placeholder="Email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      required
-      style={{
-        width: "100%",
-        padding: "10px",
-        marginBottom: "10px",
-        border: "1px solid #ccc",
-        borderRadius: "5px"
-      }}
-    />
+        <input
+          type="email"
+          placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full p-3 mb-4 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
-    <input 
-      type="password" 
-      placeholder="Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      required
-      style={{
-        width: "100%",
-        padding: "10px",
-        marginBottom: "10px",
-        border: "1px solid #ccc",
-        borderRadius: "5px"
-      }}
-    />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full p-3 mb-6 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
-    <button 
-      type="submit"
-      style={{
-        width: "100%",
-        padding: "10px",
-        backgroundColor: "#007bff",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer"
-      }}
-    >
-      Login
-    </button>
-  </form>
-</div>
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300 font-semibold text-white shadow-lg"
+        >
+          Login
+        </button>
 
-
-);
+        <p className="mt-5 text-sm text-white/80">
+          Don’t have an account?{" "}
+          <a
+            href="#"
+            className="text-white font-medium underline hover:text-cyan-200"
+          >
+            Sign up
+          </a>
+        </p>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
