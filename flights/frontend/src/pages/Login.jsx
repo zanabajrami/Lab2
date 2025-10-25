@@ -10,7 +10,7 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-200 via-blue-300 to-cyan-300 font-[Poppins]">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-200 via-blue-200 to-cyan-200 font-[Poppins]">
       <form
         onSubmit={handleSubmit}
         className="bg-white/50 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-gray-800"
