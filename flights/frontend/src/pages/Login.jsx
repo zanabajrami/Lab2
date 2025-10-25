@@ -10,13 +10,13 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 font-[Poppins]">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-200 via-blue-300 to-cyan-300 font-[Poppins]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white/10 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-white"
+        className="bg-white/50 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-gray-800"
       >
-        <h2 className="text-3xl font-semibold mb-3">Welcome Back 👋</h2>
-        <p className="text-sm text-white/80 mb-8">
+        <h2 className="text-3xl font-semibold mb-3">Welcome Back </h2>
+        <p className="text-m text-gray-700 mb-8">
           Please login to continue
         </p>
 
@@ -45,11 +45,11 @@ function Login() {
           Login
         </button>
 
-        <p className="mt-5 text-sm text-white/80">
+        <p className="mt-5 text-m text-gray-700">
           Don’t have an account?{" "}
           <a
             href="#"
-            className="text-white font-medium underline hover:text-cyan-200"
+            className="text-gray font-medium underline hover:text-cyan-600"
           >
             Sign up
           </a>
