@@ -23,9 +23,10 @@ function Header() {
           >
             Login
           </Link>
-          <button className="bg-blue-500 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-200 transition-colors">
+          <Link
+            to="/signup" className="bg-blue-500 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-200 transition-colors">
             Sign Up
-          </button>
+          </Link>
         </div>
 
       </div>
