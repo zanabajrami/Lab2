@@ -7,7 +7,16 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Email: ${email}\nPassword: ${password}`);
+
+    // ✅ Validimi i passwordit
+    const passwordRegex = /^(?=.*\d).{8,}$/; // Minimum 8 karaktere + 1 numër
+    if (!passwordRegex.test(password)) {
+      alert("Password must be at least 8 characters long and include at least one number!");
+      return;
+    }
+    alert("🔓 You are logged in!");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -16,11 +25,12 @@ function Login() {
         onSubmit={handleSubmit}
         className="bg-white/50 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-gray-800"
       >
-        <h2 className="text-3xl font-semibold mb-3">Welcome Back </h2>
+        <h2 className="text-3xl font-semibold mb-3">Welcome Back</h2>
         <p className="text-m text-gray-700 mb-8">
           Please login to continue
         </p>
 
+        {/* Email */}
         <input
           type="email"
           placeholder="Email address"
@@ -30,6 +40,7 @@ function Login() {
           className="w-full p-3 mb-4 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
+        {/* Password */}
         <input
           type="password"
           placeholder="Password"
