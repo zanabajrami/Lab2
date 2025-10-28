@@ -12,12 +12,13 @@ function Header() {
           <li className="hover:text-blue-400 cursor-pointer">Services</li>
           <li className="hover:text-blue-400 cursor-pointer">Destinations</li>
           <li className="hover:text-blue-400 cursor-pointer">Deals</li>
-          <li className="hover:text-blue-400 cursor-pointer">Contact</li>
-        </ul>
+          <Link to="/contact" className="hover:text-blue-400">
+            Contact Us
+          </Link>        </ul>
 
         {/* Log In & Sign Up */}
         <div className="flex items-center space-x-3">
-           <Link
+          <Link
             to="/login"
             className="bg-transparent border border-blue text-blue-600 font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-blue-100 hover:shadow-lg transition-all duration-300"
           >
