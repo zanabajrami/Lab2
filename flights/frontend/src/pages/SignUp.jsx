@@ -11,13 +11,28 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ✅ Validimi i fjalëkalimit
+    const passwordRegex = /^(?=.*\d).{8,}$/; // të paktën 8 karaktere + 1 numër
+    if (!passwordRegex.test(password)) {
+      alert("Password must be at least 8 characters long and include at least one number!");
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    alert(
-      `First Name: ${firstName}\nLast Name: ${lastName}\nEmail: ${email}\nPassword: ${password}`
-    );
+
+    // ✅ Mesazhi i suksesit
+    alert("🎉 You have created an account!");
+
+    // ✅ Pastrimi i fushave pas krijimit të accountit
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setShowPassword(false);
   };
 
   return (
@@ -27,7 +42,7 @@ function Signup() {
         className="bg-white/50 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-[480px] text-center text-gray-800"
       >
         <h2 className="text-3xl font-semibold mb-3 text-gray-800">
-          Create Account 
+          Create Account
         </h2>
         <p className="text-md text-gray-700 mb-8">
           Join us and explore amazing features
@@ -67,7 +82,7 @@ function Signup() {
         <div className="relative mb-4">
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Password"
+            placeholder="Password (min. 8 chars & 1 number)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -85,6 +100,23 @@ function Signup() {
             required
             className="w-full p-3 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+        {/* ✅ Show Password Checkbox */}
+        <div className="flex items-center mb-6">
+          <input
+            type="checkbox"
+            id="showPassword"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+            className="mr-2 accent-blue-500"
+          />
+          <label
+            htmlFor="showPassword"
+            className="text-gray-700 text-sm cursor-pointer select-none"
+          >
+            Show Password
+          </label>
         </div>
 
         {/* Submit Button */}
