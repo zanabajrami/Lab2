@@ -1,90 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Contact({ onClose }) {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert("Your message has been sent! 📩");
-        setName("");
-        setEmail("");
-        setMessage("");
-    };
+  useEffect(() => {
+    // efekt smooth kur forma hapet
+    const timeout = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timeout);
+  }, []);
 
-    return (
-        <div
-            onClick={(e) => e.target === e.currentTarget && onClose?.()}
-            className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
-        >
-            <div
-                onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-md p-10 rounded-3xl relative
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Your message has been sent! 📩");
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+
+  return (
+    <div
+      onClick={(e) => e.target === e.currentTarget && onClose?.()}
+      className={`fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 transition-opacity duration-500 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-md p-10 rounded-3xl relative
              bg-gradient-to-br from-slate-900 via-slate-0 to-blue-900
-             border border-slate-700 backdrop-blur-lg transform scale-95 animate-heavyPop
-             shadow-xl shadow-black/40
-             animate-formGlow"
-            >
-               <h2 className="text-xl md:text-2xl font-serif font-medium italic text-center text-slate-400
+             border border-slate-700 backdrop-blur-lg shadow-xl shadow-black/40
+             animate-formGlow transform transition-all duration-500 ${
+               isVisible
+                 ? "opacity-100 scale-100 translate-y-0"
+                 : "opacity-0 scale-90 translate-y-5"
+             }`}
+      >
+        <h2
+          className="text-xl md:text-2xl font-serif font-medium italic text-center text-slate-400
                tracking-wide mb-6 uppercase
                relative before:content-[''] before:block before:w-10 before:h-[2px]
-               before:bg-slate-400 before:mx-auto before:mb-2">
-                 Contact Us
-                 </h2>
+               before:bg-slate-400 before:mx-auto before:mb-2"
+        >
+          Contact Us
+        </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    <input
-                        type="text"
-                        placeholder="Your Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        className="w-full px-5 py-3 rounded-2xl border border-slate-600
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
                        bg-slate-900/70 placeholder-slate-400 text-slate-100
                        focus:outline-none focus:ring-2 focus:ring-blue-400/60
                        shadow-lg shadow-blue-800/50
                        transition-all duration-300 hover:ring-blue-300/50 animate-glowPulse"
-                    />
-                    <input
-                        type="email"
-                        placeholder="Your Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="w-full px-5 py-3 rounded-2xl border border-slate-600
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
                        bg-slate-900/70 placeholder-slate-400 text-slate-100
                        focus:outline-none focus:ring-2 focus:ring-blue-400/60
                        shadow-lg shadow-blue-800/50
                        transition-all duration-300 hover:ring-blue-300/50 animate-glowPulse"
-                    />
-                    <textarea
-                        rows="4"
-                        placeholder="Your Message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        required
-                        className="w-full px-5 py-3 rounded-2xl border border-slate-600
+          />
+          <textarea
+            rows="4"
+            placeholder="Your Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
                        bg-slate-900/70 placeholder-slate-400 text-slate-100
                        focus:outline-none focus:ring-2 focus:ring-blue-400/60
                        shadow-lg shadow-blue-800/50
                        transition-all duration-300 hover:ring-blue-300/50 resize-none animate-glowPulse"
-                    />
+          />
 
-                    <button
-                        type="submit"
-                        className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-750
+          <button
+            type="submit"
+            className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-750
                        text-slate-100 font-semibold font-serif tracking-wide text-base
                        shadow-lg shadow-blue-900/50
                        hover:shadow-xl hover:shadow-blue-800/60
                        transition-all duration-500 ease-out transform hover:scale-[1.03] animate-pulseButton"
-                    >
-                        Send Message
-                    </button>
-                </form>
-            </div>
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
 
-            <style>{`
+      <style>{`
         @keyframes heavyPop {
           0% { transform: scale(0.7); opacity: 0; }
           60% { transform: scale(1.05); opacity: 1; }
@@ -114,15 +128,15 @@ function Contact({ onClose }) {
           -webkit-text-fill-color: #e2e8f0;
           transition: background-color 5000s ease-in-out 0s;
         }
-          @keyframes formGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
-  50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
-}
-.animate-formGlow { animation: formGlow 3s infinite; }
 
+        @keyframes formGlow {
+          0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+          50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
+        }
+        .animate-formGlow { animation: formGlow 3s infinite; }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 }
 
 export default Contact;
