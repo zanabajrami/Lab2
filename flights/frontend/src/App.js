@@ -1,34 +1,39 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
-import SignUp from "./pages/Signup";
-import Contact from "./pages/Contact"; // import Contact
+import Signup from "./pages/Signup";
+import Contact from "./pages/Contact";
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header openContact={() => setShowContact(true)} />
+    <div className="flex flex-col min-h-screen">
+      <Header
+        openLogin={() => setShowLogin(true)}
+        openSignup={() => setShowSignup(true)}
+        openContact={() => setShowContact(true)}
+      />
 
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
-        </main>
+      <main className="flex-grow">
+        {/* Faqet e tjera mund të vendosen këtu */}
+      </main>
 
-        <Footer />
+      <Footer />
 
-        {/* Contact modal */}
-        {showContact && (
-          <Contact onClose={() => setShowContact(false)} />
-        )}
-      </div>
-    </Router>
+      {showLogin && (
+        <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
+      )}
+      {showSignup && (
+        <Signup isOpen={showSignup} onClose={() => setShowSignup(false)} />
+      )}
+      {showContact && (
+        <Contact onClose={() => setShowContact(false)} />
+      )}
+    </div>
   );
 }
 

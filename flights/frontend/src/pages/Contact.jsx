@@ -16,7 +16,7 @@ function Contact({ onClose }) {
     return (
         <div
             onClick={(e) => e.target === e.currentTarget && onClose?.()}
-            className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-md z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
         >
             <div
                 onClick={(e) => e.stopPropagation()}
@@ -30,8 +30,8 @@ function Contact({ onClose }) {
                tracking-wide mb-6 uppercase
                relative before:content-[''] before:block before:w-10 before:h-[2px]
                before:bg-slate-400 before:mx-auto before:mb-2">
-  Contact Us
-</h2>
+                 Contact Us
+                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <input
@@ -74,7 +74,7 @@ function Contact({ onClose }) {
                     <button
                         type="submit"
                         className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-750
-                       text-slate-100 font-semibold tracking-wide text-base
+                       text-slate-100 font-semibold font-serif tracking-wide text-base
                        shadow-lg shadow-blue-900/50
                        hover:shadow-xl hover:shadow-blue-800/60
                        transition-all duration-500 ease-out transform hover:scale-[1.03] animate-pulseButton"

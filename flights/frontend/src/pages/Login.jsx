@@ -1,71 +1,145 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
-function Login() {
+function Login({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // ✅ Validimi i passwordit
-    const passwordRegex = /^(?=.*\d).{8,}$/; // Minimum 8 karaktere + 1 numër
+    const passwordRegex = /^(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert("Password must be at least 8 characters long and include at least one number!");
+      alert(
+        "Password must be at least 8 characters long and include at least one number!"
+      );
       return;
     }
-    alert("🔓 You are logged in!");
+    alert("You are logged in!");
     setEmail("");
     setPassword("");
+    onClose();
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-indigo-200 via-blue-200 to-cyan-200 font-[Poppins]">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
+      onClick={onClose}
+    >
       <form
+        onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="bg-white/50 backdrop-blur-lg border border-gray/30 p-10 rounded-2xl shadow-2xl w-96 text-center text-gray-800"
+        className="relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-gray-400 transform transition-all duration-500 hover:scale-[1.02] border-2 border-gray-600 animate-formGlow"
       >
-        <h2 className="text-3xl font-semibold mb-3">Welcome Back</h2>
-        <p className="text-m text-gray-700 mb-8">
-          Please login to continue
-        </p>
+        <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
+          Welcome Back
+        </h2>
+        <p className="text-gray-300 font-serif mb-8 glow-label">Login to continue</p>
 
-        {/* Email */}
-        <input
-          type="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full p-3 mb-4 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        {/* Email input */}
+        <div className="relative mb-6">
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="peer w-full p-3 rounded-xl bg-gray-700/50 text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-400/60 shadow-lg shadow-blue-800/50 transition duration-300"
+            placeholder="Email"
+            autoComplete="email"
+          />
+          <label
+            htmlFor="email"
+            className={`absolute left-4 transition-all duration-300 ${email
+              ? "top-0 text-white text-sm glow-label"
+              : "top-3 text-gray-400 text-base"
+              }`}
+          >
+            Email address
+          </label>
+        </div>
 
-        {/* Password */}
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full p-3 mb-6 rounded-lg bg-white/90 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        {/* Password input */}
+        <div className="relative mb-6">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="peer w-full p-3 rounded-xl bg-gray-700/50 text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-400/60 shadow-lg shadow-blue-800/50 transition duration-300"
+            placeholder="Password"
+            autoComplete="current-password"
+          />
+          <label
+            htmlFor="password"
+            className={`absolute left-4 transition-all duration-300 ${password
+              ? "top-0 text-white text-sm glow-label"
+              : "top-3 text-gray-400 text-base"
+              }`}
+          >
+            Password
+          </label>
+        </div>
 
+        {/* Show Password checkbox */}
+        <div className="flex items-center justify-start mb-6">
+          <label htmlFor="showPassword" className="flex items-center cursor-pointer select-none">
+            <input
+              type="checkbox"
+              id="showPassword"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              className="w-4 h-4 rounded-sm border-2 border-gray-600 bg-gray-700 appearance-none relative checked:after:content-['✓'] checked:after:text-blue-500 checked:after:absolute checked:after:left-0.5 checked:after:top-[-3px] checked:after:text-sm cursor-pointer"
+            />
+            <span className="ml-2 text-gray-300 text-sm">Show Password</span>
+          </label>
+        </div>
+        {/* Login button */}
         <button
           type="submit"
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300 font-semibold text-white shadow-lg"
+          className="font-serif w-full py-3 rounded-xl bg-gradient-to-r from-gray-700 via-gray-500 to-gray-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
         >
           Login
         </button>
 
-        <p className="mt-5 text-m text-gray-700">
-          Don’t have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-gray font-medium underline hover:text-cyan-600"
-          >
-            Sign up
-          </Link>
-        </p>
+        <style>{`
+          /* Glow for labels */
+          .glow-label {
+            text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
+          }
+
+          /* Input glow pulse */
+          @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(59,130,246,0.4); }
+            50% { box-shadow: 0 0 20px rgba(59,130,246,0.7); }
+          }
+          input:focus { animation: glowPulse 2s infinite; }
+
+          /* Autofill glow */
+          input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
+            box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
+            -webkit-text-fill-color: #fff !important;
+            animation: glowPulse 2s infinite !important;
+            transition: background-color 5000s ease-in-out 0s;
+          }
+
+          /* Button pulse */
+          @keyframes pulseButton {
+            0%, 100% { box-shadow: 0 0 15px rgba(97, 121, 159, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(101, 116, 143, 0.8); }
+          }
+          .animate-pulseButton { animation: pulseButton 2s infinite; }
+
+          /* Form glow */
+          @keyframes formGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+            50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
+          }
+          .animate-formGlow { animation: formGlow 3s infinite; }
+        `}</style>
       </form>
     </div>
   );
