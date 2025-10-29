@@ -1,97 +1,121 @@
 import React, { useState } from "react";
 
 function Contact({ onClose }) {
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert("📧 Message sent!"); setFullName("");
-        setEmail("");
-        setMessage("");
-        onClose();
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Your message has been sent! 📩");
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
 
-    const handleOverlayClick = (e) => {
-        if (e.target === e.currentTarget && onClose) onClose();
-    };
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget && typeof onClose === "function") {
+      onClose();
+    }
+  };
 
-    return (
-        <div
-            className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 px-4 backdrop-blur-sm animate-fadeIn"
-            onClick={handleOverlayClick}
+  return (
+    <div
+      onClick={handleOverlayClick}
+      className="fixed inset-0 flex items-center justify-center bg-black/80 z-50 backdrop-blur-md"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md p-10 rounded-3xl relative
+                   bg-gradient-to-br from-slate-900 via-slate-750 to-blue-900
+                   border border-slate-700 backdrop-blur-lg transform scale-95 animate-heavyPop shadow-xl shadow-black/40"
+      >
+        {/* Title */}
+        <h2
+          className="text-[1.25rem] md:text-[1.45rem] font-serif italic text-center text-slate-200 
+                     tracking-wide mb-8 relative before:content-[''] before:block before:w-16 before:h-[1px] 
+                     before:bg-gradient-to-r from-slate-500 via-blue-400 to-slate-500 before:mx-auto before:mb-3"
         >
-            <form
-                onSubmit={handleSubmit}
-                className="relative w-full max-w-md p-10 rounded-3xl bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 shadow-2xl text-gray-900 animate-slideUp border border-blue-200 overflow-hidden"
-            >
-                {/* Header */}
-                <h2 className="text-3xl font-bold mb-4 text-center text-blue-900">
-                    Contact us
-                </h2>
-                <p className="text-gray-600 mb-8 text-center text-sm">
-                    Send us a message and we’ll get back to you quickly.
-                </p>
+          Contact Us
+        </h2>
 
-                {/* Custom Floating Input */}
-                <div className="relative mb-6">
-                    <input
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        required
-                        className="peer w-full p-4 rounded-2xl border-2 border-blue-200 bg-white/70 text-black font-medium outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 hover:shadow-lg"
-                    />
-                    <span className="absolute left-4 top-2 text-blue-900 font-semibold text-sm transition-all duration-300
-                   peer-placeholder-shown:top-4 peer-placeholder-shown:text-blue-400 peer-placeholder-shown:text-base
-                   peer-focus:top-0 peer-focus:text-blue-800 peer-focus:text-sm">
-                        Full Name
-                    </span>
-                </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
+                       bg-slate-900/70 placeholder-slate-400 text-slate-100
+                       focus:outline-none focus:ring-2 focus:ring-blue-400/60
+                       transition-all duration-300 hover:ring-blue-300/50 shadow-sm shadow-blue-900/20"
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
+                       bg-slate-900/70 placeholder-slate-400 text-slate-100
+                       focus:outline-none focus:ring-2 focus:ring-blue-400/60
+                       transition-all duration-300 hover:ring-blue-300/50 shadow-sm shadow-blue-900/20"
+          />
+          <textarea
+            rows="4"
+            placeholder="Your Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            className="w-full px-5 py-3 rounded-2xl border border-slate-600
+                       bg-slate-900/70 placeholder-slate-400 text-slate-100
+                       focus:outline-none focus:ring-2 focus:ring-blue-400/60
+                       transition-all duration-300 hover:ring-blue-300/50 shadow-sm shadow-blue-900/20 resize-none"
+          ></textarea>
 
-                <div className="relative mb-6">
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="peer w-full p-4 rounded-2xl border-2 border-blue-200 bg-white/70 text-black font-medium outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 hover:shadow-lg"
-                    />
-                    <span className="absolute left-4 top-2 text-blue-900 font-semibold text-sm transition-all duration-300
-                   peer-placeholder-shown:top-4 peer-placeholder-shown:text-blue-400 peer-placeholder-shown:text-base
-                   peer-focus:top-0 peer-focus:text-blue-800 peer-focus:text-sm">
-                        Email Address
-                    </span>
-                </div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-800 via-slate-500 to-blue-600
+                       text-slate-100 font-semibold tracking-wide text-base
+                       shadow-md shadow-blue-900/40
+                       hover:from-blue-700 hover:via-slate-500 hover:to-blue-500
+                       hover:shadow-lg hover:shadow-blue-800/30
+                       transition-all duration-500 ease-out transform hover:scale-[1.03]"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
 
-                <div className="relative mb-6">
-                    <textarea
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        required
-                        rows="4"
-                        className="peer w-full p-4 rounded-2xl border-2 border-blue-200 bg-white/70 text-black font-medium outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 hover:shadow-lg resize-none"
-                    />
-                    <span className="absolute left-4 top-2 text-blue-900 font-semibold text-sm transition-all duration-300
-                   peer-placeholder-shown:top-4 peer-placeholder-shown:text-blue-400 peer-placeholder-shown:text-base
-                   peer-focus:top-0 peer-focus:text-blue-800 peer-focus:text-sm">
-                        Your Message
-                    </span>
-                </div>
+      {/* Animations + Autofill Fix */}
+      <style>
+        {`
+          @keyframes heavyPop {
+            0% { transform: scale(0.7); opacity: 0; }
+            60% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+          }
+          .animate-heavyPop {
+            animation: heavyPop 0.5s ease-out forwards;
+          }
 
-
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="relative w-full py-3 rounded-2xl bg-blue-900 text-white font-bold overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 transform hover:scale-105"
-                >
-                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500 opacity-20 animate-pulse"></span>
-                    <span className="relative">Send Message</span>
-                </button>
-            </form>
-        </div>
-    );
+          input:-webkit-autofill,
+          input:-webkit-autofill:hover, 
+          input:-webkit-autofill:focus, 
+          textarea:-webkit-autofill,
+          textarea:-webkit-autofill:hover,
+          textarea:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0px 1000px #0f172a inset;
+            -webkit-text-fill-color: #e2e8f0;
+            transition: background-color 5000s ease-in-out 0s;
+          }
+        `}
+      </style>
+    </div>
+  );
 }
 
 export default Contact;
