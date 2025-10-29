@@ -4,6 +4,16 @@ function Login({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      // vonesë e vogël që ta aktivizojë animacionin smooth
+      setTimeout(() => setIsVisible(true), 20);
+    } else {
+      setIsVisible(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -30,12 +40,18 @@ function Login({ isOpen, onClose }) {
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-gray-400 transform transition-all duration-500 hover:scale-[1.02] border-2 border-gray-600 animate-formGlow"
+        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-blue-400 border-2 border-gray-600 animate-formGlow transform transition-all duration-500 ${
+          isVisible
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-90 translate-y-5"
+        }`}
       >
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
           Welcome Back
         </h2>
-        <p className="text-gray-300 font-serif mb-8 glow-label">Login to continue</p>
+        <p className="text-blue-300 font-serif mb-8 glow-label">
+          Login to continue
+        </p>
 
         {/* Email input */}
         <div className="relative mb-6">
@@ -51,10 +67,11 @@ function Login({ isOpen, onClose }) {
           />
           <label
             htmlFor="email"
-            className={`absolute left-4 transition-all duration-300 ${email
-              ? "top-0 text-white text-sm glow-label"
-              : "top-3 text-gray-400 text-base"
-              }`}
+            className={`absolute left-4 transition-all duration-300 ${
+              email
+                ? "top-0 text-white text-sm glow-label"
+                : "top-3 text-gray-400 text-base"
+            }`}
           >
             Email address
           </label>
@@ -74,10 +91,11 @@ function Login({ isOpen, onClose }) {
           />
           <label
             htmlFor="password"
-            className={`absolute left-4 transition-all duration-300 ${password
-              ? "top-0 text-white text-sm glow-label"
-              : "top-3 text-gray-400 text-base"
-              }`}
+            className={`absolute left-4 transition-all duration-300 ${
+              password
+                ? "top-0 text-white text-sm glow-label"
+                : "top-3 text-gray-400 text-base"
+            }`}
           >
             Password
           </label>
@@ -85,39 +103,40 @@ function Login({ isOpen, onClose }) {
 
         {/* Show Password checkbox */}
         <div className="flex items-center justify-start mb-6">
-          <label htmlFor="showPassword" className="flex items-center cursor-pointer select-none">
+          <label
+            htmlFor="showPassword"
+            className="flex items-center cursor-pointer select-none"
+          >
             <input
               type="checkbox"
               id="showPassword"
               checked={showPassword}
               onChange={() => setShowPassword(!showPassword)}
-              className="w-4 h-4 rounded-sm border-2 border-gray-600 bg-gray-700 appearance-none relative checked:after:content-['✓'] checked:after:text-blue-500 checked:after:absolute checked:after:left-0.5 checked:after:top-[-3px] checked:after:text-sm cursor-pointer"
+              className="w-4 h-4 rounded-sm border-2 border-gray-600 bg-gray-700 appearance-none relative checked:after:content-['✓'] checked:after:text-blue-500 checked:after:absolute checked:after:left-[2px] checked:after:top-[-2px] checked:after:text-sm cursor-pointer"
             />
             <span className="ml-2 text-gray-300 text-sm">Show Password</span>
           </label>
         </div>
+
         {/* Login button */}
         <button
           type="submit"
-          className="font-serif w-full py-3 rounded-xl bg-gradient-to-r from-gray-700 via-gray-500 to-gray-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
+          className="font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
         >
           Login
         </button>
 
         <style>{`
-          /* Glow for labels */
           .glow-label {
             text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
           }
 
-          /* Input glow pulse */
           @keyframes glowPulse {
             0%, 100% { box-shadow: 0 0 10px rgba(59,130,246,0.4); }
             50% { box-shadow: 0 0 20px rgba(59,130,246,0.7); }
           }
           input:focus { animation: glowPulse 2s infinite; }
 
-          /* Autofill glow */
           input:-webkit-autofill {
             -webkit-box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
             box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
@@ -126,14 +145,12 @@ function Login({ isOpen, onClose }) {
             transition: background-color 5000s ease-in-out 0s;
           }
 
-          /* Button pulse */
           @keyframes pulseButton {
             0%, 100% { box-shadow: 0 0 15px rgba(97, 121, 159, 0.5); }
             50% { box-shadow: 0 0 25px rgba(101, 116, 143, 0.8); }
           }
           .animate-pulseButton { animation: pulseButton 2s infinite; }
 
-          /* Form glow */
           @keyframes formGlow {
             0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
             50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
