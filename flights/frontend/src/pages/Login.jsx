@@ -20,7 +20,9 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
     e.preventDefault();
     const passwordRegex = /^(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert("Password must be at least 8 characters long and include at least one number!");
+      alert(
+        "Password must be at least 8 characters long and include at least one number!"
+      );
       return;
     }
     alert("You are logged in!");
@@ -37,10 +39,11 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-blue-400 border-2 border-gray-600 animate-formGlow transform transition-all duration-500 ${isVisible
+        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl border-2 border-gray-600 w-96 text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${
+          isVisible
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-90 translate-y-5"
-          }`}
+        }`}
       >
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
           Welcome Back
@@ -49,6 +52,7 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           Login to continue
         </p>
 
+        {/* Email input */}
         <div className="relative mb-6">
           <input
             type="email"
@@ -62,15 +66,17 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="email"
-            className={`absolute left-4 transition-all duration-300 ${email
+            className={`absolute left-4 transition-all duration-300 ${
+              email
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-              }`}
+            }`}
           >
             Email address
           </label>
         </div>
 
+        {/* Password input */}
         <div className="relative mb-6">
           <input
             type={showPassword ? "text" : "password"}
@@ -84,17 +90,22 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="password"
-            className={`absolute left-4 transition-all duration-300 ${password
+            className={`absolute left-4 transition-all duration-300 ${
+              password
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-              }`}
+            }`}
           >
             Password
           </label>
         </div>
 
+        {/* Show Password */}
         <div className="flex items-center justify-start mb-6">
-          <label htmlFor="showPassword" className="flex items-center cursor-pointer select-none">
+          <label
+            htmlFor="showPassword"
+            className="flex items-center cursor-pointer select-none"
+          >
             <input
               type="checkbox"
               id="showPassword"
@@ -106,6 +117,7 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           </label>
         </div>
 
+        {/* Login button with glow */}
         <button
           type="submit"
           className="font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
@@ -122,22 +134,36 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
             Sign up
           </button>
         </p>
+
+          <style>{`
+          .glow-label {
+            text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
+          }
+          @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(59,130,246,0.4); }
+            50% { box-shadow: 0 0 20px rgba(59,130,246,0.7); }
+          }
+          input:focus { animation: glowPulse 2s infinite; }
+          input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
+            box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
+            -webkit-text-fill-color: #fff !important;
+            animation: glowPulse 2s infinite !important;
+            transition: background-color 5000s ease-in-out 0s;
+          }
+          @keyframes pulseButton {
+            0%, 100% { box-shadow: 0 0 15px rgba(97, 121, 159, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(101, 116, 143, 0.8); }
+          }
+          .animate-pulseButton { animation: pulseButton 2s infinite; }
+          @keyframes formGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+            50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
+          }
+          .animate-formGlow { animation: formGlow 3s infinite; }
+        `}</style>
       </form>
-      <style>{`
-  /* Parandalon ndryshimin e ngjyrës kur përdoret autofill */
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus, 
-  input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px rgba(55,65,81,0.5) inset !important; /* e njëjta ngjyrë si bg-gray-700/50 */
-    box-shadow: 0 0 0px 1000px rgba(55,65,81,0.5) inset !important;
-    -webkit-text-fill-color: #fff !important;
-    transition: background-color 5000s ease-in-out 0s !important;
-  }
-`}</style>
-
     </div>
-
   );
 }
 
