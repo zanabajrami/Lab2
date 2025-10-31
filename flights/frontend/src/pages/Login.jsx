@@ -37,11 +37,10 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-blue-400 border-2 border-gray-600 animate-formGlow transform transition-all duration-500 ${
-          isVisible
+        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl shadow-xl w-96 text-center text-blue-400 border-2 border-gray-600 animate-formGlow transform transition-all duration-500 ${isVisible
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-90 translate-y-5"
-        }`}
+          }`}
       >
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
           Welcome Back
@@ -63,11 +62,10 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="email"
-            className={`absolute left-4 transition-all duration-300 ${
-              email
+            className={`absolute left-4 transition-all duration-300 ${email
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-            }`}
+              }`}
           >
             Email address
           </label>
@@ -86,11 +84,10 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="password"
-            className={`absolute left-4 transition-all duration-300 ${
-              password
+            className={`absolute left-4 transition-all duration-300 ${password
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-            }`}
+              }`}
           >
             Password
           </label>
@@ -116,17 +113,31 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           Login
         </button>
 
-        <p className="mt-8 text-slate-600 text-base text-center">
+        <p className="mt-8 text-slate-500 text-base text-center">
           Don’t have an account?{" "}
           <button
             onClick={onSwitchToRegister}
-            className="text-slate-800 hover:underline hover:text-white transition"
+            className="text-blue-500 hover:underline hover:text-white transition"
           >
             Sign up
           </button>
         </p>
       </form>
+      <style>{`
+  /* Parandalon ndryshimin e ngjyrës kur përdoret autofill */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(55,65,81,0.5) inset !important; /* e njëjta ngjyrë si bg-gray-700/50 */
+    box-shadow: 0 0 0px 1000px rgba(55,65,81,0.5) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+`}</style>
+
     </div>
+
   );
 }
 

@@ -19,31 +19,30 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    const passwordRegex = /^(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert("Password must be at least 8 characters long and include at least one number!");
-      return;
-    }
+  const passwordRegex = /^(?=.*\d).{8,}$/;
+  if (!passwordRegex.test(password)) {
+    alert("Password must be at least 8 characters long and include at least one number!");
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
 
-    alert("🎉 You have created an account!");
+  alert("🎉 You have created an account!");
 
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setShowPassword(false);
+  setFirstName("");
+  setLastName("");
+  setEmail("");
+  setPassword("");
+  setConfirmPassword("");
+  setShowPassword(false);
 
-    onClose();
-  };
+};
 
   return (
     <div
@@ -214,7 +213,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
               onClose();
               onSwitchToLogin();
             }}
-            className="text-blue-400 hover:underline"
+            className="text-blue-400 hover:underline hover:text-white"
           >
             Log in
           </button>
