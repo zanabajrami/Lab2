@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Signup({ isOpen, onClose }) {
+function Signup({ isOpen, onClose, onSwitchToLogin }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -206,17 +206,29 @@ function Signup({ isOpen, onClose }) {
           Sign Up
         </button>
 
+        {/* Log in link */}
+        <p className="mt-6 text-gray-400 text-sm text-center">
+          Already have an account?{" "}
+          <button
+            onClick={() => {
+              onClose();
+              onSwitchToLogin();
+            }}
+            className="text-blue-400 hover:underline"
+          >
+            Log in
+          </button>
+        </p>
+
         <style>{`
           .glow-label {
             text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
           }
-
           @keyframes glowPulse {
             0%, 100% { box-shadow: 0 0 10px rgba(59,130,246,0.4); }
             50% { box-shadow: 0 0 20px rgba(59,130,246,0.7); }
           }
           input:focus { animation: glowPulse 2s infinite; }
-
           input:-webkit-autofill {
             -webkit-box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
             box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
@@ -224,13 +236,11 @@ function Signup({ isOpen, onClose }) {
             animation: glowPulse 2s infinite !important;
             transition: background-color 5000s ease-in-out 0s;
           }
-
           @keyframes pulseButton {
             0%, 100% { box-shadow: 0 0 15px rgba(97, 121, 159, 0.5); }
             50% { box-shadow: 0 0 25px rgba(101, 116, 143, 0.8); }
           }
           .animate-pulseButton { animation: pulseButton 2s infinite; }
-
           @keyframes formGlow {
             0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
             50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }

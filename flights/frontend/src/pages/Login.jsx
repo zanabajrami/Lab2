@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function Login({ isOpen, onClose }) {
+function Login({ isOpen, onSwitchToRegister, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
-      // vonesë e vogël që ta aktivizojë animacionin smooth
       setTimeout(() => setIsVisible(true), 20);
     } else {
       setIsVisible(false);
@@ -21,9 +20,7 @@ function Login({ isOpen, onClose }) {
     e.preventDefault();
     const passwordRegex = /^(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert(
-        "Password must be at least 8 characters long and include at least one number!"
-      );
+      alert("Password must be at least 8 characters long and include at least one number!");
       return;
     }
     alert("You are logged in!");
@@ -53,7 +50,6 @@ function Login({ isOpen, onClose }) {
           Login to continue
         </p>
 
-        {/* Email input */}
         <div className="relative mb-6">
           <input
             type="email"
@@ -77,7 +73,6 @@ function Login({ isOpen, onClose }) {
           </label>
         </div>
 
-        {/* Password input */}
         <div className="relative mb-6">
           <input
             type={showPassword ? "text" : "password"}
@@ -101,12 +96,8 @@ function Login({ isOpen, onClose }) {
           </label>
         </div>
 
-        {/* Show Password checkbox */}
         <div className="flex items-center justify-start mb-6">
-          <label
-            htmlFor="showPassword"
-            className="flex items-center cursor-pointer select-none"
-          >
+          <label htmlFor="showPassword" className="flex items-center cursor-pointer select-none">
             <input
               type="checkbox"
               id="showPassword"
@@ -118,7 +109,6 @@ function Login({ isOpen, onClose }) {
           </label>
         </div>
 
-        {/* Login button */}
         <button
           type="submit"
           className="font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
@@ -126,37 +116,15 @@ function Login({ isOpen, onClose }) {
           Login
         </button>
 
-        <style>{`
-          .glow-label {
-            text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
-          }
-
-          @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(59,130,246,0.4); }
-            50% { box-shadow: 0 0 20px rgba(59,130,246,0.7); }
-          }
-          input:focus { animation: glowPulse 2s infinite; }
-
-          input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
-            box-shadow: 0 0 20px rgba(59,130,246,0.7) !important;
-            -webkit-text-fill-color: #fff !important;
-            animation: glowPulse 2s infinite !important;
-            transition: background-color 5000s ease-in-out 0s;
-          }
-
-          @keyframes pulseButton {
-            0%, 100% { box-shadow: 0 0 15px rgba(97, 121, 159, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(101, 116, 143, 0.8); }
-          }
-          .animate-pulseButton { animation: pulseButton 2s infinite; }
-
-          @keyframes formGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
-            50% { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
-          }
-          .animate-formGlow { animation: formGlow 3s infinite; }
-        `}</style>
+        <p className="mt-8 text-slate-600 text-base text-center">
+          Don’t have an account?{" "}
+          <button
+            onClick={onSwitchToRegister}
+            className="text-slate-800 hover:underline hover:text-white transition"
+          >
+            Sign up
+          </button>
+        </p>
       </form>
     </div>
   );

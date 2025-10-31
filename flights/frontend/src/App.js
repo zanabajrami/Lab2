@@ -10,6 +10,16 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
+  const handleSwitchToSignup = () => {
+    setShowLogin(false);
+    setShowSignup(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setShowSignup(false);
+    setShowLogin(true);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header
@@ -18,18 +28,26 @@ function App() {
         openContact={() => setShowContact(true)}
       />
 
-      <main className="flex-grow">
-        {/* Faqet e tjera mund të vendosen këtu */}
-      </main>
+      <main className="flex-grow"></main>
 
       <Footer />
 
       {showLogin && (
-        <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
+        <Login
+          isOpen={showLogin}
+          onClose={() => setShowLogin(false)}
+          onSwitchToRegister={handleSwitchToSignup}
+        />
       )}
+
       {showSignup && (
-        <Signup isOpen={showSignup} onClose={() => setShowSignup(false)} />
+        <Signup
+          isOpen={showSignup}
+          onClose={() => setShowSignup(false)}
+          onSwitchToLogin={handleSwitchToLogin}
+        />
       )}
+
       {showContact && (
         <Contact onClose={() => setShowContact(false)} />
       )}
