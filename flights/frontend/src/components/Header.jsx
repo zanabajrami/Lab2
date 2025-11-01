@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function Header({ openLogin, openSignup, openContact }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showDealsOptions, setShowDealsOptions] = useState(false);
   const dealsRef = useRef(null);
+  const navigate = useNavigate();
 
   // Scroll listener
   useEffect(() => {
@@ -32,15 +34,19 @@ function Header({ openLogin, openSignup, openContact }) {
     { label: "Contact", action: openContact },
   ];
 
+  // Navigation për dropdown
   const handleOptionClick = (option) => {
-    console.log("Selected:", option);
+    if (option === "Memberships") {
+      navigate("/membership");
+    } else if (option === "Last Minute Deals") {
+      navigate("/deals");
+    }
     setShowDealsOptions(false);
   };
 
-  // Animations framer-motion
   const dropdownVariants = {
     hidden: { opacity: 0, y: -15, scale: 0.95 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.25 } },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25 } },
     exit: { opacity: 0, y: -15, scale: 0.95, transition: { duration: 0.2 } },
   };
 
@@ -69,7 +75,7 @@ function Header({ openLogin, openSignup, openContact }) {
                 {item.label}
               </div>
 
-              {/* Dropdown me animacion + blur + shadow */}
+              {/* Dropdown me animacion */}
               <AnimatePresence>
                 {item.label === "Deals" && showDealsOptions && (
                   <motion.ul
