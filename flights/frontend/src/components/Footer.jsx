@@ -22,7 +22,7 @@ function IconTwitter() {
 
 export default function Footer() {
     return (
-        <footer className="bg-gradient-to-r from-blue-900 to-blue-500 text-white py-10 mt-auto">
+        <footer className="bg-gradient-to-r from-blue-900 to-blue-500 rounded-t-lg text-white py-10 mt-auto">
             <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h2 className="text-2xl font-bold mb-3">FlyHigh</h2>
