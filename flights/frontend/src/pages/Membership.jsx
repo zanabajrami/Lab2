@@ -1,33 +1,30 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-function Tooltip({ text, emoji }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 5 }}
-      className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-sm px-3 py-1 rounded-lg shadow-lg whitespace-nowrap z-50 flex items-center space-x-1"
-    >
-      {emoji && <span className="animate-bounce">{emoji}</span>}
-      <span>{text}</span>
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gray-900 rotate-45"></div>
-    </motion.div>
-  );
-}
-
-function MembershipCard({ title, price, benefits, emoji, gradient, onClick, badge }) {
-  const [activeIndex, setActiveIndex] = useState(null);
+function MembershipCard({ title, price, benefits, emoji, gradient, badge }) {
+  const [activeTips, setActiveTips] = useState({});
 
   const toggleTooltip = (i) => {
-    setActiveIndex(activeIndex === i ? null : i);
+    setActiveTips((prev) => ({ ...prev, [i]: !prev[i] }));
   };
+
+  // Auto-hide tooltips pas 3 sekondash
+  useEffect(() => {
+    const timers = Object.keys(activeTips).map((key) => {
+      if (activeTips[key]) {
+        return setTimeout(() => {
+          setActiveTips((prev) => ({ ...prev, [key]: false }));
+        }, 3000);
+      }
+      return null;
+    });
+    return () => timers.forEach((t) => t && clearTimeout(t));
+  }, [activeTips]);
 
   return (
     <motion.div
-      className="w-full max-w-md rounded-3xl bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl cursor-pointer overflow-hidden relative"
+      className="w-full max-w-md rounded-3xl bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl relative overflow-visible cursor-pointer"
       whileHover={{ scale: 1.05 }}
-      onClick={onClick}
     >
       {badge && (
         <div className="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full font-bold text-sm shadow-lg z-10">
@@ -46,15 +43,27 @@ function MembershipCard({ title, price, benefits, emoji, gradient, onClick, badg
           {benefits.map((b, i) => (
             <li
               key={i}
-              className="flex items-start p-2 rounded-lg hover:bg-blue-100/30 transition-colors duration-200 relative"
-              onMouseEnter={() => setActiveIndex(i)}
-              onMouseLeave={() => setActiveIndex(null)}
-              onClick={() => toggleTooltip(i)} // ✅ click toggle tooltip for mobile
+              className="flex items-center p-2 rounded-lg hover:bg-blue-100/30 transition-colors duration-200 relative"
+              onClick={() => toggleTooltip(i)}
             >
               <span className="mr-3 text-xl">{b.icon}</span>
               <span>{b.text}</span>
 
-              {activeIndex === i && <Tooltip text={b.tooltip} emoji="✨" />}
+              {/* Tooltip me smooth animation */}
+              <AnimatePresence>
+                {activeTips[i] && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -10, y: -5, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, y: -5, scale: 1 }}
+                    exit={{ opacity: 0, x: -10, y: -5, scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="absolute bottom-full left-0 transform -translate-y-full mb-2 bg-gray-900 text-white text-sm px-3 py-1 rounded shadow-lg whitespace-nowrap z-50"
+                  >
+                    ✨ {b.tooltip}
+                    <div className="absolute top-full left-3 w-3 h-3 bg-gray-900 rotate-45"></div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </li>
           ))}
         </ul>
@@ -137,9 +146,7 @@ export default function Membership() {
 
   return (
     <div className="min-h-screen bg-white p-12">
-      <h1 className="text-5xl text-gray-900 font-bold mb-12 text-center">
-        Memberships
-      </h1>
+      <h1 className="text-5xl text-gray-900 font-bold mb-12 text-center">Memberships</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center">
         {cards.map((card, i) => (
           <MembershipCard
@@ -150,11 +157,9 @@ export default function Membership() {
             emoji={card.emoji}
             gradient={card.gradient}
             badge={card.badge}
-            onClick={() => console.log(`Selected ${card.title}`)}
           />
         ))}
       </div>
     </div>
-    
   );
 }
