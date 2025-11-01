@@ -1,26 +1,31 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function MembershipCard({ title, price, benefits, onClick }) {
+function MembershipCard({ title, price, benefits, emoji, onClick }) {
   return (
     <motion.div
-      className="w-full max-w-sm p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-gray-300 shadow-[0_10px_25px_rgba(0,0,0,0.15)] cursor-pointer transition-transform duration-200"
-      whileHover={{ scale: 1.03, boxShadow: "0 15px 30px rgba(59,130,246,0.3)" }}
+      className="w-full max-w-md p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-gray-200 shadow-2xl cursor-pointer transition-transform duration-200 hover:scale-105 hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)]"
+      whileHover={{ scale: 1.05 }}
       onClick={onClick}
     >
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
-      <p className="text-xl text-gray-600 mb-4">{price}</p>
-      <ul className="space-y-2 mb-6">
+      <div className="flex items-center mb-6">
+        <div className="text-4xl mr-4">{emoji}</div>
+        <h2 className="text-3xl font-bold text-gray-800">{title}</h2>
+      </div>
+
+      <p className="text-xl text-gray-700 mb-6 font-semibold">{price}</p>
+
+      <ul className="space-y-3 mb-6 text-gray-700">
         {benefits.map((b, i) => (
-          <li key={i} className="text-gray-600">
-            – {b}
+          <li key={i} className="flex items-start">
+            <span className="mr-3 text-xl">✔️</span>
+            <span>{b}</span>
           </li>
         ))}
       </ul>
-      <button
-        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.5)] transition-all"
-      >
-        Select
+
+      <button className="w-full py-3 bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-[0_0_25px_10px_rgba(59,130,246,0.5)] transition-all">
+        Join Now
       </button>
     </motion.div>
   );
@@ -30,33 +35,77 @@ export default function Membership() {
   const cards = [
     {
       title: "Basic Membership",
+      emoji: "💳",
       price: "€49.99 / year",
-      benefits: ["€5 off per flight", "Priority booking on select flights", "Exclusive promos"]
+      benefits: [
+        "Benefits for you and 1 companion ✈️",
+        "Subscribe when you book your next flight 🗓️",
+        "Special onboard coupons 🧾",
+        "Exclusive ticket promotions and personalized offers 🎟️",
+        "€10 discount on flight fares from €29.99 💶",
+        "€5 discount on checked-in baggages purchased online 🧳",
+        "Priority customer care ☎️",
+        "Enhanced benefits with partners 🤝",
+        "2 cabin bags & priority 🛄",
+        "Premium (unlimited) seat selection ✈️"
+      ]
     },
     {
       title: "Standard Membership",
+      emoji: "🎟️",
       price: "€69.99 / year",
-      benefits: ["€10 off per flight", "Priority boarding", "Extra baggage allowance", "Exclusive promos"]
+      benefits: [
+        "Benefits for you and 1 companion ✈️",
+        "Subscribe when you book your next flight 🗓️",
+        "Special onboard coupons 🧾",
+        "Exclusive ticket promotions and personalized offers 🎟️",
+        "€10 discount on flight fares from €29.99 💶",
+        "€5 discount on checked-in baggages purchased online 🧳",
+        "Priority customer care ☎️",
+        "Enhanced benefits with partners 🤝",
+        "2 cabin bags & priority 🛄",
+        "Premium (unlimited) seat selection ✈️",
+        "Extra seasonal offers 🌞",
+        "Early access to sales ⏰"
+      ]
     },
     {
       title: "Premium Membership",
+      emoji: "🏆",
       price: "€99.99 / year",
-      benefits: ["€15 off per flight", "Priority boarding & check-in", "Extra baggage allowance", "VIP customer support", "Exclusive promos"]
+      benefits: [
+        "Benefits for you and 1 companion ✈️",
+        "Subscribe when you book your next flight 🗓️",
+        "Special onboard coupons 🧾",
+        "Exclusive ticket promotions and personalized offers 🎟️",
+        "€10 discount on flight fares from €29.99 💶",
+        "€5 discount on checked-in baggages purchased online 🧳",
+        "Priority customer care ☎️",
+        "Enhanced benefits with partners 🤝",
+        "2 cabin bags & priority 🛄",
+        "Premium (unlimited) seat selection ✈️",
+        "Extra seasonal offers 🌞",
+        "Early access to sales ⏰",
+        "Flexible ticket changes 🔄",
+        "Special birthday offers 🎂",
+        "VIP customer support 🛎️"
+      ]
     }
   ];
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <h1 className="text-4xl text-gray-900 font-bold mb-8 text-center">
+    <div className="min-h-screen bg-white p-12">
+      <h1 className="text-5xl text-gray-900 font-bold mb-12 text-center">
      Memberships
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center">
         {cards.map((card, i) => (
           <MembershipCard
             key={i}
             title={card.title}
             price={card.price}
             benefits={card.benefits}
+            emoji={card.emoji}
             onClick={() => console.log(`Selected ${card.title}`)}
           />
         ))}
