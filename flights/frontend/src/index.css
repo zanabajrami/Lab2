@@ -29,3 +29,18 @@ html, body, #root {
 main {
   flex: 1;
 }
+.emoji {
+  font-size: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .emoji {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .emoji {
+    font-size: 4rem;
+  }
+}
