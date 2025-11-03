@@ -22,84 +22,100 @@ export default function LastMinuteDeals() {
     { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
   ];
 
-    const [query, setQuery] = useState("");
-    const [date, setDate] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
-    const [currency] = useState("EUR");
+  const [query, setQuery] = useState("");
+  const [date, setDate] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [currency] = useState("EUR");
 
-    const filtered = useMemo(() => {
-        return sampleDeals.filter((d) => {
-            const matchesQuery =
-                query.trim() === "" ||
-                d.title.toLowerCase().includes(query.toLowerCase()) ||
-                d.country.toLowerCase().includes(query.toLowerCase());
-            const matchesDate =
-                date === "" || d.departureDate === date || d.returnDate === date;
-            const matchesPrice = maxPrice === "" || d.price <= Number(maxPrice);
-            return matchesQuery && matchesDate && matchesPrice;
-        });
-    }, [query, date, maxPrice]);
+  const filtered = useMemo(() => {
+    return sampleDeals.filter((d) => {
+      const matchesQuery =
+        query.trim() === "" ||
+        d.title.toLowerCase().includes(query.toLowerCase()) ||
+        d.country.toLowerCase().includes(query.toLowerCase());
+      const matchesDate =
+        date === "" || d.departureDate === date || d.returnDate === date;
+      const matchesPrice = maxPrice === "" || d.price <= Number(maxPrice);
+      return matchesQuery && matchesDate && matchesPrice;
+    });
+  }, [query, date, maxPrice]);
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white p-6 md:p-12">
-            <header className="max-w-7xl mx-auto text-center">
-                <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">
-                    🛫 Last Minute Deals 🛬
-                </h1>
-                <p className="text-slate-600 mb-8">
-                    Zbulo ofertat më të mira për fluturime të menjëhershme — rezervoni
-                    udhëtimin tuaj tani!
-                </p>
-            </header>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white p-6 md:p-12">
+      <header className="max-w-7xl mx-auto text-center relative">
+        <h1 className="relative text-2xl md:text-3xl font-extrabold text-gray-800 mb-2 tracking-wide uppercase drop-shadow-sm overflow-hidden">
+          ✈️ Last Minute Deals ✈️
+          <span className="absolute top-0 left-[-75%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shine pointer-events-none"></span>
+        </h1>
+        <p className="text-gray-700 mb-8 italic transition-colors duration-300 hover:text-blue-900">
+          Zbulo ofertat më të mira për fluturime të menjëhershme — rezervoni udhëtimin tuaj tani!
+        </p>
+      </header>
 
-            {/* Deals grid */}
-            <main className="max-w-7xl mx-auto mt-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filtered.map((deal) => (
-                        <article
-                            key={deal.id}
-                            className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
-                        >
-                            <div className="relative h-52 md:h-64 w-full rounded-2xl overflow-hidden">
-                                <img
-                                    src={deal.image}
-                                    alt={deal.title}
-                                    className="object-cover w-full h-full transform hover:scale-105 transition duration-500"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
-                                <div className="absolute bottom-4 left-4 text-white">
-                                    <h3 className="text-2xl font-bold">{deal.title}</h3>
-                                    <p className="text-sm opacity-90">
-                                        🛫 Prishtina → 🏙️ {deal.title}
-                                    </p>
+      <style jsx>{`
+        @keyframes shine {
+          0% { left: -75%; }
+          50% { left: 100%; }
+          100% { left: 100%; }
+        }
+        .animate-shine { animation: shine 2.5s infinite; }
+      `}</style>
 
-                                </div>
-                                <div className="absolute right-4 top-4 bg-white/30 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-base font-semibold shadow-md transform transition duration-300 hover:scale-110 hover:bg-white/50">
-                                    {deal.currency} {deal.price}
-                                </div>
-
-                            </div>
-
-                            <div className="p-4 flex-1 flex flex-col justify-between">
-                                <div className="flex flex-wrap gap-2 text-10px text-slate-600 mt-2">
-                                    <span>🛫 {deal.departureDate}</span>
-                                    <span>🛬 {deal.returnDate}</span>
-                                    <span>⏱ {deal.duration}</span>
-                                </div>
-
-                                <div className="mt-4 flex items-center justify-between">
-                                    <button className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105">
-                                        Rezervo
-                                    </button>
-                                    <button className="text-sm text-slate-500 underline hover:text-slate-700">
-                                        Shiko më shumë
-                                    </button>
-                                </div>
-                            </div>
-                        </article>
-                    ))}
+      {/* Deals grid */}
+      <main className="max-w-7xl mx-auto mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((deal) => (
+            <article
+              key={deal.id}
+              className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+            >
+              <div className="relative h-52 md:h-64 w-full rounded-2xl overflow-hidden">
+                <img
+                  src={deal.image}
+                  alt={deal.title}
+                  className="object-cover w-full h-full transform hover:scale-105 transition duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{deal.title}</h3>
+                  <p className="text-sm opacity-90">
+                    🌁 Prishtina → 🗾 {deal.title}
+                  </p>
                 </div>
-            </main>
+                <div className="absolute right-4 top-4 bg-white/30 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-base font-semibold shadow-md transform transition duration-300 hover:scale-110 hover:bg-white/50">
+                  {deal.currency} {deal.price}
+                </div>
+              </div>
+
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div className="flex flex-wrap gap-2 text-10px text-slate-600 mt-2">
+                  <span>🛫 {deal.departureDate}</span>
+                  <span>🛬 {deal.returnDate}</span>
+                  <span>⏱ {deal.duration}</span>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between relative">
+                  <button className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105">
+                    Rezervo
+                  </button>
+
+                  {/* Shiko më shumë me tooltip */}
+                  <div className="relative group">
+                    <button className="text-sm text-slate-500 underline hover:text-slate-700">
+                      Shiko më shumë
+                    </button>
+                    <div className="absolute bottom-full mb-2 left-1/1 -translate-x-1/2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <p>✔️ Bileta për 1 person</p>
+                      <p>✔️ Bagazh 10 kg</p>
+                      <p>✔️ Përfshihen të gjitha taksat</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
-    );
+      </main>
+    </div>
+  );
 }
