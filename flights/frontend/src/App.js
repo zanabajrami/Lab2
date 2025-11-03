@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Contact from "./pages/Contact";
 import Membership from "./pages/Membership";
+import Deals from "./pages/Deals";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/membership" element={<Membership />} />
+            <Route path="/deals" element={<Deals />} />
           </Routes>
         </main>
 
