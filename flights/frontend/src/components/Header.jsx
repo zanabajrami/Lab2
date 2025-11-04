@@ -28,7 +28,7 @@ function Header({ openLogin, openSignup, openContact }) {
   }, []);
 
   const menuItems = [
-    { label: "Destinations", action: null },
+    { label: "Destinations", action: () => navigate("/destinations") },
     { label: "Flights", action: null },
     { label: "Deals", action: () => setShowDealsOptions(!showDealsOptions) },
     { label: "Contact", action: openContact },
