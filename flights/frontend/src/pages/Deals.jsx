@@ -16,7 +16,6 @@ export default function LastMinuteDeals() {
     { id: 3, from: "Prishtina", title: "Paris", country: "France", image: parisImage, departureDate: "2025-11-08", returnDate: "2025-11-12", duration: "4 days", price: 259, currency: "EUR" },
     { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" },
     { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, departureDate: "2025-11-08", returnDate: "2025-11-11", duration: "3 days", price: 189, currency: "EUR" },
-    { id: 6, from: "Prishtina", title: "Bratislava", country: "Slovakia", image: bratislavaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 99, currency: "EUR" },
     { id: 7, from: "Prishtina", title: "Cairo", country: "Egypt", image: cairoImage, departureDate: "2025-11-20", returnDate: "2025-11-25", duration: "5 days", price: 359, currency: "EUR" },
     { id: 8, from: "Prishtina", title: "Istanbul", country: "Turkey", image: istanbulImage, departureDate: "2025-11-14", returnDate: "2025-11-17", duration: "3 days", price: 149, currency: "EUR" },
     { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
