@@ -48,6 +48,27 @@ import france4 from "../images/france4.jpg";
 import france5 from "../images/france5.webp";
 import france6 from "../images/france6.jpg";
 
+import austria1 from "../images/austria1.jpg";
+import austria2 from "../images/austria2.jpg";
+import austria3 from "../images/austria3.jpg";
+import austria4 from "../images/austria4.jpg";
+import austria5 from "../images/austria5.avif";
+import austria6 from "../images/austria6.webp";
+
+import turkey1 from "../images/turkey1.webp";
+import turkey2 from "../images/turkey2.jpg";
+import turkey3 from "../images/turkey3.avif";
+import turkey4 from "../images/turkey4.avif";
+import turkey5 from "../images/turkey5.jpeg";
+import turkey6 from "../images/turkey6.png";
+
+import uk1 from "../images/uk1.jpg";
+import uk2 from "../images/uk2.jpg";
+import uk3 from "../images/uk3.webp";
+import uk4 from "../images/uk4.jpg";
+import uk5 from "../images/uk5.jpg";
+import uk6 from "../images/uk6.jpg";
+
 function Destinations() {
     const [searchTerm, setSearchTerm] = useState("");
     const [current, setCurrent] = useState(0);
@@ -357,13 +378,44 @@ function Destinations() {
 
                         {/* Time Zone */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">⏰</span>
+                            <span className="text-4xl mb-3">🕒</span>
                             <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
                             <p className="text-gray-700 text-base">GMT +1</p>
                         </div>
                     </div>
                 </section>
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in Rome
+                    </h2>
 
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "9°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "10°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "13°C", desc: "Mild", icon: "🌤️" },
+                            { month: "April", temp: "16°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "20°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "24°C", desc: "Hot", icon: "☀️" },
+                            { month: "July", temp: "27°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "27°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "24°C", desc: "Warm", icon: "🌤️" },
+                            { month: "October", temp: "20°C", desc: "Mild", icon: "🌤️" },
+                            { month: "November", temp: "14°C", desc: "Cool", icon: "🌤️" },
+                            { month: "December", temp: "10°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </section>
 
             {/* Hungary */}
@@ -466,7 +518,7 @@ function Destinations() {
                 </Slider>
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-                        Visitor Reviews - Hungary
+                        Visitor Reviews
                     </h2>
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
@@ -529,14 +581,14 @@ function Destinations() {
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {/* Capital */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">📍</span>
+                            <span className="text-4xl mb-3">🏰</span>
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Budapest</p>
                         </div>
 
                         {/* Currency */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">💰</span>
+                            <span className="text-4xl mb-3">💲</span>
                             <h3 className="text-xl font-semibold mb-1">Currency</h3>
                             <p className="text-gray-700 text-center">Hungarian Forint (HUF)</p>
                         </div>
@@ -557,13 +609,44 @@ function Destinations() {
 
                         {/* Time Zone */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">🕒</span>
+                            <span className="text-4xl mb-3">⏰</span>
                             <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
                             <p className="text-gray-700 text-base">GMT +1</p>
                         </div>
                     </div>
                 </section>
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in Budapest
+                    </h2>
 
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "0°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "1°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "5°C", desc: "Cool", icon: "🌤️" },
+                            { month: "April", temp: "11°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "16°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "20°C", desc: "Warm", icon: "☀️" },
+                            { month: "July", temp: "22°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "22°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "18°C", desc: "Mild", icon: "🌤️" },
+                            { month: "October", temp: "13°C", desc: "Cool", icon: "🌤️" },
+                            { month: "November", temp: "6°C", desc: "Cold", icon: "🌤️" },
+                            { month: "December", temp: "2°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </section>
 
             <section className="py-16 text-gray-800 px-6 md:px-20">
@@ -656,7 +739,7 @@ function Destinations() {
                 {/* Visitor Reviews */}
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-                        Visitor Reviews - Spain
+                        Visitor Reviews
                     </h2>
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
@@ -719,19 +802,19 @@ function Destinations() {
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">📍</span>
+                            <span className="text-4xl mb-3">💃🏽</span>
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Madrid</p>
                         </div>
 
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">💰</span>
+                            <span className="text-4xl mb-3">💵</span>
                             <h3 className="text-xl font-semibold mb-1">Currency</h3>
                             <p className="text-gray-700 text-center">Euro (EUR)</p>
                         </div>
 
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">🧑🏻‍🤝‍🧑🏻</span>
+                            <span className="text-4xl mb-3">👤</span>
                             <h3 className="text-xl font-semibold mb-1">Population</h3>
                             <p className="text-gray-700 text-base">47,450,795</p>
                         </div>
@@ -743,7 +826,7 @@ function Destinations() {
                         </div>
 
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">🕒</span>
+                            <span className="text-4xl mb-3">⏱️</span>
                             <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
                             <p className="text-gray-700 text-base">GMT +1</p>
                         </div>
@@ -793,10 +876,10 @@ function Destinations() {
 
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
-                        Top Attractions in Cairo
+                        Top Attractions in Egypt
                     </h2>
                     <p className="text-gray-600 mt-2">
-                        Explore Cairo’s iconic landmarks, from ancient pyramids to vibrant bazaars.
+                        Explore Egypt’s iconic landmarks, from ancient pyramids to vibrant bazaars.
                     </p>
                 </div>
 
@@ -876,7 +959,7 @@ function Destinations() {
                 {/* Visitor Reviews */}
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-                        Visitor Reviews - Cairo
+                        Visitor Reviews
                     </h2>
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
@@ -939,7 +1022,7 @@ function Destinations() {
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">📍</span>
+                            <span className="text-4xl mb-3">🐫</span>
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Cairo</p>
                         </div>
@@ -951,7 +1034,7 @@ function Destinations() {
                         </div>
 
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">🧑🏻‍🤝‍🧑🏻</span>
+                            <span className="text-4xl mb-3">👨🏻‍👩🏻‍👦🏻‍👦🏻</span>
                             <h3 className="text-xl font-semibold mb-1">Population</h3>
                             <p className="text-gray-700 text-base">109,000,000</p>
                         </div>
@@ -963,7 +1046,7 @@ function Destinations() {
                         </div>
 
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                            <span className="text-4xl mb-3">🕒</span>
+                            <span className="text-4xl mb-3">⏰</span>
                             <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
                             <p className="text-gray-700 text-base">GMT +2</p>
                         </div>
@@ -973,7 +1056,7 @@ function Destinations() {
                 {/* Weather */}
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-                        Average Weather in Cairo
+                        Average Weather in Egypt
                     </h2>
 
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
@@ -1006,456 +1089,883 @@ function Destinations() {
             </section>
 
             <section className="py-16 text-gray-800 px-6 md:px-20">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-        France
-    </h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+                    France
+                </h2>
 
-    <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
-            Top Attractions in Paris
-        </h2>
-        <p className="text-gray-600 mt-2">
-            Discover Paris’ world-famous landmarks, museums, and charming streets.
-        </p>
-    </div>
-
-    {/* Slider */}
-    <Slider
-        dots={true}
-        infinite={true}
-        speed={800}
-        slidesToShow={3}
-        slidesToScroll={1}
-        autoplay={true}
-        autoplaySpeed={3500}
-        pauseOnHover={true}
-        responsive={[
-            { breakpoint: 1024, settings: { slidesToShow: 2 } },
-            { breakpoint: 640, settings: { slidesToShow: 1 } },
-        ]}
-    >
-        {[
-            {
-                name: "Eiffel Tower",
-                img: france1,
-                rating: "⭐ 4.8 (250,000 reviews)",
-                desc: "The iconic symbol of Paris, offering breathtaking views from its observation decks.",
-            },
-            {
-                name: "Louvre Museum",
-                img: france2,
-                rating: "⭐ 4.7 (180,000 reviews)",
-                desc: "World-famous museum housing the Mona Lisa, ancient artifacts, and master artworks.",
-            },
-            {
-                name: "Notre-Dame Cathedral",
-                img: france3,
-                rating: "⭐ 4.6 (120,000 reviews)",
-                desc: "Historic Gothic cathedral known for its architecture and stained-glass windows.",
-            },
-            {
-                name: "Montmartre",
-                img: france4,
-                rating: "⭐ 4.5 (100,000 reviews)",
-                desc: "Artistic neighborhood with charming streets, cafés, and the Sacré-Cœur Basilica.",
-            },
-            {
-                name: "Champs-Élysées & Arc de Triomphe",
-                img: france5,
-                rating: "⭐ 4.7 (90,000 reviews)",
-                desc: "Famous avenue with shops, cafes, and the monumental Arc de Triomphe at its center.",
-            },
-            {
-                name: "Palace of Versailles",
-                img: france6,
-                rating: "⭐ 4.8 (85,000 reviews)",
-                desc: "Lavish palace outside Paris with magnificent gardens and historic halls.",
-            }
-        ].map((place, index) => (
-            <div key={index} className="px-3">
-                <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
-                    <div className="overflow-hidden rounded-2xl">
-                        <img
-                            src={place.img}
-                            alt={place.name}
-                            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                    </div>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
-                    <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
-                        <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
-                        <p className="text-yellow-500 font-medium">{place.rating}</p>
-                        <p className="text-gray-600 mt-2">{place.desc}</p>
-                    </div>
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
+                        Top Attractions in France
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        Discover France’ world-famous landmarks, museums, and charming streets.
+                    </p>
                 </div>
-            </div>
-        ))}
-    </Slider>
 
-    {/* Visitor Reviews */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-            Visitor Reviews - Paris
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            {[
-                {
-                    name: "Marie L.",
-                    location: "Paris, FR",
-                    contributions: 50,
-                    attraction: "Eiffel Tower",
-                    review: "Stunning views from the top! The city looks magical at night.",
-                    date: "15 October 2025",
-                },
-                {
-                    name: "Julien R.",
-                    location: "Paris, FR",
-                    contributions: 35,
-                    attraction: "Louvre Museum",
-                    review: "Incredible artworks and history. I could spend days exploring here.",
-                    date: "20 November 2025",
-                },
-                {
-                    name: "Sophie M.",
-                    location: "Paris, FR",
-                    contributions: 40,
-                    attraction: "Montmartre",
-                    review: "Charming streets and artistic vibes. Loved the cafés and Sacré-Cœur view.",
-                    date: "5 October 2025",
-                },
-                {
-                    name: "Lucas T.",
-                    location: "Paris, FR",
-                    contributions: 38,
-                    attraction: "Palace of Versailles",
-                    review: "The palace and gardens are breathtaking. Truly a royal experience!",
-                    date: "22 November 2025",
-                }
-            ].map((review, index) => (
-                <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
-                    <div className="flex items-center mb-3">
-                        <div className="w-10 h-10 mr-4 flex items-center justify-center bg-purple-600 rounded-full font-semibold text-gray-200 text-lg">
-                            {review.name.charAt(0)}
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">{review.name}</h3>
-                            <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
-                        </div>
-                    </div>
-                    <p className="text-gray-700 mb-2">"{review.review}"</p>
-                    <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
-                </div>
-            ))}
-        </div>
-    </section>
-
-    {/* Facts about France */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
-            Facts about France
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">📍</span>
-                <h3 className="text-xl font-semibold mb-1">Capital</h3>
-                <p className="text-gray-700 text-base">Paris</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">💰</span>
-                <h3 className="text-xl font-semibold mb-1">Currency</h3>
-                <p className="text-gray-700 text-center">Euro (EUR)</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🧑🏻‍🤝‍🧑🏻</span>
-                <h3 className="text-xl font-semibold mb-1">Population</h3>
-                <p className="text-gray-700 text-base">67,800,000</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🗣️</span>
-                <h3 className="text-xl font-semibold mb-1">Language</h3>
-                <p className="text-gray-700 text-base">French</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🕒</span>
-                <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
-                <p className="text-gray-700 text-base">GMT +1</p>
-            </div>
-        </div>
-    </section>
-
-    {/* Weather */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-            Average Weather in Paris
-        </h2>
-
-        <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
-            {[
-                { month: "January", temp: "5°C", desc: "Cold", icon: "❄️" },
-                { month: "February", temp: "6°C", desc: "Cold", icon: "❄️" },
-                { month: "March", temp: "10°C", desc: "Mild", icon: "🌤️" },
-                { month: "April", temp: "13°C", desc: "Mild", icon: "🌤️" },
-                { month: "May", temp: "17°C", desc: "Warm", icon: "☀️" },
-                { month: "June", temp: "20°C", desc: "Warm", icon: "☀️" },
-                { month: "July", temp: "23°C", desc: "Hot", icon: "☀️" },
-                { month: "August", temp: "23°C", desc: "Hot", icon: "☀️" },
-                { month: "September", temp: "20°C", desc: "Warm", icon: "🌤️" },
-                { month: "October", temp: "15°C", desc: "Mild", icon: "🌤️" },
-                { month: "November", temp: "10°C", desc: "Cool", icon: "🌤️" },
-                { month: "December", temp: "6°C", desc: "Cold", icon: "❄️" },
-            ].map((weather, index) => (
-                <div
-                    key={index}
-                    className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                {/* Slider */}
+                <Slider
+                    dots={true}
+                    infinite={true}
+                    speed={800}
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    autoplay={true}
+                    autoplaySpeed={3500}
+                    pauseOnHover={true}
+                    responsive={[
+                        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+                        { breakpoint: 640, settings: { slidesToShow: 1 } },
+                    ]}
                 >
-                    <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
-                    <div className="text-4xl mb-2">{weather.icon}</div>
-                    <p className="text-2xl font-bold mb-1">{weather.temp}</p>
-                    <p className="text-gray-600 text-sm">{weather.desc}</p>
-                </div>
-            ))}
-        </div>
-    </section>
-
-</section>
-
-           <section className="py-16 text-gray-800 px-6 md:px-20">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-        Austria
-    </h2>
-
-    <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
-            Top Attractions in Vienna
-        </h2>
-        <p className="text-gray-600 mt-2">
-            Explore Vienna’s historic landmarks, palaces, and vibrant cultural spots.
-        </p>
-    </div>
-
-    {/* Slider */}
-    <Slider
-        dots={true}
-        infinite={true}
-        speed={800}
-        slidesToShow={3}
-        slidesToScroll={1}
-        autoplay={true}
-        autoplaySpeed={3500}
-        pauseOnHover={true}
-        responsive={[
-            { breakpoint: 1024, settings: { slidesToShow: 2 } },
-            { breakpoint: 640, settings: { slidesToShow: 1 } },
-        ]}
-    >
-        {[
-            {
-                name: "Schönbrunn Palace",
-                img: austria1,
-                rating: "⭐ 4.8 (120,000 reviews)",
-                desc: "Historic Baroque palace with stunning gardens and the former summer residence of the Habsburgs.",
-            },
-            {
-                name: "St. Stephen's Cathedral",
-                img: austria2,
-                rating: "⭐ 4.7 (100,000 reviews)",
-                desc: "Iconic Gothic cathedral in the heart of Vienna with its famous multicolored roof.",
-            },
-            {
-                name: "Belvedere Palace",
-                img: austria3,
-                rating: "⭐ 4.7 (85,000 reviews)",
-                desc: "Baroque palace complex housing Austrian art, including works by Gustav Klimt.",
-            },
-            {
-                name: "Vienna State Opera",
-                img: austria4,
-                rating: "⭐ 4.6 (70,000 reviews)",
-                desc: "One of the world’s leading opera houses with historic architecture and grand performances.",
-            },
-            {
-                name: "Prater & Giant Ferris Wheel",
-                img: austria5,
-                rating: "⭐ 4.5 (60,000 reviews)",
-                desc: "Historic amusement park with the famous Riesenrad Ferris Wheel offering great city views.",
-            },
-            {
-                name: "Museum Quartier",
-                img: austria6,
-                rating: "⭐ 4.6 (55,000 reviews)",
-                desc: "A vibrant cultural complex with museums, cafes, and contemporary art exhibits.",
-            }
-        ].map((place, index) => (
-            <div key={index} className="px-3">
-                <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
-                    <div className="overflow-hidden rounded-2xl">
-                        <img
-                            src={place.img}
-                            alt={place.name}
-                            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                    </div>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
-                    <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
-                        <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
-                        <p className="text-yellow-500 font-medium">{place.rating}</p>
-                        <p className="text-gray-600 mt-2">{place.desc}</p>
-                    </div>
-                </div>
-            </div>
-        ))}
-    </Slider>
-
-    {/* Visitor Reviews */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-            Visitor Reviews - Vienna
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            {[
-                {
-                    name: "Anna K.",
-                    location: "Vienna, AT",
-                    contributions: 40,
-                    attraction: "Schönbrunn Palace",
-                    review: "Absolutely stunning! The gardens are beautiful, and the palace is like stepping back in time.",
-                    date: "10 October 2025",
-                },
-                {
-                    name: "Lukas M.",
-                    location: "Vienna, AT",
-                    contributions: 35,
-                    attraction: "St. Stephen's Cathedral",
-                    review: "A must-see in Vienna! The architecture and intricate details are breathtaking.",
-                    date: "18 November 2025",
-                },
-                {
-                    name: "Sophie B.",
-                    location: "Vienna, AT",
-                    contributions: 30,
-                    attraction: "Belvedere Palace",
-                    review: "Amazing art collection and the palace gardens are gorgeous.",
-                    date: "5 October 2025",
-                },
-                {
-                    name: "Michael H.",
-                    location: "Vienna, AT",
-                    contributions: 28,
-                    attraction: "Vienna State Opera",
-                    review: "Wonderful performances in a historic and elegant building.",
-                    date: "22 November 2025",
-                }
-            ].map((review, index) => (
-                <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
-                    <div className="flex items-center mb-3">
-                        <div className="w-10 h-10 mr-4 flex items-center justify-center bg-red-600 rounded-full font-semibold text-gray-200 text-lg">
-                            {review.name.charAt(0)}
+                    {[
+                        {
+                            name: "Eiffel Tower",
+                            img: france1,
+                            rating: "⭐ 4.8 (250,000 reviews)",
+                            desc: "The iconic symbol of Paris, offering breathtaking views from its observation decks.",
+                        },
+                        {
+                            name: "Louvre Museum",
+                            img: france2,
+                            rating: "⭐ 4.7 (180,000 reviews)",
+                            desc: "World-famous museum housing the Mona Lisa, ancient artifacts, and master artworks.",
+                        },
+                        {
+                            name: "Notre-Dame Cathedral",
+                            img: france3,
+                            rating: "⭐ 4.6 (120,000 reviews)",
+                            desc: "Historic Gothic cathedral known for its architecture and stained-glass windows.",
+                        },
+                        {
+                            name: "Montmartre",
+                            img: france4,
+                            rating: "⭐ 4.5 (100,000 reviews)",
+                            desc: "Artistic neighborhood with charming streets, cafés, and the Sacré-Cœur Basilica.",
+                        },
+                        {
+                            name: "Champs-Élysées & Arc de Triomphe",
+                            img: france5,
+                            rating: "⭐ 4.7 (90,000 reviews)",
+                            desc: "Famous avenue with shops, cafes, and the monumental Arc de Triomphe at its center.",
+                        },
+                        {
+                            name: "Palace of Versailles",
+                            img: france6,
+                            rating: "⭐ 4.8 (85,000 reviews)",
+                            desc: "Lavish palace outside Paris with magnificent gardens and historic halls.",
+                        }
+                    ].map((place, index) => (
+                        <div key={index} className="px-3">
+                            <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
+                                <div className="overflow-hidden rounded-2xl">
+                                    <img
+                                        src={place.img}
+                                        alt={place.name}
+                                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
+                                <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
+                                    <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
+                                    <p className="text-yellow-500 font-medium">{place.rating}</p>
+                                    <p className="text-gray-600 mt-2">{place.desc}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">{review.name}</h3>
-                            <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
+                    ))}
+                </Slider>
+
+                {/* Visitor Reviews */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Visitor Reviews
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        {[
+                            {
+                                name: "Marie L.",
+                                location: "Paris, FR",
+                                contributions: 50,
+                                attraction: "Eiffel Tower",
+                                review: "Stunning views from the top! The city looks magical at night.",
+                                date: "15 October 2025",
+                            },
+                            {
+                                name: "Julien R.",
+                                location: "Paris, FR",
+                                contributions: 35,
+                                attraction: "Louvre Museum",
+                                review: "Incredible artworks and history. I could spend days exploring here.",
+                                date: "20 November 2025",
+                            },
+                            {
+                                name: "Sophie M.",
+                                location: "Paris, FR",
+                                contributions: 40,
+                                attraction: "Montmartre",
+                                review: "Charming streets and artistic vibes. Loved the cafés and Sacré-Cœur view.",
+                                date: "5 October 2025",
+                            },
+                            {
+                                name: "Lucas T.",
+                                location: "Paris, FR",
+                                contributions: 38,
+                                attraction: "Palace of Versailles",
+                                review: "The palace and gardens are breathtaking. Truly a royal experience!",
+                                date: "22 November 2025",
+                            }
+                        ].map((review, index) => (
+                            <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
+                                <div className="flex items-center mb-3">
+                                    <div className="w-10 h-10 mr-4 flex items-center justify-center bg-purple-600 rounded-full font-semibold text-gray-200 text-lg">
+                                        {review.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold">{review.name}</h3>
+                                        <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mb-2">"{review.review}"</p>
+                                <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Facts about France */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
+                        Facts about France
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🗼</span>
+                            <h3 className="text-xl font-semibold mb-1">Capital</h3>
+                            <p className="text-gray-700 text-base">Paris</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">💰</span>
+                            <h3 className="text-xl font-semibold mb-1">Currency</h3>
+                            <p className="text-gray-700 text-center">Euro (EUR)</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">👥</span>
+                            <h3 className="text-xl font-semibold mb-1">Population</h3>
+                            <p className="text-gray-700 text-base">67,800,000</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🗣️</span>
+                            <h3 className="text-xl font-semibold mb-1">Language</h3>
+                            <p className="text-gray-700 text-base">French</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">⏱</span>
+                            <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
+                            <p className="text-gray-700 text-base">GMT +1</p>
                         </div>
                     </div>
-                    <p className="text-gray-700 mb-2">"{review.review}"</p>
-                    <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
+                </section>
+
+                {/* Weather */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in France
+                    </h2>
+
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "5°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "6°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "10°C", desc: "Mild", icon: "🌤️" },
+                            { month: "April", temp: "13°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "17°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "20°C", desc: "Warm", icon: "☀️" },
+                            { month: "July", temp: "23°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "23°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "20°C", desc: "Warm", icon: "🌤️" },
+                            { month: "October", temp: "15°C", desc: "Mild", icon: "🌤️" },
+                            { month: "November", temp: "10°C", desc: "Cool", icon: "🌤️" },
+                            { month: "December", temp: "6°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+            </section>
+
+            <section className="py-16 text-gray-800 px-6 md:px-20">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+                    Austria
+                </h2>
+
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
+                        Top Attractions in Austria
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        Explore Austria’s historic landmarks, palaces, and vibrant cultural spots.
+                    </p>
                 </div>
-            ))}
-        </div>
-    </section>
 
-    {/* Facts about Austria */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
-            Facts about Austria
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">📍</span>
-                <h3 className="text-xl font-semibold mb-1">Capital</h3>
-                <p className="text-gray-700 text-base">Vienna</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">💰</span>
-                <h3 className="text-xl font-semibold mb-1">Currency</h3>
-                <p className="text-gray-700 text-center">Euro (EUR)</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🧑🏻‍🤝‍🧑🏻</span>
-                <h3 className="text-xl font-semibold mb-1">Population</h3>
-                <p className="text-gray-700 text-base">8,900,000</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🗣️</span>
-                <h3 className="text-xl font-semibold mb-1">Language</h3>
-                <p className="text-gray-700 text-base">German</p>
-            </div>
-
-            <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
-                <span className="text-4xl mb-3">🕒</span>
-                <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
-                <p className="text-gray-700 text-base">GMT +1</p>
-            </div>
-        </div>
-    </section>
-
-    {/* Weather */}
-    <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
-        <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-            Average Weather in Vienna
-        </h2>
-
-        <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
-            {[
-                { month: "January", temp: "0°C", desc: "Cold", icon: "❄️" },
-                { month: "February", temp: "1°C", desc: "Cold", icon: "❄️" },
-                { month: "March", temp: "6°C", desc: "Cool", icon: "🌤️" },
-                { month: "April", temp: "12°C", desc: "Mild", icon: "🌤️" },
-                { month: "May", temp: "17°C", desc: "Warm", icon: "☀️" },
-                { month: "June", temp: "20°C", desc: "Warm", icon: "☀️" },
-                { month: "July", temp: "23°C", desc: "Hot", icon: "☀️" },
-                { month: "August", temp: "22°C", desc: "Hot", icon: "☀️" },
-                { month: "September", temp: "18°C", desc: "Mild", icon: "🌤️" },
-                { month: "October", temp: "13°C", desc: "Cool", icon: "🌤️" },
-                { month: "November", temp: "6°C", desc: "Cold", icon: "🌤️" },
-                { month: "December", temp: "2°C", desc: "Cold", icon: "❄️" },
-            ].map((weather, index) => (
-                <div
-                    key={index}
-                    className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                {/* Slider */}
+                <Slider
+                    dots={true}
+                    infinite={true}
+                    speed={800}
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    autoplay={true}
+                    autoplaySpeed={3500}
+                    pauseOnHover={true}
+                    responsive={[
+                        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+                        { breakpoint: 640, settings: { slidesToShow: 1 } },
+                    ]}
                 >
-                    <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
-                    <div className="text-4xl mb-2">{weather.icon}</div>
-                    <p className="text-2xl font-bold mb-1">{weather.temp}</p>
-                    <p className="text-gray-600 text-sm">{weather.desc}</p>
-                </div>
-            ))}
-        </div>
-    </section>
+                    {[
+                        {
+                            name: "Schönbrunn Palace",
+                            img: austria1,
+                            rating: "⭐ 4.8 (120,000 reviews)",
+                            desc: "Historic Baroque palace with stunning gardens and the former summer residence of the Habsburgs.",
+                        },
+                        {
+                            name: "St. Stephen's Cathedral",
+                            img: austria2,
+                            rating: "⭐ 4.7 (100,000 reviews)",
+                            desc: "Iconic Gothic cathedral in the heart of Vienna with its famous multicolored roof.",
+                        },
+                        {
+                            name: "Belvedere Palace",
+                            img: austria3,
+                            rating: "⭐ 4.7 (85,000 reviews)",
+                            desc: "Baroque palace complex housing Austrian art, including works by Gustav Klimt.",
+                        },
+                        {
+                            name: "Vienna State Opera",
+                            img: austria4,
+                            rating: "⭐ 4.6 (70,000 reviews)",
+                            desc: "One of the world’s leading opera houses with historic architecture and grand performances.",
+                        },
+                        {
+                            name: "Prater & Giant Ferris Wheel",
+                            img: austria5,
+                            rating: "⭐ 4.5 (60,000 reviews)",
+                            desc: "Historic amusement park with the famous Riesenrad Ferris Wheel offering great city views.",
+                        },
+                        {
+                            name: "Museum Quartier",
+                            img: austria6,
+                            rating: "⭐ 4.6 (55,000 reviews)",
+                            desc: "A vibrant cultural complex with museums, cafes, and contemporary art exhibits.",
+                        }
+                    ].map((place, index) => (
+                        <div key={index} className="px-3">
+                            <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
+                                <div className="overflow-hidden rounded-2xl">
+                                    <img
+                                        src={place.img}
+                                        alt={place.name}
+                                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
+                                <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
+                                    <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
+                                    <p className="text-yellow-500 font-medium">{place.rating}</p>
+                                    <p className="text-gray-600 mt-2">{place.desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
 
-</section>
+                {/* Visitor Reviews */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Visitor Reviews
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        {[
+                            {
+                                name: "Anna K.",
+                                location: "Vienna, AT",
+                                contributions: 40,
+                                attraction: "Schönbrunn Palace",
+                                review: "Absolutely stunning! The gardens are beautiful, and the palace is like stepping back in time.",
+                                date: "10 October 2025",
+                            },
+                            {
+                                name: "Lukas M.",
+                                location: "Vienna, AT",
+                                contributions: 35,
+                                attraction: "St. Stephen's Cathedral",
+                                review: "A must-see in Vienna! The architecture and intricate details are breathtaking.",
+                                date: "18 November 2025",
+                            },
+                            {
+                                name: "Sophie B.",
+                                location: "Vienna, AT",
+                                contributions: 30,
+                                attraction: "Belvedere Palace",
+                                review: "Amazing art collection and the palace gardens are gorgeous.",
+                                date: "5 October 2025",
+                            },
+                            {
+                                name: "Michael H.",
+                                location: "Vienna, AT",
+                                contributions: 28,
+                                attraction: "Vienna State Opera",
+                                review: "Wonderful performances in a historic and elegant building.",
+                                date: "22 November 2025",
+                            }
+                        ].map((review, index) => (
+                            <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
+                                <div className="flex items-center mb-3">
+                                    <div className="w-10 h-10 mr-4 flex items-center justify-center bg-red-600 rounded-full font-semibold text-gray-200 text-lg">
+                                        {review.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold">{review.name}</h3>
+                                        <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mb-2">"{review.review}"</p>
+                                <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Facts about Austria */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
+                        Facts about Austria
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🎻</span>
+                            <h3 className="text-xl font-semibold mb-1">Capital</h3>
+                            <p className="text-gray-700 text-base">Vienna</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">💸</span>
+                            <h3 className="text-xl font-semibold mb-1">Currency</h3>
+                            <p className="text-gray-700 text-center">Euro (EUR)</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">👨‍👩‍👧‍👦</span>
+                            <h3 className="text-xl font-semibold mb-1">Population</h3>
+                            <p className="text-gray-700 text-base">8,900,000</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🗣️</span>
+                            <h3 className="text-xl font-semibold mb-1">Language</h3>
+                            <p className="text-gray-700 text-base">German</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">⏱️</span>
+                            <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
+                            <p className="text-gray-700 text-base">GMT +1</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Weather */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in Austria
+                    </h2>
+
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "0°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "1°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "6°C", desc: "Cool", icon: "🌤️" },
+                            { month: "April", temp: "12°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "17°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "20°C", desc: "Warm", icon: "☀️" },
+                            { month: "July", temp: "23°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "22°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "18°C", desc: "Mild", icon: "🌤️" },
+                            { month: "October", temp: "13°C", desc: "Cool", icon: "🌤️" },
+                            { month: "November", temp: "6°C", desc: "Cold", icon: "🌤️" },
+                            { month: "December", temp: "2°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+            </section>
 
             <section className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Turkey
                 </h2>
+
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
+                        Top Attractions in Istanbul
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        Discover Istanbul’s rich history, stunning mosques, and vibrant bazaars.
+                    </p>
+                </div>
+
+                {/* Slider */}
+                <Slider
+                    dots={true}
+                    infinite={true}
+                    speed={800}
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    autoplay={true}
+                    autoplaySpeed={3500}
+                    pauseOnHover={true}
+                    responsive={[
+                        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+                        { breakpoint: 640, settings: { slidesToShow: 1 } },
+                    ]}
+                >
+                    {[
+                        {
+                            name: "Hagia Sophia",
+                            img: turkey1,
+                            rating: "⭐ 4.8 (200,000 reviews)",
+                            desc: "Historic architectural marvel, combining Byzantine and Ottoman influences.",
+                        },
+                        {
+                            name: "Blue Mosque",
+                            img: turkey2,
+                            rating: "⭐ 4.7 (180,000 reviews)",
+                            desc: "Famous mosque with six minarets and beautiful blue Iznik tiles inside.",
+                        },
+                        {
+                            name: "Topkapi Palace",
+                            img: turkey3,
+                            rating: "⭐ 4.6 (150,000 reviews)",
+                            desc: "Opulent palace of Ottoman sultans with rich collections and stunning courtyards.",
+                        },
+                        {
+                            name: "Grand Bazaar",
+                            img: turkey4,
+                            rating: "⭐ 4.5 (120,000 reviews)",
+                            desc: "Historic covered market with thousands of shops selling spices, jewelry, and souvenirs.",
+                        },
+                        {
+                            name: "Galata Tower",
+                            img: turkey5,
+                            rating: "⭐ 4.6 (100,000 reviews)",
+                            desc: "Medieval tower offering panoramic views of Istanbul and the Bosphorus.",
+                        },
+                        {
+                            name: "Bosphorus Cruise",
+                            img: turkey6,
+                            rating: "⭐ 4.7 (90,000 reviews)",
+                            desc: "Scenic boat ride along the Bosphorus connecting Europe and Asia.",
+                        }
+                    ].map((place, index) => (
+                        <div key={index} className="px-3">
+                            <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
+                                <div className="overflow-hidden rounded-2xl">
+                                    <img
+                                        src={place.img}
+                                        alt={place.name}
+                                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
+                                <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
+                                    <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
+                                    <p className="text-yellow-500 font-medium">{place.rating}</p>
+                                    <p className="text-gray-600 mt-2">{place.desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+
+                {/* Visitor Reviews */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Visitor Reviews - Istanbul
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        {[
+                            {
+                                name: "Emre T.",
+                                location: "Istanbul, TR",
+                                contributions: 45,
+                                attraction: "Hagia Sophia",
+                                review: "Absolutely breathtaking! The history and architecture are mind-blowing.",
+                                date: "10 October 2025",
+                            },
+                            {
+                                name: "Ayşe K.",
+                                location: "Istanbul, TR",
+                                contributions: 38,
+                                attraction: "Blue Mosque",
+                                review: "Magnificent mosque with beautiful tiles and peaceful atmosphere.",
+                                date: "18 November 2025",
+                            },
+                            {
+                                name: "Mustafa B.",
+                                location: "Istanbul, TR",
+                                contributions: 32,
+                                attraction: "Topkapi Palace",
+                                review: "Rich in history and beautiful artifacts. Loved the palace gardens!",
+                                date: "5 October 2025",
+                            },
+                            {
+                                name: "Selin A.",
+                                location: "Istanbul, TR",
+                                contributions: 30,
+                                attraction: "Grand Bazaar",
+                                review: "A shopper’s paradise! The colors, smells, and vibe are amazing.",
+                                date: "22 November 2025",
+                            }
+                        ].map((review, index) => (
+                            <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
+                                <div className="flex items-center mb-3">
+                                    <div className="w-10 h-10 mr-4 flex items-center justify-center bg-orange-600 rounded-full font-semibold text-gray-200 text-lg">
+                                        {review.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold">{review.name}</h3>
+                                        <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mb-2">"{review.review}"</p>
+                                <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Facts about Turkey */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
+                        Facts about Turkey
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🌉</span>
+                            <h3 className="text-xl font-semibold mb-1">Capital</h3>
+                            <p className="text-gray-700 text-base">Ankara</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">💶</span>
+                            <h3 className="text-xl font-semibold mb-1">Currency</h3>
+                            <p className="text-gray-700 text-center">Turkish Lira (TRY)</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">👥</span>
+                            <h3 className="text-xl font-semibold mb-1">Population</h3>
+                            <p className="text-gray-700 text-base">85,000,000</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🗣️</span>
+                            <h3 className="text-xl font-semibold mb-1">Language</h3>
+                            <p className="text-gray-700 text-base">Turkish</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">⏰</span>
+                            <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
+                            <p className="text-gray-700 text-base">GMT +3</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Weather */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in Istanbul
+                    </h2>
+
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "8°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "9°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "12°C", desc: "Mild", icon: "🌤️" },
+                            { month: "April", temp: "16°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "20°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "25°C", desc: "Hot", icon: "☀️" },
+                            { month: "July", temp: "28°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "28°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "24°C", desc: "Warm", icon: "🌤️" },
+                            { month: "October", temp: "20°C", desc: "Mild", icon: "🌤️" },
+                            { month: "November", temp: "15°C", desc: "Cool", icon: "🌤️" },
+                            { month: "December", temp: "10°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </section>
 
             <section className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-                    UK
+                    United Kingdom
                 </h2>
+
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
+                        Top Attractions in London
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        Explore London’s iconic landmarks, royal palaces, and historic streets.
+                    </p>
+                </div>
+
+                {/* Slider */}
+                <Slider
+                    dots={true}
+                    infinite={true}
+                    speed={800}
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    autoplay={true}
+                    autoplaySpeed={3500}
+                    pauseOnHover={true}
+                    responsive={[
+                        { breakpoint: 1024, settings: { slidesToShow: 2 } },
+                        { breakpoint: 640, settings: { slidesToShow: 1 } },
+                    ]}
+                >
+                    {[
+                        {
+                            name: "Tower of London",
+                            img: uk1,
+                            rating: "⭐ 4.7 (200,000 reviews)",
+                            desc: "Historic fortress and former royal palace, home to the Crown Jewels.",
+                        },
+                        {
+                            name: "Buckingham Palace",
+                            img: uk2,
+                            rating: "⭐ 4.6 (180,000 reviews)",
+                            desc: "The official residence of the Queen, famous for the Changing of the Guard ceremony.",
+                        },
+                        {
+                            name: "London Eye",
+                            img: uk3,
+                            rating: "⭐ 4.5 (150,000 reviews)",
+                            desc: "Giant Ferris wheel on the South Bank offering panoramic city views.",
+                        },
+                        {
+                            name: "Big Ben & Houses of Parliament",
+                            img: uk4,
+                            rating: "⭐ 4.7 (120,000 reviews)",
+                            desc: "Iconic clock tower and historic government buildings along the River Thames.",
+                        },
+                        {
+                            name: "British Museum",
+                            img: uk5,
+                            rating: "⭐ 4.6 (100,000 reviews)",
+                            desc: "World-class museum with artifacts from all over the globe, including the Rosetta Stone.",
+                        },
+                        {
+                            name: "Covent Garden",
+                            img: uk6,
+                            rating: "⭐ 4.5 (90,000 reviews)",
+                            desc: "Vibrant shopping and entertainment district with street performers and markets.",
+                        }
+                    ].map((place, index) => (
+                        <div key={index} className="px-3">
+                            <div className="group relative rounded-2xl overflow-hidden border border-transparent transition-all duration-500">
+                                <div className="overflow-hidden rounded-2xl">
+                                    <img
+                                        src={place.img}
+                                        alt={place.name}
+                                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
+                                <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
+                                    <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
+                                    <p className="text-yellow-500 font-medium">{place.rating}</p>
+                                    <p className="text-gray-600 mt-2">{place.desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+
+                {/* Visitor Reviews */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Visitor Reviews
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        {[
+                            {
+                                name: "Oliver W.",
+                                location: "London, UK",
+                                contributions: 42,
+                                attraction: "Tower of London",
+                                review: "A fascinating place full of history. Loved the Crown Jewels exhibit!",
+                                date: "10 October 2025",
+                            },
+                            {
+                                name: "Emma R.",
+                                location: "London, UK",
+                                contributions: 38,
+                                attraction: "Buckingham Palace",
+                                review: "The Changing of the Guard ceremony is truly a sight to behold. Beautiful palace!",
+                                date: "18 November 2025",
+                            },
+                            {
+                                name: "Harry P.",
+                                location: "London, UK",
+                                contributions: 35,
+                                attraction: "London Eye",
+                                review: "Amazing views over London! The experience was unforgettable.",
+                                date: "5 October 2025",
+                            },
+                            {
+                                name: "Sophia L.",
+                                location: "London, UK",
+                                contributions: 30,
+                                attraction: "British Museum",
+                                review: "World-class museum with incredible artifacts. Highly recommend!",
+                                date: "22 November 2025",
+                            }
+                        ].map((review, index) => (
+                            <div key={index} className="flex-1 min-w-[250px] max-w-[350px] bg-black/5 rounded-xl p-5 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col">
+                                <div className="flex items-center mb-3">
+                                    <div className="w-10 h-10 mr-4 flex items-center justify-center bg-teal-600 rounded-full font-semibold text-gray-200 text-lg">
+                                        {review.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold">{review.name}</h3>
+                                        <p className="text-sm text-gray-500">{review.location} • {review.contributions} contributions</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mb-2">"{review.review}"</p>
+                                <p className="text-sm text-gray-500 mt-auto">Review of: <span className="font-medium">{review.attraction}</span> • {review.date}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Facts about UK */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
+                        Facts about United Kingdom
+                    </h2>
+
+                    <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🎡</span>
+                            <h3 className="text-xl font-semibold mb-1">Capital</h3>
+                            <p className="text-gray-700 text-base">London</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🪙</span>
+                            <h3 className="text-xl font-semibold mb-1">Currency</h3>
+                            <p className="text-gray-700 text-center">Pound Sterling (GBP)</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">👨🏻‍👩🏻‍👦🏻‍👦🏻</span>
+                            <h3 className="text-xl font-semibold mb-1">Population</h3>
+                            <p className="text-gray-700 text-base">68,000,000</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">🗣️</span>
+                            <h3 className="text-xl font-semibold mb-1">Language</h3>
+                            <p className="text-gray-700 text-base">English</p>
+                        </div>
+
+                        <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
+                            <span className="text-4xl mb-3">⏱</span>
+                            <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
+                            <p className="text-gray-700 text-base">GMT +0</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Weather */}
+                <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
+                    <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
+                        Average Weather in United Kingdom
+                    </h2>
+
+                    <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
+                        {[
+                            { month: "January", temp: "6°C", desc: "Cold", icon: "❄️" },
+                            { month: "February", temp: "6°C", desc: "Cold", icon: "❄️" },
+                            { month: "March", temp: "9°C", desc: "Cool", icon: "🌤️" },
+                            { month: "April", temp: "11°C", desc: "Mild", icon: "🌤️" },
+                            { month: "May", temp: "15°C", desc: "Warm", icon: "☀️" },
+                            { month: "June", temp: "18°C", desc: "Warm", icon: "☀️" },
+                            { month: "July", temp: "21°C", desc: "Hot", icon: "☀️" },
+                            { month: "August", temp: "21°C", desc: "Hot", icon: "☀️" },
+                            { month: "September", temp: "18°C", desc: "Mild", icon: "🌤️" },
+                            { month: "October", temp: "14°C", desc: "Cool", icon: "🌤️" },
+                            { month: "November", temp: "9°C", desc: "Cold", icon: "🌤️" },
+                            { month: "December", temp: "7°C", desc: "Cold", icon: "❄️" },
+                        ].map((weather, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-40 bg-black/5 rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                            >
+                                <h3 className="text-lg font-semibold mb-2">{weather.month}</h3>
+                                <div className="text-4xl mb-2">{weather.icon}</div>
+                                <p className="text-2xl font-bold mb-1">{weather.temp}</p>
+                                <p className="text-gray-600 text-sm">{weather.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </section>
+
         </div>
     );
 }
