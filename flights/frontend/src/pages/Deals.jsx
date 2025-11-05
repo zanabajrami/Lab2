@@ -4,7 +4,6 @@ import romeImage from "../images/rome.avif";
 import parisImage from "../images/paris.webp";
 import viennaImage from "../images/vienna.webp";
 import milanoImage from "../images/milano.webp";
-import bratislavaImage from "../images/bratislava.webp";
 import londonImage from "../images/london.jpg";
 import cairoImage from "../images/cairo.jpg";
 import istanbulImage from "../images/istanbul.jpg";
@@ -72,6 +71,7 @@ export default function LastMinuteDeals() {
                 <img
                   src={deal.image}
                   alt={deal.title}
+                  loading="eager"
                   className="object-cover w-full h-full transform hover:scale-105 transition duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
