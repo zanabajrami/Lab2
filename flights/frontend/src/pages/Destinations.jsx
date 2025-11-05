@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 import Slider from "react-slick";
@@ -73,6 +73,26 @@ function Destinations() {
     const [searchTerm, setSearchTerm] = useState("");
     const [current, setCurrent] = useState(0);
 
+    const italyRef = useRef(null);
+    const hungaryRef = useRef(null);
+    const franceRef = useRef(null);
+    const spainRef = useRef(null);
+    const egyptRef = useRef(null);
+    const ukRef = useRef(null);
+    const turkeyRef = useRef(null);
+    const austriaRef = useRef(null);
+
+    const destinationsMap = {
+        italy: italyRef,
+        hungary: hungaryRef,
+        france: franceRef,
+        spain: spainRef,
+        egypt: egyptRef,
+        uk: ukRef,
+        turkey: turkeyRef,
+        austria: austriaRef,
+    };
+
     const slides = [
         { country: "Italy", image: italyImage, desc: "Discover Rome, Milano and many more cities." },
         { country: "Hungary", image: hungaryImage, desc: "Experience Budapest’s charm and thermal baths." },
@@ -84,7 +104,15 @@ function Destinations() {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("Searching for:", searchTerm);
+        const key = searchTerm.trim().toLowerCase();
+        const ref = destinationsMap[key];
+
+        if (ref && ref.current) {
+            ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+            setSearchTerm("");
+        } else {
+            alert("Destination not found!");
+        }
     };
 
     useEffect(() => {
@@ -184,7 +212,7 @@ function Destinations() {
             </section>
 
             {/* Italy */}
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={italyRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Italy
                 </h2>
@@ -419,7 +447,7 @@ function Destinations() {
             </section>
 
             {/* Hungary */}
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={hungaryRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Hungary
                 </h2>
@@ -654,7 +682,7 @@ function Destinations() {
                     Spain
                 </h2>
 
-                <div className="text-center mb-10">
+                <div ref={spainRef} className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Spain
                     </h2>
@@ -869,7 +897,7 @@ function Destinations() {
 
             </section>
 
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={egyptRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Egypt
                 </h2>
@@ -1088,7 +1116,7 @@ function Destinations() {
                 </section>
             </section>
 
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={franceRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     France
                 </h2>
@@ -1308,7 +1336,7 @@ function Destinations() {
 
             </section>
 
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={austriaRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Austria
                 </h2>
@@ -1528,7 +1556,7 @@ function Destinations() {
 
             </section>
 
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={turkeyRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Turkey
                 </h2>
@@ -1618,7 +1646,7 @@ function Destinations() {
                 {/* Visitor Reviews */}
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
-                        Visitor Reviews - Istanbul
+                        Visitor Reviews
                     </h2>
 
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
@@ -1747,7 +1775,7 @@ function Destinations() {
                 </section>
             </section>
 
-            <section className="py-16 text-gray-800 px-6 md:px-20">
+            <section ref={ukRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     United Kingdom
                 </h2>
