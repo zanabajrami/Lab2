@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, ChevronUp } from "lucide-react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -72,6 +72,7 @@ import uk6 from "../images/uk6.jpg";
 function Destinations() {
     const [searchTerm, setSearchTerm] = useState("");
     const [current, setCurrent] = useState(0);
+    const [showTopButton, setShowTopButton] = useState(false);
 
     const italyRef = useRef(null);
     const hungaryRef = useRef(null);
@@ -116,11 +117,22 @@ function Destinations() {
     };
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrent((prev) => (prev + 1) % slides.length);
-        }, 4000);
-        return () => clearInterval(timer);
-    }, [slides.length]);
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowTopButton(true);
+            } else {
+                setShowTopButton(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Funksioni për scroll lart
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
         <div className="min-h-screen bg-white text-gray-800">
@@ -1994,6 +2006,15 @@ function Destinations() {
                 </section>
             </section>
 
+            {/* Scroll To Top Button */}
+            {showTopButton && (
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 transition-all"
+                >
+                    <ChevronUp size={24} />
+                </button>
+            )}
         </div>
     );
 }
