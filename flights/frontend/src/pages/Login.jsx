@@ -36,15 +36,16 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
       className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
       onClick={onClose}
     >
-      <form
-        onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit}
-        className={`relative bg-gray-800/75 backdrop-blur-sm p-10 rounded-3xl border-2 border-gray-600 w-96 text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${
-          isVisible
-            ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-0 scale-90 translate-y-5"
-        }`}
-      >
+     <form
+  onClick={(e) => e.stopPropagation()}
+  onSubmit={handleSubmit}
+  className={`relative bg-gray-800/75 backdrop-blur-sm p-6 sm:p-8 md:p-10 rounded-3xl border-2 border-gray-600 w-11/12 sm:w-3/4 md:w-full max-w-sm md:max-w-md text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${
+    isVisible
+      ? "opacity-100 scale-100 translate-y-0"
+      : "opacity-0 scale-90 translate-y-5"
+  }`}
+>
+
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
           Welcome Back
         </h2>
