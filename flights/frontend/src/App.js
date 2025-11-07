@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Membership from "./pages/Membership";
 import Deals from "./pages/Deals";
 import Destinations from "./pages/Destinations";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -39,6 +40,7 @@ function App() {
             <Route path="/membership" element={<Membership />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/destinations" element={<Destinations />} />
+            <Route path="/" element={<SearchBar />} />
 
           </Routes>
         </main>
