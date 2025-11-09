@@ -60,9 +60,13 @@ function Header({ openLogin, openSignup, openContact }) {
       </div>
 
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4 relative z-10">
-        <div className="text-2xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-200 to-white">
+        <div
+          className="text-2xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-200 to-white cursor-pointer"
+          onClick={() => navigate("/HomePage")}
+        >
           FlyHigh Agency
         </div>
+
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-10 relative">
