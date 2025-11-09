@@ -1,13 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import SearchBar from "../components/SearchBar";
-import { motion } from "framer-motion";
+
+//images
 import mainImage from "../images/main1.jpg";
+//slider images
+import italyImage from "../images/italy.webp";
+import hungaryImage from "../images/hungary.jpeg";
+import franceImage from "../images/france.jpg";
+import egyptImage from "../images/cairo.jpg";
+import uk4 from "../images/uk4.jpg";
+import turkey5 from "../images/turkey5.jpeg";
+import austria1 from "../images/austria1.jpg";
+import spain5 from "../images/spain5.png";
+
+const images = [
+    { src: italyImage, label: "Italy" },
+    { src: hungaryImage, label: "Hungary" },
+    { src: franceImage, label: "France" },
+    { src: egyptImage, label: "Egypt" },
+    { src: uk4, label: "UK" },
+    { src: turkey5, label: "Turkey" },
+    { src: austria1, label: "Austria" },
+    { src: spain5, label: "Spain" },
+];
+
+const destinations = [
+    { src: italyImage, name: "Italy" },
+    { src: hungaryImage, name: "Hungary" },
+    { src: franceImage, name: "France" },
+    { src: egyptImage, name: "Egypt" },
+    { src: uk4, name: "UK" },
+    { src: turkey5, name: "Turkey" },
+    { src: austria1, name: "Austria" },
+    { src: spain5, name: "Spain" },
+];
 
 export default function Home() {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    const [current, setCurrent] = useState(0);
+    const sliderRef = useRef(null);
 
+    // Auto-slide
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrent(prev => (prev + 1) % destinations.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [destinations.length]);
+
+    // Scroll to center current card
+    useEffect(() => {
+        if (!sliderRef.current) return;
+        const slider = sliderRef.current;
+        const card = slider.children[current];
+        if (card) {
+            const offset = card.offsetLeft - slider.offsetWidth / 2 + card.offsetWidth / 2;
+            slider.scrollTo({ left: offset, behavior: "smooth" });
+        }
+    }, [current]);
     return (
         <div className="flex flex-col items-center justify-center w-full text-white overflow-hidden">
             {/* HERO SECTION */}
@@ -49,38 +99,53 @@ export default function Home() {
                     </motion.div>
                 </div>
             </div>
-
-            {/* FEATURED DESTINATIONS */}
-            <div className="w-full mt-28 px-6 md:px-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-gray-900">
-                    Destinacionet më të njohura 🌍
+            <section className="text-gray-700">
+                <h2 className="text-3xl font-bold text-center mb-10 mt-10 drop-shadow-lg">
+                    Destinations
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[
-                        { city: "Paris", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" },
-                        { city: "Dubai", img: "https://images.unsplash.com/photo-1504274066651-8d31a536b11a" },
-                        { city: "New York", img: "https://images.unsplash.com/photo-1549924231-f129b911e442" },
-                    ].map((d, i) => (
-                        <motion.div
-                            key={i}
-                            className="rounded-2xl overflow-hidden shadow-lg relative cursor-pointer group"
-                            whileHover={{ scale: 1.03 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <img
-                                src={d.img}
-                                alt={d.city}
-                                className="w-full h-64 object-cover group-hover:brightness-75 transition-all duration-300"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-2xl font-bold text-white drop-shadow-lg">
-                                    {d.city}
-                                </span>
-                            </div>
-                        </motion.div>
-                    ))}
+
+                <div className="relative max-w-7xl mx-auto">
+                    <div className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-8">
+                        {destinations.map((dest, index) => (
+                            <motion.div
+                                key={index}
+                                whileHover={{ scale: 1.1 }}
+                                className="snap-center flex-shrink-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl cursor-pointer overflow-hidden relative"
+                            >
+                                <img
+                                    src={dest.src}
+                                    alt={dest.name}
+                                    className="w-full h-64 md:h-72 object-cover"
+                                />
+                                {/* Overlay label */}
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm text-white p-4 text-center">
+                                    <h3 className="text-2xl font-semibold">{dest.name}</h3>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Optional buttons */}
+                    <button
+                        onClick={() => {
+                            document.querySelector('.snap-x')?.scrollBy({ left: -400, behavior: 'smooth' });
+                        }}
+                        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full hover:bg-white/50 transition"
+                    >
+                        &#10094;
+                    </button>
+                    <button
+                        onClick={() => {
+                            document.querySelector('.snap-x')?.scrollBy({ left: 400, behavior: 'smooth' });
+                        }}
+                        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full hover:bg-white/50 transition"
+                    >
+                        &#10095;
+                    </button>
                 </div>
-            </div>
+            </section>
+
+
         </div>
     );
 }

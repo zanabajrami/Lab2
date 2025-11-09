@@ -62,7 +62,7 @@ function Header({ openLogin, openSignup, openContact }) {
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4 relative z-10">
         <div
           className="text-2xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-200 to-white cursor-pointer"
-          onClick={() => navigate("/HomePage")}
+          onClick={() => navigate("/")}
         >
           FlyHigh Agency
         </div>
