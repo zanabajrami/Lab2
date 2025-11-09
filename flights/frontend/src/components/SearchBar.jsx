@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
   return (
     <div className="relative w-full">
+      {/* Button */}
       <button
         type="button"
         onClick={onToggle}
@@ -16,15 +17,15 @@ function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
                    shadow-sm focus:shadow-md focus:shadow-blue-100"
       >
         {value || label}
-        <span
-          className={`text-blue-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-        >
+        <span className={`text-blue-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
           ▼
         </span>
       </button>
 
+      {/* Dropdown options */}
       {isOpen && (
-        <ul className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden animate-fadeIn">
+        <ul className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg
+                       overflow-y-auto max-h-48 animate-fadeIn">
           {options.map((option) => (
             <li
               key={option}
@@ -37,6 +38,7 @@ function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
         </ul>
       )}
 
+      {/* Fade-in animation */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-5px); }
@@ -58,8 +60,21 @@ export default function SearchBar() {
   const [passengers, setPassengers] = useState(1);
 
   // Track which dropdown/picker is open
-  const [openDropdown, setOpenDropdown] = useState(null); 
+  const [openDropdown, setOpenDropdown] = useState(null);
   // possible values: 'from', 'to', 'departure', 'return', 'passengers', null
+
+  // Ref for detecting clicks outside
+  const formRef = useRef();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        setOpenDropdown(null); // close all dropdowns
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,8 +104,7 @@ export default function SearchBar() {
             className={`px-6 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300
               ${tripType === type
                 ? "bg-blue-600 text-white shadow-md shadow-blue-300 scale-[1.05]"
-                : "bg-white/70 text-gray-700 border border-gray-300 hover:bg-gray-100 hover:scale-[1.03]"}`
-            }
+                : "bg-white/70 text-gray-700 border border-gray-300 hover:bg-gray-100 hover:scale-[1.03]"}`}
           >
             {type === "oneway" ? "One Way" : "Return"}
           </button>
@@ -99,6 +113,7 @@ export default function SearchBar() {
 
       {/* Search Form */}
       <form
+        ref={formRef} // <-- attach ref
         onSubmit={handleSubmit}
         className="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl px-6 py-6 flex flex-col md:flex-row gap-4 items-center transition duration-300 hover:shadow-blue-200/50"
       >
@@ -120,7 +135,10 @@ export default function SearchBar() {
             label="🧳 To"
             value={to}
             onChange={(val) => { setTo(val); setOpenDropdown(null); }}
-            options={["London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)", "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"]}
+            options={[
+              "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
+              "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
+            ]}
             isOpen={openDropdown === "to"}
             onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
           />
@@ -140,28 +158,25 @@ export default function SearchBar() {
           />
         </div>
 
- {/* Return Date */}
-<div className="relative basis-1/5 w-full group">
-  <DatePicker
-    selected={returnDate}
-    onChange={(date) => setReturnDate(date)}
-    minDate={departureDate || new Date()}
-    placeholderText="Return"
-    dateFormat="MM/dd/yyyy"
-    disabled={tripType === "oneway"}
-    onFocus={() => tripType === "return" && setOpenDropdown("return")}
-    className={`w-full p-3 rounded-xl border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 transition-all duration-300 cursor-pointer
-      ${tripType === "oneway" ? "opacity-40 cursor-not-allowed" : "hover:border-blue-400 opacity-100"}`}
-  />
-
-  {/* Emoji që shfaqet vetëm kur hover */}
-  {tripType === "oneway" && (
-    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-      🚫
-    </span>
-  )}
-</div>
-
+        {/* Return Date */}
+        <div className="relative basis-1/5 w-full group">
+          <DatePicker
+            selected={returnDate}
+            onChange={(date) => setReturnDate(date)}
+            minDate={departureDate || new Date()}
+            placeholderText="Return"
+            dateFormat="MM/dd/yyyy"
+            disabled={tripType === "oneway"}
+            onFocus={() => tripType === "return" && setOpenDropdown("return")}
+            className={`w-full p-3 rounded-xl border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 transition-all duration-300 cursor-pointer
+              ${tripType === "oneway" ? "opacity-40 cursor-not-allowed" : "hover:border-blue-400 opacity-100"}`}
+          />
+          {tripType === "oneway" && (
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              🚫
+            </span>
+          )}
+        </div>
 
         {/* Passengers */}
         <div className="basis-1/6 w-full relative">
