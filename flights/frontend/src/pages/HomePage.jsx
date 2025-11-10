@@ -12,18 +12,7 @@ import egyptImage from "../images/cairo.jpg";
 import uk4 from "../images/uk4.jpg";
 import turkey5 from "../images/turkey5.jpeg";
 import austria1 from "../images/austria1.jpg";
-import spain5 from "../images/spain5.png";
-
-const images = [
-    { src: italyImage, label: "Italy" },
-    { src: hungaryImage, label: "Hungary" },
-    { src: franceImage, label: "France" },
-    { src: egyptImage, label: "Egypt" },
-    { src: uk4, label: "UK" },
-    { src: turkey5, label: "Turkey" },
-    { src: austria1, label: "Austria" },
-    { src: spain5, label: "Spain" },
-];
+import spain6 from "../images/spain6.jpg";
 
 const destinations = [
     { src: italyImage, name: "Italy" },
@@ -33,7 +22,7 @@ const destinations = [
     { src: uk4, name: "UK" },
     { src: turkey5, name: "Turkey" },
     { src: austria1, name: "Austria" },
-    { src: spain5, name: "Spain" },
+    { src: spain6, name: "Spain" },
 ];
 
 export default function Home() {
@@ -99,49 +88,46 @@ export default function Home() {
                     </motion.div>
                 </div>
             </div>
-            <section className="text-gray-700">
-                <h2 className="text-3xl font-bold text-center mb-10 mt-10 drop-shadow-lg">
-                    Destinations
-                </h2>
 
-                <div className="relative max-w-7xl mx-auto">
-                    <div className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-8">
-                        {destinations.map((dest, index) => (
+            {/* Destinations */}
+            <section className="py-24 text-gray-600">
+
+                {/* Kontaineri i slider-it */}
+                <div className="relative w-full max-w-6xl mx-auto h-[400px] md:h-[480px]">
+                    {destinations.map((dest, index) => {
+                        let pos = index - current;
+                        if (pos < -Math.floor(destinations.length / 2)) pos += destinations.length;
+                        if (pos > Math.floor(destinations.length / 2)) pos -= destinations.length;
+
+                        const scale = pos === 0 ? 1 : 0.8;
+                        const zIndex = pos === 0 ? 20 : 10;
+                        const xOffset = pos * 240; // distance between cards
+
+                        return (
                             <motion.div
                                 key={index}
+                                animate={{
+                                    x: xOffset,
+                                    scale: scale,
+                                    zIndex: zIndex,
+                                    rotateY: pos * -15,
+                                    opacity: Math.abs(pos) > 2 ? 0 : 1,
+                                }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 whileHover={{ scale: 1.1 }}
-                                className="snap-center flex-shrink-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl cursor-pointer overflow-hidden relative"
+                                className="absolute top-0 w-64 md:w-72 h-full rounded-3xl shadow-2xl cursor-pointer overflow-hidden"
                             >
                                 <img
                                     src={dest.src}
                                     alt={dest.name}
-                                    className="w-full h-64 md:h-72 object-cover"
+                                    className="w-full h-full object-cover"
                                 />
-                                {/* Overlay label */}
                                 <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm text-white p-4 text-center">
                                     <h3 className="text-2xl font-semibold">{dest.name}</h3>
                                 </div>
                             </motion.div>
-                        ))}
-                    </div>
-
-                    {/* Optional buttons */}
-                    <button
-                        onClick={() => {
-                            document.querySelector('.snap-x')?.scrollBy({ left: -400, behavior: 'smooth' });
-                        }}
-                        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full hover:bg-white/50 transition"
-                    >
-                        &#10094;
-                    </button>
-                    <button
-                        onClick={() => {
-                            document.querySelector('.snap-x')?.scrollBy({ left: 400, behavior: 'smooth' });
-                        }}
-                        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full hover:bg-white/50 transition"
-                    >
-                        &#10095;
-                    </button>
+                        );
+                    })}
                 </div>
             </section>
 
