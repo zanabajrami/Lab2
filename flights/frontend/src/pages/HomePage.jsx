@@ -11,7 +11,7 @@ import franceImage from "../images/france.jpg";
 import egyptImage from "../images/cairo.jpg";
 import uk4 from "../images/uk4.jpg";
 import turkey5 from "../images/turkey5.jpeg";
-import austria1 from "../images/austria1.jpg";
+import austria3 from "../images/austria3.jpg";
 import spain6 from "../images/spain6.jpg";
 
 const destinations = [
@@ -21,7 +21,7 @@ const destinations = [
     { src: egyptImage, name: "Egypt" },
     { src: uk4, name: "UK" },
     { src: turkey5, name: "Turkey" },
-    { src: austria1, name: "Austria" },
+    { src: austria3, name: "Austria" },
     { src: spain6, name: "Spain" },
 ];
 
@@ -91,17 +91,22 @@ export default function Home() {
 
             {/* Destinations */}
             <section className="py-24 text-gray-600">
-
-                {/* Kontaineri i slider-it */}
-                <div className="relative w-full max-w-6xl mx-auto h-[400px] md:h-[480px]">
+                <div className="-mt-12 relative w-full max-w-6xl mx-auto h-[420px] md:h-[500px] flex items-center justify-center">
                     {destinations.map((dest, index) => {
                         let pos = index - current;
-                        if (pos < -Math.floor(destinations.length / 2)) pos += destinations.length;
-                        if (pos > Math.floor(destinations.length / 2)) pos -= destinations.length;
+                        if (pos < -Math.floor(destinations.length / 2))
+                            pos += destinations.length;
+                        if (pos > Math.floor(destinations.length / 2))
+                            pos -= destinations.length;
 
-                        const scale = pos === 0 ? 1 : 0.8;
-                        const zIndex = pos === 0 ? 20 : 10;
-                        const xOffset = pos * 240; // distance between cards
+                        // përmasat & pozicioni
+                        const scale = pos === 0 ? 1 : 0.82;
+                        const zIndex = pos === 0 ? 30 : 10;
+                        const xOffset = pos * 280;
+
+                        // width konstant, pavarësisht scale
+                        const baseWidth = 310; // në px (≈ w-80)
+                        const width = baseWidth / scale; // kompenso efektin e scale
 
                         return (
                             <motion.div
@@ -110,21 +115,24 @@ export default function Home() {
                                     x: xOffset,
                                     scale: scale,
                                     zIndex: zIndex,
-                                    rotateY: pos * -15,
+                                    rotateY: pos * -18,
                                     opacity: Math.abs(pos) > 2 ? 0 : 1,
                                 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                whileHover={{ scale: 1.1 }}
-                                className="absolute top-0 w-64 md:w-72 h-full rounded-3xl shadow-2xl cursor-pointer overflow-hidden"
+                                transition={{ type: "spring", stiffness: 260, damping: 30 }}
+                                whileHover={{ scale: pos === 0 ? 1.07 : 0.88 }}
+                                style={{ width: `${width}px` }}
+                                className="absolute top-0 h-full rounded-2xl shadow-2xl cursor-pointer overflow-hidden bg-gray-200"
                             >
                                 <img
                                     src={dest.src}
                                     alt={dest.name}
                                     className="w-full h-full object-cover"
                                 />
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm text-white p-4 text-center">
-                                    <h3 className="text-2xl font-semibold">{dest.name}</h3>
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent backdrop-blur-sm text-white p-5 text-center">
+                                    <h3 className="text-2xl font-semibold tracking-wide drop-shadow-md">{dest.name}</h3>
+                                    <div className="mt-1 w-16 mx-auto h-[2px] bg-gradient-to-r from-blue-400 to-white rounded-full"></div>
                                 </div>
+
                             </motion.div>
                         );
                     })}
