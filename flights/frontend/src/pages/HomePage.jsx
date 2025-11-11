@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 
 //images
@@ -25,9 +26,35 @@ const destinations = [
     { src: spain6, name: "Spain" },
 ];
 
+
 export default function Home() {
     const [current, setCurrent] = useState(0);
     const sliderRef = useRef(null);
+    const navigate = useNavigate();
+
+    const italyRef = useRef(null);
+    const hungaryRef = useRef(null);
+    const franceRef = useRef(null);
+    const spainRef = useRef(null);
+    const egyptRef = useRef(null);
+    const ukRef = useRef(null);
+    const turkeyRef = useRef(null);
+    const austriaRef = useRef(null);
+
+    const destinationsMap = {
+        italy: italyRef,
+        hungary: hungaryRef,
+        france: franceRef,
+        spain: spainRef,
+        egypt: egyptRef,
+        uk: ukRef,
+        turkey: turkeyRef,
+        austria: austriaRef,
+    };
+
+const goToDestination = (name) => {
+    navigate("/destinations", { state: { scrollTo: name.toLowerCase() } });
+};
 
     // Auto-slide
     useEffect(() => {
@@ -122,6 +149,7 @@ export default function Home() {
                                 whileHover={{ scale: pos === 0 ? 1.07 : 0.88 }}
                                 style={{ width: `${width}px` }}
                                 className="absolute top-0 h-full rounded-2xl shadow-2xl cursor-pointer overflow-hidden bg-gray-200"
+                                onClick={() => goToDestination(dest.name)}
                             >
                                 <img
                                     src={dest.src}

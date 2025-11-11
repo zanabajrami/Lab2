@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronUp } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -73,6 +74,8 @@ function Destinations() {
     const [searchTerm, setSearchTerm] = useState("");
     const [current, setCurrent] = useState(0);
     const [showTopButton, setShowTopButton] = useState(false);
+    const location = useLocation();
+    const scrollTo = location.state?.scrollTo;
 
     const italyRef = useRef(null);
     const hungaryRef = useRef(null);
@@ -102,6 +105,12 @@ function Destinations() {
         { country: "Egypt", image: egyptImage, desc: "Explore the pyramids and the Nile River." },
         { country: "UK", image: ukImage, desc: "Discover London’s culture and the beauty of the countryside." },
     ];
+
+    useEffect(() => {
+        if (scrollTo && destinationsMap[scrollTo]?.current) {
+            destinationsMap[scrollTo].current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }, [scrollTo]);
 
     const handleSearch = (e) => {
         e.preventDefault();
