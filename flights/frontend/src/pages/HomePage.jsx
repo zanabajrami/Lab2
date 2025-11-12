@@ -169,79 +169,99 @@ export default function Home() {
             </section>
 
             {/* WHY CHOOSE US SECTION */}
- <section className="w-full py-24 px-6 text-gray-100">
-  <div className="max-w-6xl mx-auto text-center">
-    {/* Titulli */}
-    <motion.h2
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent drop-shadow-md"
-    >
-      Why Choose <span className="text-gray-900">FlyHigh Agency</span> ?
-    </motion.h2>
+            <motion.section
+                className="w-full py-24 px-6 text-gray-100"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.2 }, // animon fëmijët një nga një
+                    },
+                }}
+            >
+                <div className="max-w-6xl mx-auto text-center">
+                    {/* Titulli */}
+                    <motion.h2
+                        variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
+                        transition={{ duration: 0.8 }}
+                        className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent drop-shadow-md"
+                    >
+                        Why Choose <span className="text-gray-900">FlyHigh Agency</span> ?
+                    </motion.h2>
 
-    <p className="text-gray-500 max-w-2xl mx-auto mb-16 text-lg">
-      Experience seamless travel planning with unbeatable prices and trusted service.
-    </p>
+                    {/* Përshkrimi */}
+                    <motion.p
+                        variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        className="text-gray-500 max-w-2xl mx-auto mb-16 text-lg"
+                    >
+                        Experience seamless travel planning with unbeatable prices and trusted service.
+                    </motion.p>
 
-    {/* Kartat */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-      {[
-        {
-          title: "Best Flight Deals",
-          desc: "Compare hundreds of airlines to find the lowest fares for your journey.",
-          icon: <Plane className="w-8 h-8 text-white" />,
-          gradient: "from-blue-900 to-blue-700",
-        },
-        {
-          title: "24/7 Support",
-          desc: "Our team is available day and night to help with your travel needs.",
-          icon: <Headset className="w-8 h-8 text-white" />,
-          gradient: "from-blue-800 to-blue-500",
-        },
-        {
-          title: "Secure Payments",
-          desc: "Book confidently with our encrypted and trusted payment systems.",
-          icon: <ShieldCheck className="w-8 h-8 text-white" />,
-          gradient: "from-cyan-800 to-blue-400",
-        },
-        {
-          title: "Worldwide Destinations",
-          desc: "Fly to many destinations around the world with ease.",
-          icon: <Globe2 className="w-8 h-8 text-white" />,
-          gradient: "from-indigo-900 to-cyan-600",
-        },
-      ].map((item, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          animate={{ y: [0, -5, 0] }} // animacion floating
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-          whileHover={{ y: -10, scale: 1.05 }}
-          className={`rounded-2xl p-8 shadow-2xl hover:shadow-3xl border border-gray-800 text-center
-                     transition-transform transform bg-gradient-to-br ${item.gradient}`}
-        >
-          <div className="flex items-center justify-center mb-5">
-            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center shadow-lg ring-1 ring-white/20">
-              {item.icon}
-            </div>
-          </div>
+                    {/* Kartat */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                        {[
+                            {
+                                title: "Best Flight Deals",
+                                desc: "Compare hundreds of airlines to find the lowest fares for your journey.",
+                                icon: <Plane className="w-8 h-8 text-white" />,
+                                gradient: "from-blue-900 to-blue-700",
+                            },
+                            {
+                                title: "24/7 Support",
+                                desc: "Our team is available day and night to help with your travel needs.",
+                                icon: <Headset className="w-8 h-8 text-white" />,
+                                gradient: "from-blue-800 to-blue-500",
+                            },
+                            {
+                                title: "Secure Payments",
+                                desc: "Book confidently with our encrypted and trusted payment systems.",
+                                icon: <ShieldCheck className="w-8 h-8 text-white" />,
+                                gradient: "from-cyan-800 to-blue-400",
+                            },
+                            {
+                                title: "Worldwide Destinations",
+                                desc: "Fly to many destinations around the world with ease.",
+                                icon: <Globe2 className="w-8 h-8 text-white" />,
+                                gradient: "from-indigo-900 to-cyan-600",
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{ hidden: { opacity: 0, y: 40, scale: 0.9 }, visible: { opacity: 1, y: 0, scale: 1 } }}
+                                transition={{ duration: 0.8, delay: i * 0.2, ease: "easeOut" }}
+                                whileHover={{ scale: 1.05, y: -10 }}
+                                className={`rounded-2xl p-8 shadow-2xl hover:shadow-3xl border border-gray-800 text-center transition-transform transform bg-gradient-to-br ${item.gradient}`}
+                            >
+                                <motion.div
+                                    animate={{
+                                        y: [0, -4, 0],
+                                        rotate: [0, 1, -1, 0],
+                                    }}
+                                    transition={{
+                                        duration: 5 + i * 0.3,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                        delay: 0.9,
+                                    }}
+                                >
+                                    <div className="flex items-center justify-center mb-5">
+                                        <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center shadow-lg ring-1 ring-white/20">
+                                            {item.icon}
+                                        </div>
+                                    </div>
 
-          <h3 className="text-xl font-semibold mb-3 text-white">
-            {item.title}
-          </h3>
-          <p className="text-white/90 text-sm leading-relaxed">
-            {item.desc}
-          </p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
+                                    <h3 className="text-xl font-semibold mb-3 text-white">{item.title}</h3>
+                                    <p className="text-white/90 text-sm leading-relaxed">{item.desc}</p>
+                                </motion.div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </motion.section>
 
         </div>
     );
