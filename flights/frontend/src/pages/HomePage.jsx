@@ -52,9 +52,9 @@ export default function Home() {
         austria: austriaRef,
     };
 
-const goToDestination = (name) => {
-    navigate("/destinations", { state: { scrollTo: name.toLowerCase() } });
-};
+    const goToDestination = (name) => {
+        navigate("/destinations", { state: { scrollTo: name.toLowerCase() } });
+    };
 
     // Auto-slide
     useEffect(() => {
@@ -164,6 +164,60 @@ const goToDestination = (name) => {
                             </motion.div>
                         );
                     })}
+                </div>
+            </section>
+
+            {/* WHY CHOOSE US SECTION */}
+            <section className="w-full py-24 px-6 text-gray-800">
+                <div className="max-w-6xl mx-auto text-center">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-3xl md:text-4xl font-semibold mb-4"
+                    >
+                        Why Choose <span className="text-blue-600">FlyHigh Agency</span>
+                    </motion.h2>
+                    <p className="text-gray-500 max-w-2xl mx-auto mb-12">
+                        Experience seamless travel planning with unbeatable prices and trusted service.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {[
+                            {
+                                title: "Best Flight Deals",
+                                desc: "Compare hundreds of airlines to find the lowest fares for your journey.",
+                                icon: "✈️",
+                            },
+                            {
+                                title: "24/7 Support",
+                                desc: "Our friendly team is available day and night to help with your travel needs.",
+                                icon: "💬",
+                            },
+                            {
+                                title: "Secure Payments",
+                                desc: "Book confidently with our encrypted and trusted payment systems.",
+                                icon: "🔒",
+                            },
+                            {
+                                title: "Worldwide Destinations",
+                                desc: "Fly to over 100+ destinations around the world with ease.",
+                                icon: "🌍",
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.15, duration: 0.8 }}
+                                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 text-center transition-transform transform hover:-translate-y-2"
+                            >
+                                <div className="text-5xl mb-4">{item.icon}</div>
+                                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
