@@ -20,6 +20,17 @@ import austria3 from "../images/austria3.jpg";
 import spain6 from "../images/spain6.jpg";
 
 const destinations = [
+    { src: italyImage, name: "Italy" },
+    { src: hungaryImage, name: "Hungary" },
+    { src: franceImage, name: "France" },
+    { src: egyptImage, name: "Egypt" },
+    { src: uk4, name: "UK" },
+    { src: turkey5, name: "Turkey" },
+    { src: austria3, name: "Austria" },
+    { src: spain6, name: "Spain" } 
+];
+
+const mapDestinations = [
     { src: italyImage, name: "Italy", lat: 41.8719, lng: 12.5674 },
     { src: hungaryImage, name: "Hungary", lat: 47.4979, lng: 19.0402 },
     { src: franceImage, name: "France", lat: 48.8566, lng: 2.3522 },
@@ -34,7 +45,7 @@ const destinations = [
 function RefreshMap() {
     const map = useMap();
     useEffect(() => {
-        map.invalidateSize();
+        map.invalidateSize(); // e detyron Leaflet të ripërcaktojë dimensionet
     }, [map]);
     return null;
 }
@@ -64,6 +75,8 @@ export default function Home() {
         austria: austriaRef,
     };
 
+    const destinationsArray = destinations;
+
     const goToDestination = (name) => {
         navigate("/destinations", { state: { scrollTo: name.toLowerCase() } });
     };
@@ -74,7 +87,7 @@ export default function Home() {
             setCurrent(prev => (prev + 1) % destinations.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, [destinations.length]);
+    }, [destinationsArray.length]);
 
     // Scroll to center current card
     useEffect(() => {
@@ -180,83 +193,80 @@ export default function Home() {
             </section>
 
             {/* MAP */}
-            <section className="py-24 text-white">
-                <div className="relative w-[90%] md:w-[1000px] h-[600px] mx-auto rounded-2xl -mt-12 overflow-hidden shadow-lg">
-                    <MapContainer
-                        center={[48, 11]}
-                        zoom={3}
-                        minZoom={3}
-                        maxZoom={10}
-                        scrollWheelZoom={true}
-                        style={{ width: "100%", height: "100%", display: "block" }}
-                        maxBounds={[
-                            [20, -30],  // këndi i poshtëmajtë [lat, lng]
-                            [70, 50]    // këndi i sipërm djathtë [lat, lng]
-                        ]}
-                        maxBoundsViscosity={1.0} // pengon plotësisht të dalësh jashtë bounds
-                    >
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                        />
-                        <RefreshMap />
+            <section className="py-24 text-white w-full flex justify-center">
+                <div className="w-full max-w-[1100px] rounded-2xl shadow-lg overflow-hidden">
+                    <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px]">
+                        <MapContainer
+                            center={[48, 11]}
+                            zoom={3}
+                            minZoom={3}
+                            maxZoom={10}
+                            scrollWheelZoom={true}
+                            style={{ width: "100%", height: "100%" }}
+                            maxBounds={[[20, -30], [70, 50]]}
+                            maxBoundsViscosity={1.0}
+                        >
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution='&copy; OpenStreetMap'
+                            />
+                            <RefreshMap />
+                            {mapDestinations.map((dest, i) => {
+                                const blueDivIcon = L.divIcon({
+                                    className: "custom-marker",
+                                    html: `
+              <div class="relative w-6 h-6 bg-blue-900 rounded-full border-2 border-white shadow-lg animate-pulse-inner">
+                <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-900 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+              </div>
+              <style>
+                @keyframes pulse-inner {
+                  0% { transform: scale(1); opacity: 1; }
+                  50% { transform: scale(1.6); opacity: 0.4; }
+                  100% { transform: scale(1); opacity: 1; }
+                }
+                .animate-pulse-inner { animation: pulse-inner 1.5s infinite; }
+              </style>
+            `,
+                                });
 
-                        {destinations.map((dest, i) => {
-                            const blueDivIcon = L.divIcon({
-                                className: "custom-marker",
-                                html: `
-            <div class="relative w-6 h-6 bg-blue-900 rounded-full border-2 border-white shadow-lg animate-pulse-inner">
-              <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-900 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
-            </div>
-            <style>
-              @keyframes pulse-inner {
-                0% { transform: scale(1); opacity: 1; }
-                50% { transform: scale(1.6); opacity: 0.4; }
-                100% { transform: scale(1); opacity: 1; }
-              }
-              .animate-pulse-inner { animation: pulse-inner 1.5s infinite; }
-            </style>
-          `,
-                            });
-
-                            return (
-                                <Marker
-                                    key={i}
-                                    position={[dest.lat, dest.lng]}
-                                    icon={blueDivIcon}
-                                    eventHandlers={{ click: () => goToDestination(dest.name) }}
-                                >
-                                    <Tooltip
-                                        direction="top"
-                                        offset={[0, -10]}
-                                        opacity={1}
-                                        permanent={false}
-                                        className="bg-gray-900 text-white px-3 py-1 rounded-lg shadow-lg text-sm font-semibold"
+                                return (
+                                    <Marker
+                                        key={i}
+                                        position={[dest.lat, dest.lng]}
+                                        icon={blueDivIcon}
+                                        eventHandlers={{ click: () => console.log(dest.name) }}
                                     >
-                                        {dest.name}
-                                    </Tooltip>
-                                    <Popup>
-                                        <div className="text-center">
-                                            <img
-                                                src={dest.src}
-                                                alt={dest.name}
-                                                className="w-32 h-20 object-cover rounded-md mb-2"
-                                            />
-                                            <h3 className="font-bold">{dest.name}</h3>
-                                        </div>
-                                    </Popup>
-                                </Marker>
-                            );
-                        })}
-                    </MapContainer>
+                                        <Tooltip
+                                            direction="top"
+                                            offset={[0, -10]}
+                                            opacity={1}
+                                            permanent={false}
+                                            className="bg-gray-900 text-white px-3 py-1 rounded-lg shadow-lg text-sm font-semibold"
+                                        >
+                                            {dest.name}
+                                        </Tooltip>
+                                        <Popup>
+                                            <div className="text-center">
+                                                <img
+                                                    src={dest.src}
+                                                    alt={dest.name}
+                                                    className="w-32 h-20 object-cover rounded-md mb-2"
+                                                />
+                                                <h3 className="font-bold">{dest.name}</h3>
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+                                );
+                            })}
+                        </MapContainer>
+                    </div>
                 </div>
             </section>
 
 
-
             {/* WHY CHOOSE US SECTION */}
             <motion.section
-                className="w-full py-24 px-6 text-gray-100"
+                className="w-full py-24 px-6 text-gray-100 -mt-12 "
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.3 }}
