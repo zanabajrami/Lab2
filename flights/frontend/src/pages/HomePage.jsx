@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import { Plane, Headset, ShieldCheck, Globe2 } from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 //images
 import mainImage from "../images/main1.jpg";
@@ -17,16 +20,24 @@ import austria3 from "../images/austria3.jpg";
 import spain6 from "../images/spain6.jpg";
 
 const destinations = [
-    { src: italyImage, name: "Italy" },
-    { src: hungaryImage, name: "Hungary" },
-    { src: franceImage, name: "France" },
-    { src: egyptImage, name: "Egypt" },
-    { src: uk4, name: "UK" },
-    { src: turkey5, name: "Turkey" },
-    { src: austria3, name: "Austria" },
-    { src: spain6, name: "Spain" },
+    { src: italyImage, name: "Italy", lat: 41.8719, lng: 12.5674 },
+    { src: hungaryImage, name: "Hungary", lat: 47.4979, lng: 19.0402 },
+    { src: franceImage, name: "France", lat: 48.8566, lng: 2.3522 },
+    { src: egyptImage, name: "Egypt", lat: 30.0444, lng: 31.2357 },
+    { src: uk4, name: "UK", lat: 51.5074, lng: -0.1278 },
+    { src: turkey5, name: "Turkey", lat: 41.0082, lng: 28.9784 },
+    { src: austria3, name: "Austria", lat: 48.2082, lng: 16.3738 },
+    { src: spain6, name: "Spain", lat: 40.4168, lng: -3.7038 },
+    { src: spain6, name: "Spain", lat: 41.3851, lng: 2.1734 }
 ];
 
+function RefreshMap() {
+    const map = useMap();
+    useEffect(() => {
+        map.invalidateSize();
+    }, [map]);
+    return null;
+}
 
 export default function Home() {
     const [current, setCurrent] = useState(0);
@@ -168,6 +179,81 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* MAP */}
+            <section className="py-24 text-white">
+                <div className="relative w-[90%] md:w-[1000px] h-[600px] mx-auto rounded-2xl -mt-12 overflow-hidden shadow-lg">
+                    <MapContainer
+                        center={[48, 11]}
+                        zoom={3}
+                        minZoom={3}
+                        maxZoom={10}
+                        scrollWheelZoom={true}
+                        style={{ width: "100%", height: "100%", display: "block" }}
+                        maxBounds={[
+                            [20, -30],  // këndi i poshtëmajtë [lat, lng]
+                            [70, 50]    // këndi i sipërm djathtë [lat, lng]
+                        ]}
+                        maxBoundsViscosity={1.0} // pengon plotësisht të dalësh jashtë bounds
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        />
+                        <RefreshMap />
+
+                        {destinations.map((dest, i) => {
+                            const blueDivIcon = L.divIcon({
+                                className: "custom-marker",
+                                html: `
+            <div class="relative w-6 h-6 bg-blue-900 rounded-full border-2 border-white shadow-lg animate-pulse-inner">
+              <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-900 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+            </div>
+            <style>
+              @keyframes pulse-inner {
+                0% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.6); opacity: 0.4; }
+                100% { transform: scale(1); opacity: 1; }
+              }
+              .animate-pulse-inner { animation: pulse-inner 1.5s infinite; }
+            </style>
+          `,
+                            });
+
+                            return (
+                                <Marker
+                                    key={i}
+                                    position={[dest.lat, dest.lng]}
+                                    icon={blueDivIcon}
+                                    eventHandlers={{ click: () => goToDestination(dest.name) }}
+                                >
+                                    <Tooltip
+                                        direction="top"
+                                        offset={[0, -10]}
+                                        opacity={1}
+                                        permanent={false}
+                                        className="bg-gray-900 text-white px-3 py-1 rounded-lg shadow-lg text-sm font-semibold"
+                                    >
+                                        {dest.name}
+                                    </Tooltip>
+                                    <Popup>
+                                        <div className="text-center">
+                                            <img
+                                                src={dest.src}
+                                                alt={dest.name}
+                                                className="w-32 h-20 object-cover rounded-md mb-2"
+                                            />
+                                            <h3 className="font-bold">{dest.name}</h3>
+                                        </div>
+                                    </Popup>
+                                </Marker>
+                            );
+                        })}
+                    </MapContainer>
+                </div>
+            </section>
+
+
+
             {/* WHY CHOOSE US SECTION */}
             <motion.section
                 className="w-full py-24 px-6 text-gray-100"
@@ -262,6 +348,8 @@ export default function Home() {
                     </div>
                 </div>
             </motion.section>
+
+
 
         </div>
     );
