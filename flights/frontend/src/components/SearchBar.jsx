@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { PlaneTakeoff, PlaneLanding} from "lucide-react";
 
 // Custom Dropdown Component
 function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
@@ -120,7 +121,12 @@ export default function SearchBar() {
         {/* From */}
         <div className="basis-1/5 w-full">
           <CustomDropdown
-            label="✈️ From"
+            label={
+              <div className="flex items-center gap-2">
+                <PlaneTakeoff className="w-5 h-5 text-blue-500" />
+                From
+              </div>
+            }
             value={from}
             onChange={(val) => { setFrom(val); setOpenDropdown(null); }}
             options={["Prishtina (PRN)", "Tirana (TIA)"]}
@@ -130,19 +136,24 @@ export default function SearchBar() {
         </div>
 
         {/* To */}
-        <div className="basis-1/5 w-full">
-          <CustomDropdown
-            label="🧳 To"
-            value={to}
-            onChange={(val) => { setTo(val); setOpenDropdown(null); }}
-            options={[
-              "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
-              "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
-            ]}
-            isOpen={openDropdown === "to"}
-            onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
-          />
-        </div>
+      <div className="basis-1/5 w-full">
+  <CustomDropdown
+    label={
+      <div className="flex items-center gap-2">
+        <PlaneLanding className="w-5 h-5 text-blue-500" />
+        To
+      </div>
+    }
+    value={to}
+    onChange={(val) => { setTo(val); setOpenDropdown(null); }}
+    options={[
+      "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
+      "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
+    ]}
+    isOpen={openDropdown === "to"}
+    onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
+  />
+</div>
 
         {/* Departure Date */}
         <div className="relative basis-1/5 w-full">

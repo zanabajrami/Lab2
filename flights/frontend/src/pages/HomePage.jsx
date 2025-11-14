@@ -19,6 +19,12 @@ import turkey5 from "../images/turkey5.jpeg";
 import austria3 from "../images/austria3.jpg";
 import spain6 from "../images/spain6.jpg";
 
+//deals images
+import romeImage from "../images/rome.avif";
+import milanoImage from "../images/milano.webp";
+import londonImage from "../images/london.jpg";
+import viennaImage from "../images/vienna.webp";
+
 const destinations = [
     { src: italyImage, name: "Italy" },
     { src: hungaryImage, name: "Hungary" },
@@ -27,19 +33,27 @@ const destinations = [
     { src: uk4, name: "UK" },
     { src: turkey5, name: "Turkey" },
     { src: austria3, name: "Austria" },
-    { src: spain6, name: "Spain" } 
+    { src: spain6, name: "Spain" }
 ];
 
 const mapDestinations = [
-    { src: italyImage, name: "Italy", lat: 41.8719, lng: 12.5674 },
-    { src: hungaryImage, name: "Hungary", lat: 47.4979, lng: 19.0402 },
-    { src: franceImage, name: "France", lat: 48.8566, lng: 2.3522 },
-    { src: egyptImage, name: "Egypt", lat: 30.0444, lng: 31.2357 },
-    { src: uk4, name: "UK", lat: 51.5074, lng: -0.1278 },
-    { src: turkey5, name: "Turkey", lat: 41.0082, lng: 28.9784 },
-    { src: austria3, name: "Austria", lat: 48.2082, lng: 16.3738 },
-    { src: spain6, name: "Spain", lat: 40.4168, lng: -3.7038 },
-    { src: spain6, name: "Spain", lat: 41.3851, lng: 2.1734 }
+    { src: italyImage, name: "Rome,Italy", lat: 41.8719, lng: 12.5674 },
+    { src: italyImage, name: "Milano,Italy", lat: 45.4642, lng: 9.1900 },
+    { src: hungaryImage, name: "Budapest,Hungary", lat: 47.4979, lng: 19.0402 },
+    { src: franceImage, name: "Paris,France", lat: 48.8566, lng: 2.3522 },
+    { src: egyptImage, name: "Cairo,Egypt", lat: 30.0444, lng: 31.2357 },
+    { src: uk4, name: "London,UK", lat: 51.5074, lng: -0.1278 },
+    { src: turkey5, name: "Istanbul,Turkey", lat: 41.0082, lng: 28.9784 },
+    { src: austria3, name: "Wien,Austria", lat: 48.2082, lng: 16.3738 },
+    { src: spain6, name: "Madrid,Spain", lat: 40.4168, lng: -3.7038 },
+    { src: spain6, name: "Barcelona,Spain", lat: 41.3851, lng: 2.1734 }
+];
+
+const deals = [
+    { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departureDate: "2025-11-10", returnDate: "2025-11-14", duration: "4 days", price: 129, currency: "EUR" },
+    { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, departureDate: "2025-11-08", returnDate: "2025-11-11", duration: "3 days", price: 189, currency: "EUR" },
+    { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
+    { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" }
 ];
 
 function RefreshMap() {
@@ -194,7 +208,7 @@ export default function Home() {
 
             {/* MAP */}
             <section className="py-24 text-white w-full flex justify-center">
-                <div className="w-full max-w-[1100px] rounded-2xl shadow-lg overflow-hidden">
+                <div className="w-full max-w-[1100px] -mt-12 rounded-2xl shadow-lg overflow-hidden">
                     <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px]">
                         <MapContainer
                             center={[48, 11]}
@@ -263,6 +277,44 @@ export default function Home() {
                 </div>
             </section>
 
+            {/*Deals*/}
+            <section className="w-full py-16 px-6">
+                <h2 className="text-3xl font-bold text-gray-800 mb-10 -mt-12 text-center">Last Minute Deals</h2>
+                <div className="grid gap-8 max-w-6xl mx-auto">
+                    {deals.map((item) => (
+                        <div key={item.id} className="w-full rounded-2xl shadow-md overflow-hidden border bg-white">
+                            <div className="grid grid-cols-1 md:grid-cols-3">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-48 md:h-full object-cover"
+                                />
+
+
+                                <div className="col-span-2 p-6 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="text-2xl font-semibold text-gray-900">{item.title}</h3>
+                                        <p className="text-gray-600 mt-1">{item.country}</p>
+
+
+                                        <div className="mt-4 space-y-1 text-gray-700 text-sm">
+                                            <p><strong>From:</strong> {item.from}</p>
+                                            <p><strong>Departure:</strong> {item.departureDate}</p>
+                                            <p><strong>Return:</strong> {item.returnDate}</p>
+                                            <p><strong>Duration:</strong> {item.duration}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 flex items-center justify-between">
+                                        <p className="text-xl font-bold text-green-600">{item.price} {item.currency}</p>
+                                        <button className="px-5 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700">Book Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
 
             {/* WHY CHOOSE US SECTION */}
             <motion.section

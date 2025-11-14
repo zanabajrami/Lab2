@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Flame, Users, TicketPercent, Utensils, CircleDollarSign, HandPlatter, BadgeCheck, Luggage, Calendar, TicketsPlane, Feather } from "lucide-react";
 
 function MembershipCard({ title, price, benefits, emoji, gradient, badge }) {
   const [activeTips, setActiveTips] = useState({});
@@ -48,17 +49,17 @@ function MembershipCard({ title, price, benefits, emoji, gradient, badge }) {
         <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center sm:text-left break-words mt-4 flex items-center justify-center sm:justify-start">
           {title}
           <motion.span
-            className="ml-2 text-2xl"
+            className="ml-2"
             animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1.2, 1] }}
             transition={{ repeat: Infinity, duration: 3 }}
           >
-            💥
+            <Flame className="w-6 h-6 text-blue-400" />
           </motion.span>
         </h2>
       </div>
 
       <div className="p-4 relative">
-        <p className="text-2xl sm:text-2xl md:text-2xl font-extrabold mb-6 relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-800 via-blue-400 to-blue-800 animate-gradient">
+        <p className="text-2xl sm:text-2xl md:text-2xl font-extrabold mb-6 relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-500 to-gray-900 animate-gradient">
           {price}
         </p>
 
@@ -141,10 +142,10 @@ export default function Membership() {
       price: "€49.99 / year",
       badge: "Starter",
       benefits: [
-        { icon: "👤", text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
-        { icon: "🎫", text: "Special onboard coupons", tooltip: "Get onboard coupons." },
-        { icon: "🍽️", text: "10% discount at selected airport restaurants", tooltip: "Save while dining before departure." },
-        { icon: "💶", text: "€10 discount on flight fares from €49.99", tooltip: "Save €10 on fares." },
+        { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
+        { icon: <TicketPercent className="w-5 h-5 text-blue-800" />,text: "Special onboard coupons", tooltip: "Get onboard coupons." },
+        { icon:  <Utensils className="w-5 h-5 text-blue-800" />, text: "10% discount at selected airport restaurants", tooltip: "Save while dining before departure." },
+        { icon: <CircleDollarSign className="w-5 h-5 text-blue-800" />, text: "€10 discount on flight fares from €49.99", tooltip: "Save €10 on fares." },
       ]
     },
     {
@@ -153,12 +154,12 @@ export default function Membership() {
       price: "€69.99 / year",
       badge: "Most Popular",
       benefits: [
-        { icon: "👤", text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
-        { icon: "🎫", text: "Special onboard coupons", tooltip: "Premium coupons." },
-        { icon: "🧳", text: "Priority baggage tag", tooltip: "Your luggage arrives faster." },
-        { icon: "🎧", text: "Priority customer care", tooltip: "Priority support." },
-        { icon: "🛫", text: "Priority check-in", tooltip: "Dedicated counter for faster service." },
-        { icon: "💶", text: "€10 discount on flight fares from €39.99", tooltip: "Save €10 on fares." },
+        { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
+        { icon: <TicketPercent className="w-5 h-5 text-blue-800" />, text: "Special onboard coupons", tooltip: "Premium coupons." },
+        { icon: <Luggage className="w-5 h-5 text-blue-800" />, text: "Priority baggage tag", tooltip: "Your luggage arrives faster." },
+        { icon: <HandPlatter className="w-5 h-5 text-blue-800" />, text: "Priority customer care", tooltip: "Priority support." },
+        { icon: <BadgeCheck className="w-5 h-5 text-blue-800" />, text: "Priority check-in", tooltip: "Dedicated counter for faster service." },
+        { icon: <CircleDollarSign className="w-5 h-5 text-blue-800" />, text: "€10 discount on flight fares from €39.99", tooltip: "Save €10 on fares." },
       ]
     },
     {
@@ -167,20 +168,20 @@ export default function Membership() {
       price: "€99.99 / year",
       badge: "VIP",
       benefits: [
-        { icon: "👤", text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
-        { icon: "🎧", text: "Priority customer care", tooltip: "VIP support." },
-        { icon: "🧳", text: "Extra baggage allowance", tooltip: "Get an additional 5kg of checked baggage." },
-        { icon: "🪪", text: "Priority boarding", tooltip: "Skip the line and board first." },
-        { icon: "📅", text: "Flexible booking dates", tooltip: "Change flight dates without extra fees." },
-        { icon: "🧘", text: "Wellness & spa vouchers", tooltip: "Relax with exclusive spa discounts." },
-        { icon: "💶", text: "€10 discount on flight fares from €29.99", tooltip: "Save €10 on flights." },
+        { icon: <Users className="w-5 h-5 text-blue-500" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
+        { icon: <HandPlatter className="w-5 h-5 text-blue-800" />, text: "Priority customer care", tooltip: "VIP support." },
+        { icon: <Luggage className="w-5 h-5 text-blue-800" />, text: "Extra baggage allowance", tooltip: "Get an additional 5kg of checked baggage." },
+        { icon: <TicketsPlane className="w-5 h-5 text-blue-800" />, text: "Priority boarding", tooltip: "Skip the line and board first." },
+        { icon: <Calendar className="w-5 h-5 text-blue-800" />, text: "Flexible booking dates", tooltip: "Change flight dates without extra fees." },
+        { icon: <Feather className="w-5 h-5 text-blue-800" />, text: "Wellness & spa vouchers", tooltip: "Relax with exclusive spa discounts." },
+        { icon: <CircleDollarSign className="w-5 h-5 text-blue-800" />, text: "€10 discount on flight fares from €29.99", tooltip: "Save €10 on flights." },
       ]
     }
   ];
 
   return (
     <div className="min-h-screen bg-white p-12">
-      <h1 className="text-3xl font-bold -mt-9 mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-900 via-purple-500 to-blue-900 animate-gradient-text">
+      <h1 className="text-3xl font-bold -mt-9 mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-900 via-gray-500 to-gray-900 animate-gradient-text">
         Memberships
         <style>{`
     @keyframes gradientMove {
