@@ -2019,7 +2019,7 @@ function Destinations() {
             {showTopButton && (
                 <button
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 transition-all"
+                    className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg border border-blue-200 hover:bg-blue-600 transition-all"
                 >
                     <ChevronUp size={24} />
                 </button>

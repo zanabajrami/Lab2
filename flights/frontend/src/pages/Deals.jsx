@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { Plane, MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check} from "lucide-react";
+import React, { useState,useEffect, useMemo } from "react";
+import { Plane, MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp} from "lucide-react";
 
 import budapestImage from "../images/budapest.webp";
 import romeImage from "../images/rome.avif";
@@ -11,6 +11,33 @@ import cairoImage from "../images/cairo.jpg";
 import istanbulImage from "../images/istanbul.jpg";
 
 export default function LastMinuteDeals() {
+  const [showTopButton, setShowTopButton] = useState(false);
+
+  // Funksioni për scroll
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Shfaq/hiq button bazuar në scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowTopButton(true);
+      } else {
+        setShowTopButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const sampleDeals = [
     { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departureDate: "2025-11-10", returnDate: "2025-11-14", duration: "4 days", price: 129, currency: "EUR" },
     { id: 2, from: "Prishtina", title: "Budapest", country: "Hungary", image: budapestImage, departureDate: "2025-11-15", returnDate: "2025-11-18", duration: "3 days", price: 199, currency: "EUR" },
@@ -146,6 +173,17 @@ export default function LastMinuteDeals() {
           ))}
         </div>
       </main>
+
+      {/* Scroll To Top Button */}
+      {showTopButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg border border-blue-200 hover:bg-blue-600 transition-all z-50"
+        >
+          <ChevronUp size={24} />
+        </button>
+      )}
+
     </div>
   );
 }

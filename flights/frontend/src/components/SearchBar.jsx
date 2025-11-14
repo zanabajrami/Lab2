@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PlaneTakeoff, PlaneLanding} from "lucide-react";
+import { PlaneTakeoff, PlaneLanding, Ban } from "lucide-react";
 
 // Custom Dropdown Component
 function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
@@ -94,7 +94,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 md:mt-12">
+    <div className="w-full max-w-full mx-auto mt-8 md:mt-12 px-4 md:px-6 max-w-[85%] md:max-w-5xl">
       {/* Trip type buttons */}
       <div className="flex justify-center gap-6 mb-6 text-gray-700 font-medium">
         {["oneway", "return"].map((type) => (
@@ -136,24 +136,24 @@ export default function SearchBar() {
         </div>
 
         {/* To */}
-      <div className="basis-1/5 w-full">
-  <CustomDropdown
-    label={
-      <div className="flex items-center gap-2">
-        <PlaneLanding className="w-5 h-5 text-blue-500" />
-        To
-      </div>
-    }
-    value={to}
-    onChange={(val) => { setTo(val); setOpenDropdown(null); }}
-    options={[
-      "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
-      "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
-    ]}
-    isOpen={openDropdown === "to"}
-    onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
-  />
-</div>
+        <div className="basis-1/5 w-full">
+          <CustomDropdown
+            label={
+              <div className="flex items-center gap-2">
+                <PlaneLanding className="w-5 h-5 text-blue-500" />
+                To
+              </div>
+            }
+            value={to}
+            onChange={(val) => { setTo(val); setOpenDropdown(null); }}
+            options={[
+              "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
+              "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
+            ]}
+            isOpen={openDropdown === "to"}
+            onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
+          />
+        </div>
 
         {/* Departure Date */}
         <div className="relative basis-1/5 w-full">
@@ -183,8 +183,8 @@ export default function SearchBar() {
               ${tripType === "oneway" ? "opacity-40 cursor-not-allowed" : "hover:border-blue-400 opacity-100"}`}
           />
           {tripType === "oneway" && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-              🚫
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              <Ban className="w-4 h-4" />
             </span>
           )}
         </div>

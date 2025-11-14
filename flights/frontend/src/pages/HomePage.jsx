@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, TicketPercent } from "lucide-react";
+import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, TicketPercent, ChevronUp } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -68,6 +68,7 @@ export default function Home() {
     const [current, setCurrent] = useState(0);
     const sliderRef = useRef(null);
     const navigate = useNavigate();
+    const [showTopButton, setShowTopButton] = useState(false);
 
     const italyRef = useRef(null);
     const hungaryRef = useRef(null);
@@ -113,47 +114,67 @@ export default function Home() {
             slider.scrollTo({ left: offset, behavior: "smooth" });
         }
     }, [current]);
+
+    //Scroll to top
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowTopButton(true);
+            } else {
+                setShowTopButton(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
-        <div className="flex flex-col items-center justify-center w-full text-white overflow-hidden">
-            {/* HERO SECTION */}
-            <div className="relative w-full h-[95vh] overflow-hidden">
-                {/* FOTO */}
-                <img
-                    src={mainImage}
-                    alt="Flight background"
-                    className="absolute inset-0 w-full h-full object-cover brightness-75"
-                />
+ <div className="flex flex-col items-center justify-center w-full text-white overflow-hidden">
+  {/* HERO SECTION */}
+  <div className="relative w-full h-[95vh] md:h-[85vh] sm:h-[70vh] overflow-hidden flex items-center justify-center">
+    {/* FOTO */}
+    <img
+      src={mainImage}
+      alt="Flight background"
+      className="absolute inset-0 w-full h-full object-cover brightness-75"
+    />
 
-                {/* gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent"></div>
+    {/* gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent"></div>
 
-                {/* KONTAINERI me tekst + searchbar */}
-                <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 w-full max-w-6xl text-center px-6 md:px-12 z-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1 }}
-                    >
-                        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug mb-4 drop-shadow-md">
-                            Find the Best Flights
-                        </h1>
-                        <p className="text-base md:text-lg text-gray-200 max-w-xl mx-auto leading-relaxed drop-shadow-sm">
-                            Your next adventure is just a click away.
-                        </p>
+    {/* KONTAINERI me tekst + searchbar */}
+    <div className="relative z-20 w-full max-w-6xl text-center flex flex-col items-center gap-6 px-4 sm:px-6 md:px-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug drop-shadow-md">
+          Find the Best Flights
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto leading-relaxed drop-shadow-sm">
+          Your next adventure is just a click away.
+        </p>
+      </motion.div>
 
-                    </motion.div>
-
-                    {/* SEARCH BAR */}
-                    <motion.div
-                        className="mt-10"
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.8 }}
-                    >
-                        <SearchBar />
-                    </motion.div>
-                </div>
-            </div>
+      {/* SEARCH BAR */}
+      <motion.div
+        className="w-full -mt-4 sm:mt-6"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+      >
+        <SearchBar />
+      </motion.div>
+    </div>
+  </div>
 
             {/* Destinations */}
             <section className="py-24 text-gray-600">
@@ -462,7 +483,15 @@ export default function Home() {
                 </div>
             </motion.section>
 
-
+            {/* Scroll To Top Button */}
+            {showTopButton && (
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg border border-blue-200 hover:bg-blue-600 transition-all"
+                >
+                    <ChevronUp size={24} />
+                </button>
+            )}
 
         </div>
     );
