@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { Plane, Headset, ShieldCheck, Globe2 } from "lucide-react";
+import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, TicketPercent } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -279,40 +279,91 @@ export default function Home() {
 
             {/*Deals*/}
             <section className="w-full py-16 px-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-10 -mt-12 text-center">Last Minute Deals</h2>
-                <div className="grid gap-8 max-w-6xl mx-auto">
+                <h2 className="text-3xl font-semibold text-gray-800 mb-8 -mt-10 text-center flex items-center justify-center gap-3 group transition-all duration-300 hover:scale-105 hover:text-blue-900">
+                    <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
+                    Last Minute Deals
+                    <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
+                </h2>
+
+                <div className="grid gap-10 max-w-6xl mx-auto">
                     {deals.map((item) => (
-                        <div key={item.id} className="w-full rounded-2xl shadow-md overflow-hidden border bg-white">
-                            <div className="grid grid-cols-1 md:grid-cols-3">
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-full h-48 md:h-full object-cover"
-                                />
+                        <div
+                            key={item.id}
+                            className="w-full rounded-3xl shadow-md overflow-hidden bg-white border transform transition duration-300 hover:shadow-2xl hover:-translate-y-1"
+                        >
+                            <div className="grid grid-cols-1 md:grid-cols-3 h-full">
 
+                                {/* IMAGE + OVERLAY */}
+                                <div className="relative h-full">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                    <p className="absolute bottom-3 left-4 text-white text-lg font-bold drop-shadow-lg">
+                                        {item.title}
+                                    </p>
 
+                                </div>
+
+                                {/* CONTENT */}
                                 <div className="col-span-2 p-6 flex flex-col justify-between">
+
                                     <div>
-                                        <h3 className="text-2xl font-semibold text-gray-900">{item.title}</h3>
-                                        <p className="text-gray-600 mt-1">{item.country}</p>
+                                        <h3 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                                            {item.title}
+                                        </h3>
+                                        <p className="text-gray-500 mt-1 text-lg">{item.country}</p>
 
+                                        <div className="mt-4 space-y-2 text-gray-700 text-sm">
+                                            <p className="flex items-center gap-2">
+                                                <MapPin className="w-5 h-5 text-blue-600" />
+                                                <span className="font-medium">From:</span> {item.from}
+                                            </p>
 
-                                        <div className="mt-4 space-y-1 text-gray-700 text-sm">
-                                            <p><strong>From:</strong> {item.from}</p>
-                                            <p><strong>Departure:</strong> {item.departureDate}</p>
-                                            <p><strong>Return:</strong> {item.returnDate}</p>
-                                            <p><strong>Duration:</strong> {item.duration}</p>
+                                            <p className="flex items-center gap-2">
+                                                <PlaneTakeoff className="w-5 h-5 text-blue-600" />
+                                                <span className="font-medium">Departure:</span> {item.departureDate}
+                                            </p>
+
+                                            <p className="flex items-center gap-2">
+                                                <PlaneLanding className="w-5 h-5 text-blue-600" />
+                                                <span className="font-medium">Return:</span> {item.returnDate}
+                                            </p>
+
+                                            <p className="flex items-center gap-2">
+                                                <Clock className="w-5 h-5 text-blue-600" />
+                                                <span className="font-medium">Duration:</span> {item.duration}
+                                            </p>
                                         </div>
                                     </div>
 
+                                    {/* PRICE + BUTTON */}
                                     <div className="mt-6 flex items-center justify-between">
-                                        <p className="text-xl font-bold text-green-600">{item.price} {item.currency}</p>
-                                        <button className="px-5 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700">Book Now</button>
+                                        <p className="text-xl md:text-xl font-bold bg-blue-100 text-blue-900 px-4 py-1.5 rounded-xl shadow-sm">
+                                            {item.price} {item.currency}
+                                        </p>
+
+                                        <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-black font-bold rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition">
+                                            Book Now
+                                        </button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     ))}
+                </div>
+
+                {/* BUTTON MORE */}
+                <div className="mt-10 text-center">
+                    <button
+                        onClick={() => navigate("/deals")} // link direkt te Deals.jsx
+                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition"
+                    >
+                        More Deals
+                    </button>
                 </div>
             </section>
 
