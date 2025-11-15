@@ -96,6 +96,9 @@ export default function Home() {
         { title: "VIP", price: "€99.99 / year", icon: <Flame className="w-7 h-7 text-blue-900" />, highlight: "All perks included" },
     ];
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const destinationsArray = destinations;
 
@@ -392,7 +395,7 @@ export default function Home() {
                 {/* BUTTON MORE */}
                 <div className="mt-10 text-center">
                     <button
-                        onClick={() => navigate("/deals")} // link direkt te Deals.jsx
+                        onClick={() => navigate("/deals")}
                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition"
                     >
                         More Deals
@@ -411,7 +414,7 @@ export default function Home() {
                         hidden: {},
                         visible: {
                             transition: {
-                                staggerChildren: 0.2, // delay midis elementeve
+                                staggerChildren: 0.2, // delay ne mes elementeve
                             },
                         },
                     }}
@@ -474,7 +477,7 @@ export default function Home() {
                     hidden: { opacity: 0 },
                     visible: {
                         opacity: 1,
-                        transition: { staggerChildren: 0.2 }, // animon fëmijët një nga një
+                        transition: { staggerChildren: 0.2 }, // animohen nje nga nje
                     },
                 }}
             >

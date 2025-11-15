@@ -67,7 +67,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
     if (!hasHadBirthday) age--;
 
     if (age < 18) {
-      alert("🚫 You must be at least 18 years old to create an account!");
+      alert("🔞 You must be at least 18 years old to create an account!");
       return;
     }
 

@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronUp } from "lucide-react";
 import { useLocation } from "react-router-dom";
@@ -76,6 +77,7 @@ function Destinations() {
     const [showTopButton, setShowTopButton] = useState(false);
     const location = useLocation();
     const scrollTo = location.state?.scrollTo;
+    const navigate = useNavigate();
 
     const italyRef = useRef(null);
     const hungaryRef = useRef(null);
@@ -467,6 +469,14 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+
+                    <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
+
                 </section>
             </section>
 
@@ -698,6 +708,14 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
+
                 </section>
             </section>
 
@@ -851,32 +869,27 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Spain
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">💃🏽</span>
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Madrid</p>
                         </div>
-
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">💵</span>
                             <h3 className="text-xl font-semibold mb-1">Currency</h3>
                             <p className="text-gray-700 text-center">Euro (EUR)</p>
                         </div>
-
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">👤</span>
                             <h3 className="text-xl font-semibold mb-1">Population</h3>
                             <p className="text-gray-700 text-base">47,450,795</p>
                         </div>
-
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🗣️</span>
                             <h3 className="text-xl font-semibold mb-1">Language</h3>
                             <p className="text-gray-700 text-base">Spanish</p>
                         </div>
-
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">⏱️</span>
                             <h3 className="text-xl font-semibold mb-1">Time Zone</h3>
@@ -917,8 +930,13 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
-
             </section>
 
             <section ref={egyptRef} className="py-16 text-gray-800 px-6 md:px-20">
@@ -1137,6 +1155,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
             </section>
 
@@ -1144,7 +1168,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     France
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in France
@@ -1356,6 +1379,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
 
             </section>
@@ -1364,7 +1393,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Austria
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Austria
@@ -1576,6 +1604,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
 
             </section>
@@ -1796,6 +1830,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
             </section>
 
@@ -2015,6 +2055,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
+                      <button
+                        onClick={() => navigate("/")}
+                        className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
+                    >
+                        Book Your Ticket
+                    </button>
                 </section>
             </section>
 
