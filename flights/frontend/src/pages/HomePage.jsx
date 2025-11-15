@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, TicketPercent, ChevronUp } from "lucide-react";
+import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, Flame, TicketPercent, ChevronUp } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -90,11 +90,19 @@ export default function Home() {
         austria: austriaRef,
     };
 
+const previewCards = [
+  { title: "Standard", price: "€49.99 / year", icon: <Flame className="w-7 h-7 text-blue-400" />, highlight: "Best for beginners" },
+  { title: "Premium", price: "€69.99 / year", icon: <Flame className="w-7 h-7 text-blue-600" />, highlight: "Most popular choice" },
+  { title: "VIP", price: "€99.99 / year", icon: <Flame className="w-7 h-7 text-blue-900" />, highlight: "All perks included" },
+];
+
+
     const destinationsArray = destinations;
 
     const goToDestination = (name) => {
         navigate("/destinations", { state: { scrollTo: name.toLowerCase() } });
     };
+
 
     // Auto-slide
     useEffect(() => {
@@ -135,46 +143,57 @@ export default function Home() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const goToMapDestination = (dest) => {
+        // Extract the country from name (after comma)
+        const country = dest.name.split(",")[1]?.trim().toLowerCase();
+        if (country) {
+            navigate("/destinations", { state: { scrollTo: country } });
+        } else {
+            // fallback if country is missing
+            navigate("/destinations");
+        }
+    };
+
     return (
- <div className="flex flex-col items-center justify-center w-full text-white overflow-hidden">
-  {/* HERO SECTION */}
-  <div className="relative w-full h-[95vh] md:h-[85vh] sm:h-[70vh] overflow-hidden flex items-center justify-center">
-    {/* FOTO */}
-    <img
-      src={mainImage}
-      alt="Flight background"
-      className="absolute inset-0 w-full h-full object-cover brightness-75"
-    />
+        <div className="flex flex-col items-center justify-center w-full text-white overflow-hidden">
+            {/* HERO SECTION */}
+            <div className="relative w-full h-[95vh] md:h-[85vh] sm:h-[70vh] overflow-hidden flex items-center justify-center">
+                {/* FOTO */}
+                <img
+                    src={mainImage}
+                    alt="Flight background"
+                    className="absolute inset-0 w-full h-full object-cover brightness-75"
+                />
 
-    {/* gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent"></div>
+                {/* gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent"></div>
 
-    {/* KONTAINERI me tekst + searchbar */}
-    <div className="relative z-20 w-full max-w-6xl text-center flex flex-col items-center gap-6 px-4 sm:px-6 md:px-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug drop-shadow-md">
-          Find the Best Flights
-        </h1>
-        <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto leading-relaxed drop-shadow-sm">
-          Your next adventure is just a click away.
-        </p>
-      </motion.div>
+                {/* KONTAINERI me tekst + searchbar */}
+                <div className="relative z-20 w-full max-w-6xl text-center flex flex-col items-center gap-6 px-4 sm:px-6 md:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug drop-shadow-md">
+                            Find the Best Flights
+                        </h1>
+                        <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto leading-relaxed drop-shadow-sm">
+                            Your next adventure is just a click away.
+                        </p>
+                    </motion.div>
 
-      {/* SEARCH BAR */}
-      <motion.div
-        className="w-full -mt-4 sm:mt-6"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-      >
-        <SearchBar />
-      </motion.div>
-    </div>
-  </div>
+                    {/* SEARCH BAR */}
+                    <motion.div
+                        className="w-full -mt-4 sm:mt-6"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                    >
+                        <SearchBar />
+                    </motion.div>
+                </div>
+            </div>
 
             {/* Destinations */}
             <section className="py-24 text-gray-600">
@@ -228,7 +247,7 @@ export default function Home() {
             </section>
 
             {/* MAP */}
-            <section className="py-24 text-white w-full flex justify-center">
+            <section className="py-24 w-full flex justify-center text-white">
                 <div className="w-full max-w-[1100px] -mt-12 rounded-2xl shadow-lg overflow-hidden">
                     <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px]">
                         <MapContainer
@@ -246,6 +265,7 @@ export default function Home() {
                                 attribution='&copy; OpenStreetMap'
                             />
                             <RefreshMap />
+
                             {mapDestinations.map((dest, i) => {
                                 const blueDivIcon = L.divIcon({
                                     className: "custom-marker",
@@ -269,7 +289,9 @@ export default function Home() {
                                         key={i}
                                         position={[dest.lat, dest.lng]}
                                         icon={blueDivIcon}
-                                        eventHandlers={{ click: () => console.log(dest.name) }}
+                                        eventHandlers={{
+                                            click: () => goToMapDestination(dest),
+                                        }}
                                     >
                                         <Tooltip
                                             direction="top"
@@ -280,16 +302,6 @@ export default function Home() {
                                         >
                                             {dest.name}
                                         </Tooltip>
-                                        <Popup>
-                                            <div className="text-center">
-                                                <img
-                                                    src={dest.src}
-                                                    alt={dest.name}
-                                                    className="w-32 h-20 object-cover rounded-md mb-2"
-                                                />
-                                                <h3 className="font-bold">{dest.name}</h3>
-                                            </div>
-                                        </Popup>
                                     </Marker>
                                 );
                             })}
@@ -385,6 +397,43 @@ export default function Home() {
                     >
                         More Deals
                     </button>
+                </div>
+            </section>
+
+            {/*Memberships*/}
+            <section className="py-32">
+                <div className="text-center mb-10 -mt-10">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                        Upgrade Your Travel Experience
+                    </h2>
+                    <p className="text-gray-600 max-w-xl mx-auto text-lg">
+                        Discover the perks of our membership plans. Choose the plan that fits your travel style and enjoy exclusive benefits.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 px-6 sm:px-12">
+                    {previewCards.map((card, i) => (
+                        <motion.div
+                            key={i}
+                            className="bg-white rounded-3xl p-10 shadow-2xl border border-blue-300 hover:shadow-[0_25px_60px_rgba(59,130,246,0.25)] cursor-pointer transition-transform duration-500 transform hover:-translate-y-3"
+                            whileHover={{ scale: 1.05 }}
+                        >
+                            <div className="flex items-center justify-center mb-6">
+                                {card.icon}
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3 text-gray-800">{card.title}</h3>
+                            <p className="text-gray-500 mb-6 text-lg">{card.highlight}</p>
+                            <p className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 mb-8">
+                                {card.price}
+                            </p>
+                            <button
+                                onClick={() => navigate("/membership")}
+                                className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                            >
+                                View Details
+                            </button>
+                        </motion.div>
+                    ))}
                 </div>
             </section>
 

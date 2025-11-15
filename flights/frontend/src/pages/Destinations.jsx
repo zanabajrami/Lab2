@@ -108,7 +108,10 @@ function Destinations() {
 
     useEffect(() => {
         if (scrollTo && destinationsMap[scrollTo]?.current) {
-            destinationsMap[scrollTo].current.scrollIntoView({ behavior: "smooth", block: "start" });
+            destinationsMap[scrollTo].current.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
         }
     }, [scrollTo]);
 

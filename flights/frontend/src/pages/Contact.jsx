@@ -23,21 +23,19 @@ function Contact({ onClose }) {
   return (
     <div
       onClick={(e) => e.target === e.currentTarget && onClose?.()}
-      className={`fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 transition-opacity duration-500 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+      className={`fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"
+        }`}
     >
-     <div
-  onClick={(e) => e.stopPropagation()}
-  className={`w-full max-w-[95%] md:max-w-md p-10 rounded-3xl relative
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-[95%] md:max-w-md p-10 rounded-3xl relative
        bg-gradient-to-br from-slate-900 via-slate-0 to-blue-900
        border border-slate-700 backdrop-blur-lg shadow-xl shadow-black/40
-       animate-formGlow transform transition-all duration-500 ${
-         isVisible
-           ? "opacity-100 scale-100 translate-y-0"
-           : "opacity-0 scale-90 translate-y-5"
-       }`}
->
+       animate-formGlow transform transition-all duration-500 ${isVisible
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-90 translate-y-5"
+          }`}
+      >
         <h2
           className="text-xl md:text-2xl font-serif font-medium italic text-center text-slate-400
                tracking-wide mb-6 uppercase
