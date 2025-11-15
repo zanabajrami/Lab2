@@ -90,11 +90,11 @@ export default function Home() {
         austria: austriaRef,
     };
 
-const previewCards = [
-  { title: "Standard", price: "€49.99 / year", icon: <Flame className="w-7 h-7 text-blue-400" />, highlight: "Best for beginners" },
-  { title: "Premium", price: "€69.99 / year", icon: <Flame className="w-7 h-7 text-blue-600" />, highlight: "Most popular choice" },
-  { title: "VIP", price: "€99.99 / year", icon: <Flame className="w-7 h-7 text-blue-900" />, highlight: "All perks included" },
-];
+    const previewCards = [
+        { title: "Standard", price: "€49.99 / year", icon: <Flame className="w-7 h-7 text-blue-400" />, highlight: "Best for beginners" },
+        { title: "Premium", price: "€69.99 / year", icon: <Flame className="w-7 h-7 text-blue-600" />, highlight: "Most popular choice" },
+        { title: "VIP", price: "€99.99 / year", icon: <Flame className="w-7 h-7 text-blue-900" />, highlight: "All perks included" },
+    ];
 
 
     const destinationsArray = destinations;
@@ -402,39 +402,66 @@ const previewCards = [
 
             {/*Memberships*/}
             <section className="py-32">
-                <div className="text-center mb-10 -mt-10">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                        Upgrade Your Travel Experience
-                    </h2>
-                    <p className="text-gray-600 max-w-xl mx-auto text-lg">
-                        Discover the perks of our membership plans. Choose the plan that fits your travel style and enjoy exclusive benefits.
-                    </p>
-                </div>
+                <motion.div
+                    className="max-w-[1200px] mx-auto px-6 sm:px-12"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: false, amount: 0.3 }}
+                    variants={{
+                        hidden: {},
+                        visible: {
+                            transition: {
+                                staggerChildren: 0.2, // delay midis elementeve
+                            },
+                        },
+                    }}
+                >
+                    {/* Header */}
+                    <motion.div
+                        className="text-center mb-10 -mt-10"
+                        variants={{
+                            hidden: { opacity: 0, y: 50 },
+                            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+                        }}
+                    >
+                        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                            Upgrade Your Travel Experience
+                        </h2>
+                        <p className="text-gray-600 max-w-xl mx-auto text-lg">
+                            Discover the perks of our membership plans. Choose the plan that fits your travel style and enjoy exclusive benefits.
+                        </p>
+                    </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 px-6 sm:px-12">
-                    {previewCards.map((card, i) => (
-                        <motion.div
-                            key={i}
-                            className="bg-white rounded-3xl p-10 shadow-2xl border border-blue-300 hover:shadow-[0_25px_60px_rgba(59,130,246,0.25)] cursor-pointer transition-transform duration-500 transform hover:-translate-y-3"
-                            whileHover={{ scale: 1.05 }}
-                        >
-                            <div className="flex items-center justify-center mb-6">
-                                {card.icon}
-                            </div>
-                            <h3 className="text-2xl font-bold mb-3 text-gray-800">{card.title}</h3>
-                            <p className="text-gray-500 mb-6 text-lg">{card.highlight}</p>
-                            <p className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 mb-8">
-                                {card.price}
-                            </p>
-                            <button
-                                onClick={() => navigate("/membership")}
-                                className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                    {/* Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
+                        {previewCards.map((card, i) => (
+                            <motion.div
+                                key={i}
+                                className="bg-white rounded-3xl p-10 shadow-2xl border border-blue-300 hover:shadow-[0_25px_60px_rgba(59,130,246,0.25)] cursor-pointer transition-transform duration-500 transform hover:-translate-y-3"
+                                whileHover={{ scale: 1.05 }}
+                                variants={{
+                                    hidden: { opacity: 0, y: 50 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+                                }}
                             >
-                                View Details
-                            </button>
-                        </motion.div>
-                    ))}
-                </div>
+                                <div className="flex items-center justify-center mb-6">
+                                    {card.icon}
+                                </div>
+                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{card.title}</h3>
+                                <p className="text-gray-500 mb-6 text-lg">{card.highlight}</p>
+                                <p className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 mb-8">
+                                    {card.price}
+                                </p>
+                                <button
+                                    onClick={() => navigate("/membership")}
+                                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                                >
+                                    View Details
+                                </button>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
             </section>
 
             {/* WHY CHOOSE US SECTION */}

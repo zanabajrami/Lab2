@@ -94,7 +94,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-full max-w-full mx-auto mt-8 md:mt-12 px-4 md:px-6 max-w-[85%] md:max-w-5xl">
+    <div className="w-full max-w-full mx-auto mt-8 md:mt-12 px-4 md:px-6 max-w-[75%] md:max-w-5xl">
       {/* Trip type buttons */}
       <div className="flex justify-center gap-6 mb-6 text-gray-700 font-medium">
         {["oneway", "return"].map((type) => (
@@ -156,7 +156,7 @@ export default function SearchBar() {
         </div>
 
         {/* Departure Date */}
-        <div className="relative basis-1/5 w-full">
+        <div className="relative basis-1/5 w-full max-w-[95%]">
           <DatePicker
             selected={departureDate}
             onChange={(date) => { setDepartureDate(date); setOpenDropdown(null); }}
@@ -170,7 +170,7 @@ export default function SearchBar() {
         </div>
 
         {/* Return Date */}
-        <div className="relative basis-1/5 w-full group">
+        <div className="relative basis-1/5 w-full max-w-[98%] group">
           <DatePicker
             selected={returnDate}
             onChange={(date) => setReturnDate(date)}

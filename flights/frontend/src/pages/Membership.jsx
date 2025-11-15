@@ -21,6 +21,10 @@ function MembershipCard({ title, price, benefits, emoji, gradient, badge }) {
     return () => timers.forEach((t) => t && clearTimeout(t));
   }, [activeTips]);
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
   return (
     <motion.div
       className="w-full max-w-[90%] sm:max-w-md rounded-[2rem] bg-white/80 backdrop-blur-xl border border-gray/70 shadow-[0_8px_30px_rgba(0,0,0,0.12)] relative overflow-visible cursor-pointer"
