@@ -56,6 +56,8 @@ const deals = [
     { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" }
 ];
 
+const trending = ["Italy", "France", "Spain", "Turkey"];
+
 function RefreshMap() {
     const map = useMap();
     useEffect(() => {
