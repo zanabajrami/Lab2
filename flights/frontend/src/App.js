@@ -11,6 +11,7 @@ import Deals from "./pages/Deals";
 import Destinations from "./pages/Destinations";
 import SearchBar from "./components/SearchBar";
 import HomePage from "./pages/HomePage";
+import Flights from "./pages/Flights";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -43,6 +44,7 @@ function App() {
             <Route path="/deals" element={<Deals />} />
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/" element={<SearchBar />} />
+            <Route path="/flights" element={<Flights />} />
 
           </Routes>
         </main>
