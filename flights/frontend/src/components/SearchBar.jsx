@@ -1,13 +1,62 @@
 import React, { useState, useRef, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { PlaneTakeoff, PlaneLanding, Ban } from "lucide-react";
 
-// Custom Dropdown Component
+// ===== Calendar Component =====
+const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, type, returnDate }) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+  const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
+  const daysArray = [];
+
+  for (let i = 0; i < firstDay; i++) daysArray.push(null);
+  for (let i = 1; i <= daysInMonth; i++) daysArray.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i));
+
+  const nextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+  const prevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+
+  return (
+    <div>
+      <div className="text-gray-800 flex justify-between items-center mb-2">
+        <button onClick={prevMonth} className="px-2 py-1 rounded text-gray-800 hover:bg-gray-200 transition">&lt;</button>
+        <span className="font-semibold">{currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}</span>
+        <button onClick={nextMonth} className="px-2 py-1 rounded hover:bg-gray-200 transition">&gt;</button>
+      </div>
+
+      <div className="grid grid-cols-7 gap-2 text-center text-gray-800">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => <div key={d} className="font-semibold">{d}</div>)}
+
+        {daysArray.map((day, idx) => {
+          let disabled = !day || (minDate && day < minDate) || (maxDate && day > maxDate);
+          if (type === "departure" && returnDate && day > returnDate) {
+            disabled = true;
+          }
+
+          const isSelected = day && selectedDate && day.toDateString() === selectedDate.toDateString();
+
+          return (
+            <button
+              key={idx}
+              onClick={() => {
+                if (disabled) return;
+                setSelectedDate(day);
+              }}
+              className={`w-10 h-10 flex items-center justify-center rounded-full transition
+                ${disabled ? "text-gray-300 cursor-not-allowed" : isSelected ? "bg-blue-600 text-white" : "hover:bg-blue-100"}`}
+            >
+              {day ? day.getDate() : ""}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ===== Custom Dropdown =====
 function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
   return (
     <div className="relative w-full">
-      {/* Button */}
       <button
         type="button"
         onClick={onToggle}
@@ -23,7 +72,6 @@ function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
         </span>
       </button>
 
-      {/* Dropdown options */}
       {isOpen && (
         <ul className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg
                        overflow-y-auto max-h-48 animate-fadeIn">
@@ -39,7 +87,6 @@ function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
         </ul>
       )}
 
-      {/* Fade-in animation */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-5px); }
@@ -51,7 +98,7 @@ function CustomDropdown({ label, options, value, onChange, isOpen, onToggle }) {
   );
 }
 
-// Main Search Bar
+// ===== SearchBar Component =====
 export default function SearchBar() {
   const [tripType, setTripType] = useState("oneway");
   const [from, setFrom] = useState("");
@@ -60,17 +107,18 @@ export default function SearchBar() {
   const [returnDate, setReturnDate] = useState(null);
   const [passengers, setPassengers] = useState(1);
 
-  // Track which dropdown/picker is open
   const [openDropdown, setOpenDropdown] = useState(null);
-  // possible values: 'from', 'to', 'departure', 'return', 'passengers', null
+  const [openDateModal, setOpenDateModal] = useState(null); // 'departure' | 'return' | null
 
-  // Ref for detecting clicks outside
   const formRef = useRef();
+
+  const today = new Date();
+  const maxDate = new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()); // 1 year
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (formRef.current && !formRef.current.contains(event.target)) {
-        setOpenDropdown(null); // close all dropdowns
+        setOpenDropdown(null);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -79,33 +127,40 @@ export default function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!from || !to || !departureDate) {
+    if (!from || !to || !departureDate || (tripType === "return" && !returnDate)) {
       alert("Please fill all required fields!");
       return;
     }
 
-    const text =
-      tripType === "oneway"
-        ? `Searching one-way flight from ${from} to ${to} on ${departureDate.toLocaleDateString()} for ${passengers} passenger(s).`
-        : `Searching return flight from ${from} to ${to}, departing ${departureDate.toLocaleDateString()} and returning ${returnDate ? returnDate.toLocaleDateString() : "N/A"} for ${passengers} passenger(s).`;
+    alert(`Searching ${tripType} flight from ${from} to ${to}
+Departure: ${departureDate.toLocaleDateString()}
+Return: ${returnDate ? returnDate.toLocaleDateString() : "N/A"}
+Passengers: ${passengers}`);
 
-    alert(text);
-    setOpenDropdown(null); // close all after submit
+    // Reset form fields after search
+    setFrom("");
+    setTo("");
+    setDepartureDate(null);
+    setReturnDate(null);
+    setPassengers(1);
+    setTripType("oneway");
+
+    // Opsionale: mbyll modals nëse janë hapur
+    setOpenDateModal(null);
+    setOpenDropdown(null);
   };
 
   return (
     <div className="w-full max-w-full mx-auto mt-8 md:mt-12 px-4 md:px-6 max-w-[75%] md:max-w-5xl">
       {/* Trip type buttons */}
       <div className="flex justify-center gap-6 mb-6 text-gray-700 font-medium">
-        {["oneway", "return"].map((type) => (
+        {["oneway", "return"].map(type => (
           <button
             key={type}
             type="button"
             onClick={() => setTripType(type)}
             className={`px-6 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300
-              ${tripType === type
-                ? "bg-blue-600 text-white shadow-md shadow-blue-300 scale-[1.05]"
-                : "bg-white/70 text-gray-700 border border-gray-300 hover:bg-gray-100 hover:scale-[1.03]"}`}
+              ${tripType === type ? "bg-blue-600 text-white shadow-md shadow-blue-300 scale-[1.05]" : "bg-white/70 text-gray-700 border border-gray-300 hover:bg-gray-100 hover:scale-[1.03]"}`}
           >
             {type === "oneway" ? "One Way" : "Return"}
           </button>
@@ -113,22 +168,13 @@ export default function SearchBar() {
       </div>
 
       {/* Search Form */}
-      <form
-        ref={formRef} // <-- attach ref
-        onSubmit={handleSubmit}
-        className="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl px-6 py-6 flex flex-col md:flex-row gap-4 items-center transition duration-300 hover:shadow-blue-200/50"
-      >
+      <form ref={formRef} onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl px-6 py-6 flex flex-col md:flex-row gap-4 items-center transition duration-300 hover:shadow-blue-200/50">
         {/* From */}
         <div className="basis-1/5 w-full">
           <CustomDropdown
-            label={
-              <div className="flex items-center gap-2">
-                <PlaneTakeoff className="w-5 h-5 text-blue-500" />
-                From
-              </div>
-            }
+            label={<div className="flex items-center gap-2"><PlaneTakeoff className="w-5 h-5 text-blue-500" />From</div>}
             value={from}
-            onChange={(val) => { setFrom(val); setOpenDropdown(null); }}
+            onChange={val => { setFrom(val); setOpenDropdown(null); }}
             options={["Prishtina (PRN)", "Tirana (TIA)"]}
             isOpen={openDropdown === "from"}
             onToggle={() => setOpenDropdown(openDropdown === "from" ? null : "from")}
@@ -138,79 +184,89 @@ export default function SearchBar() {
         {/* To */}
         <div className="basis-1/5 w-full">
           <CustomDropdown
-            label={
-              <div className="flex items-center gap-2">
-                <PlaneLanding className="w-5 h-5 text-blue-500" />
-                To
-              </div>
-            }
+            label={<div className="flex items-center gap-2"><PlaneLanding className="w-5 h-5 text-blue-500" />To</div>}
             value={to}
-            onChange={(val) => { setTo(val); setOpenDropdown(null); }}
-            options={[
-              "London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)",
-              "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"
-            ]}
+            onChange={val => { setTo(val); setOpenDropdown(null); }}
+            options={["London (LHR)", "Paris (CDG)", "Rome (FCO)", "Vienna (VIE)", "Istanbul (IST)", "Zurich (ZRH)", "Berlin (BER)", "Athens (ATH)"]}
             isOpen={openDropdown === "to"}
             onToggle={() => setOpenDropdown(openDropdown === "to" ? null : "to")}
           />
         </div>
 
         {/* Departure Date */}
-        <div className="relative basis-1/5 w-full max-w-[95%]">
-          <DatePicker
-            selected={departureDate}
-            onChange={(date) => { setDepartureDate(date); setOpenDropdown(null); }}
-            minDate={new Date()}
-            maxDate={returnDate || null}
-            placeholderText="Departure"
-            dateFormat="MM/dd/yyyy"
-            onFocus={() => setOpenDropdown("departure")}
-            className="w-full p-3 rounded-xl border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 hover:border-blue-400 transition-all duration-300 cursor-pointer"
-          />
+        <div className="basis-1/5 w-full">
+          <button
+            type="button"
+            onClick={() => setOpenDateModal("departure")}
+            className="w-full p-3 rounded-xl border border-gray-300 bg-white/70 text-gray-800 hover:border-blue-400 transition text-left"
+          >
+            {departureDate ? departureDate.toLocaleDateString() : "Departure"}
+          </button>
         </div>
 
         {/* Return Date */}
-        <div className="relative basis-1/5 w-full max-w-[98%] group">
-          <DatePicker
-            selected={returnDate}
-            onChange={(date) => setReturnDate(date)}
-            minDate={departureDate || new Date()}
-            placeholderText="Return"
-            dateFormat="MM/dd/yyyy"
-            disabled={tripType === "oneway"}
-            onFocus={() => tripType === "return" && setOpenDropdown("return")}
-            className={`w-full p-3 rounded-xl border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 transition-all duration-300 cursor-pointer
-              ${tripType === "oneway" ? "opacity-40 cursor-not-allowed" : "hover:border-blue-400 opacity-100"}`}
-          />
-          {tripType === "oneway" && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-              <Ban className="w-4 h-4" />
-            </span>
-          )}
+        <div className="basis-1/5 w-full">
+          <button
+            type="button"
+            onClick={() => tripType === "return" && setOpenDateModal("return")}
+            className={`w-full p-3 rounded-xl border border-gray-300 bg-white/70 text-gray-700 transition-all duration-300 text-left ${tripType === "oneway" ? "opacity-40 cursor-not-allowed" : "hover:border-blue-400"}`}
+          >
+            {returnDate ? returnDate.toLocaleDateString() : "Return"}
+          </button>
         </div>
 
         {/* Passengers */}
-        <div className="basis-1/6 w-full relative">
+        <div className="basis-1/6 w-full">
           <input
             type="number"
             min="1"
             value={passengers}
             onChange={(e) => setPassengers(e.target.value)}
             placeholder="Passengers"
-            onFocus={() => setOpenDropdown("passengers")}
-            onBlur={() => setOpenDropdown(null)}
             className="w-full p-3 rounded-xl border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 placeholder-gray-500 hover:border-blue-400 transition-all duration-300"
           />
         </div>
 
         {/* Submit */}
-        <button
-          type="submit"
-          className="w-full md:w-auto bg-gradient-to-r from-blue-800 via-blue-600 to-blue-800 hover:from-blue-700 hover:via-blue-500 hover:to-blue-700 text-white font-semibold px-8 py-3 rounded-2xl shadow-lg shadow-blue-900/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95"
-        >
+        <button type="submit" className="w-full md:w-auto bg-gradient-to-r from-blue-800 via-blue-600 to-blue-800 hover:from-blue-700 hover:via-blue-500 hover:to-blue-700 text-white font-semibold px-8 py-3 rounded-2xl shadow-lg shadow-blue-900/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
           Search
         </button>
       </form>
+
+      {/* ===== Date Modal ===== */}
+      {openDateModal && (
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => setOpenDateModal(null)}
+        >
+          <div
+            className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold">{openDateModal === "departure" ? "Select Departure Date" : "Select Return Date"}</h2>
+            </div>
+            <div className="p-6 overflow-y-auto flex-1">
+              <Calendar
+                selectedDate={openDateModal === "departure" ? departureDate : returnDate}
+                setSelectedDate={openDateModal === "departure" ? setDepartureDate : setReturnDate}
+                minDate={openDateModal === "departure" ? today : departureDate || today}
+                maxDate={maxDate}
+                type={openDateModal}
+                returnDate={returnDate}
+              />
+            </div>
+            <div className="p-6 border-t border-gray-200 flex justify-end">
+              <button
+                onClick={() => setOpenDateModal(null)}
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
