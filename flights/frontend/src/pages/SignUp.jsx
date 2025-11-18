@@ -78,6 +78,8 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
       return;
     }
 
+    alert("🎉 You have created an account!");
+
     // Krijo account, thjesht ruaj userData
     onSignupSuccess({
       firstName,
@@ -88,9 +90,6 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
       password,
     });
 
-    alert("🎉 You have created an account!");
-
-    // Thjesht mbyll modal-in e Signup
     onClose();
 
     // Reset fields
