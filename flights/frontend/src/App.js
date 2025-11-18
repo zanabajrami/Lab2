@@ -9,7 +9,6 @@ import Contact from "./pages/Contact";
 import Membership from "./pages/Membership";
 import Deals from "./pages/Deals";
 import Destinations from "./pages/Destinations";
-import SearchBar from "./components/SearchBar";
 import HomePage from "./pages/HomePage";
 import Flights from "./pages/Flights";
 
@@ -17,6 +16,9 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
+
+  // KTU RUHEN TE DHENAT PAS SIGNUP
+  const [user, setUser] = useState(null);
 
   const handleSwitchToSignup = () => {
     setShowLogin(false);
@@ -28,13 +30,22 @@ function App() {
     setShowLogin(true);
   };
 
+  // Ky funksion merret nga Signup
+  const handleSignupSuccess = (data) => {
+    setUser(data);      // ruajmë user-in
+    setShowSignup(false);
+  };
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
+
         <Header
           openLogin={() => setShowLogin(true)}
           openSignup={() => setShowSignup(true)}
           openContact={() => setShowContact(true)}
+          userData={user}     
+          setUserData={setUser}
         />
 
         <main className="flex-grow">
@@ -43,9 +54,7 @@ function App() {
             <Route path="/membership" element={<Membership />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/destinations" element={<Destinations />} />
-            <Route path="/" element={<SearchBar />} />
             <Route path="/flights" element={<Flights />} />
-
           </Routes>
         </main>
 
@@ -64,10 +73,14 @@ function App() {
             isOpen={showSignup}
             onClose={() => setShowSignup(false)}
             onSwitchToLogin={handleSwitchToLogin}
+            onSignupSuccess={handleSignupSuccess}  // 👈 SUPER E RENCISME
           />
         )}
 
-        {showContact && <Contact onClose={() => setShowContact(false)} />}
+        {showContact && (
+          <Contact onClose={() => setShowContact(false)} />
+        )}
+
       </div>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Signup({ isOpen, onClose, onSwitchToLogin }) {
+function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -8,8 +8,8 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [gender, setGender] = useState(""); // New
-  const [birthday, setBirthday] = useState(""); // New
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -24,6 +24,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Kontroll password
     const passwordRegex = /^(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
       alert(
@@ -47,9 +48,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
       return;
     }
 
-
-
-    // Validim Birthday format
+    // Kontroll format mm/dd/yyyy
     const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(19|20)\d\d$/;
     if (!dateRegex.test(birthday)) {
       alert("⚠️ Please enter a valid birthday in mm/dd/yyyy format!");
@@ -63,7 +62,8 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
     let age = today.getFullYear() - birthDate.getFullYear();
     const hasHadBirthday =
       today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+      (today.getMonth() === birthDate.getMonth() &&
+        today.getDate() >= birthDate.getDate());
     if (!hasHadBirthday) age--;
 
     if (age < 18) {
@@ -71,8 +71,22 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
       return;
     }
 
+    // Krijo account, thjesht ruaj userData
+    onSignupSuccess({
+      firstName,
+      lastName,
+      email,
+      gender,
+      birthday,
+      password,
+    });
+
     alert("🎉 You have created an account!");
-    // Reset all fields
+
+    // Thjesht mbyll modal-in e Signup
+    onClose();
+
+    // Reset fields
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -84,22 +98,21 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
   };
 
   return (
-  <div
-  className="fixed inset-0 flex justify-center bg-black/60 backdrop-blur-md z-50 p-4
-             md:items-center items-start"
-  onClick={onClose}
->
-  <form
-    onClick={(e) => e.stopPropagation()}
-    onSubmit={handleSubmit}
-    className={`relative bg-gray-800/75 backdrop-blur-sm p-6 md:p-10 rounded-3xl shadow-xl
+    <div
+      className="fixed inset-0 flex justify-center bg-black/60 backdrop-blur-md z-50 p-4 md:items-center items-start"
+      onClick={onClose}
+    >
+      <form
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={handleSubmit}
+        className={`relative bg-gray-800/75 backdrop-blur-sm p-6 md:p-10 rounded-3xl shadow-xl
       w-full max-w-[480px] text-blue-400 border-2 border-gray-600
       animate-formGlow transform transition-all duration-500
       flex flex-col
       max-h-[94vh] overflow-y-auto
       ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-5"}
     `}
-  >
+      >
         <h2 className="text-center text-3xl font-bold font-serif -mt-4 mb-4 tracking-wide glow-label">
           Create Account
         </h2>
@@ -293,12 +306,12 @@ function Signup({ isOpen, onClose, onSwitchToLogin }) {
         </div>
 
         {/* Submit button */}
-       <button
-      type="submit"
-      className="mt-auto font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
-    >
-      Sign Up
-    </button>
+        <button
+          type="submit"
+          className="mt-auto font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
+        >
+          Sign Up
+        </button>
 
         {/* Log in link */}
         <p className="mt-3 -mb-5 text-gray-400 text-sm text-center">

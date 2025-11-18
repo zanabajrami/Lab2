@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { CircleUserRound } from "lucide-react";
+import Account from "../pages/Account";
 
-function Header({ openLogin, openSignup, openContact }) {
+function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showDealsOptions, setShowDealsOptions] = useState(false);
   const dealsRef = useRef(null);
   const navigate = useNavigate();
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   // Scroll listener
   useEffect(() => {
@@ -109,7 +112,7 @@ function Header({ openLogin, openSignup, openContact }) {
         </ul>
 
         {/* Buttons */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 ">
           <button
             onClick={openLogin}
             className="relative px-4 py-2 font-semibold text-blue-500 border border-blue-500 rounded-lg 
@@ -120,11 +123,26 @@ function Header({ openLogin, openSignup, openContact }) {
           </button>
           <button
             onClick={openSignup}
-            className="relative px-4 py-2 font-semibold bg-blue-500 text-gray-900 rounded-lg shadow-lg hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-105"
+            className="relative px-4 py-2 h-10 whitespace-nowrap font-semibold bg-blue-500 text-gray-900 rounded-lg shadow-lg hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-105"
           >
             Sign Up
           </button>
         </div>
+
+        {/* Account */}
+        <CircleUserRound
+          className="w-8 h-8 text-white cursor-pointer hover:text-blue-400 transition"
+          onClick={() => setIsAccountOpen(true)}
+        />
+
+        {isAccountOpen && userData && (
+          <Account
+            isOpen={isAccountOpen}
+            userData={userData}
+            setUserData={setUserData}
+            onClose={() => setIsAccountOpen(false)}
+          />
+        )}
 
         {/* Mobile Hamburger */}
         <div className="md:hidden flex items-center">
@@ -133,7 +151,7 @@ function Header({ openLogin, openSignup, openContact }) {
             className="focus:outline-none text-white"
           >
             <svg
-              className="w-6 h-6"
+              className="w-9 h-9"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
