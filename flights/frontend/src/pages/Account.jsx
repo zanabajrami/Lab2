@@ -56,13 +56,12 @@ function Account({ isOpen, onClose, userData, setUserData }) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 animate-fadeIn">
-            <div className="bg-gray-900/50 backdrop-blur-xl p-8 rounded-3xl w-full max-w-[450px] text-white shadow-xl shadow-black/70 border border-blue-700/50 transform transition-transform duration-300 hover:scale-[1.02]">
-                <div className="flex justify-center items-center w-full mb-3">
-                    <CircleUserRound
-                        className="w-10 h-10 text-blue-400 cursor-pointer transition-all duration-300 hover:text-blue-200"
-                    />
-                </div>
-                <h2 className="text-2xl font-bold mb-6 text-center text-blue-400 drop-shadow-md glow-label">
+            <div className="bg-gray-900/50 backdrop-blur-xl p-8 rounded-3xl w-[95%] max-w-[500px] text-white text-xl shadow-xl shadow-black/70 border border-blue-700/50 transform transition-transform duration-300 hover:scale-[1.02]">                <div className="flex justify-center items-center w-full mb-3">
+                <CircleUserRound
+                    className="w-10 h-10 text-blue-400 cursor-pointer transition-all duration-300 hover:text-blue-200"
+                />
+            </div>
+                <h2 className="text-3xl font-bold mb-6 text-center text-blue-400 drop-shadow-md glow-label">
                     Your Account
                 </h2>
 

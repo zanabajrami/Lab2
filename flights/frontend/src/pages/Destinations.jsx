@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronUp } from "lucide-react";
@@ -88,7 +88,7 @@ function Destinations() {
     const turkeyRef = useRef(null);
     const austriaRef = useRef(null);
 
-    const destinationsMap = {
+    const destinationsMap = useMemo(() => ({
         italy: italyRef,
         hungary: hungaryRef,
         france: franceRef,
@@ -97,7 +97,7 @@ function Destinations() {
         uk: ukRef,
         turkey: turkeyRef,
         austria: austriaRef,
-    };
+    }), []);
 
     const slides = [
         { country: "Italy", image: italyImage, desc: "Discover Rome, Milano and many more cities." },
@@ -115,7 +115,7 @@ function Destinations() {
                 block: "start",
             });
         }
-    }, [scrollTo]);
+    }, [scrollTo, destinationsMap]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -165,7 +165,7 @@ function Destinations() {
             <div className="flex justify-center -mt-8 -mb-7 px-4">
                 <form
                     onSubmit={handleSearch}
-                    className="flex items-center w-full max-w-2xl bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200 transition-all focus-within:shadow-2xl"
+                    className="flex items-center w-full max-w-xs sm:max-w-md md:max-w-2xl bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200 transition-all focus-within:shadow-2xl"
                 >
                     <div className="pl-5 text-gray-500">
                         <Search size={22} />
@@ -179,10 +179,12 @@ function Destinations() {
                     />
                     <button
                         type="submit"
-                        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 m-1 rounded-full font-medium hover:from-blue-600 hover:to-blue-700 transition-all"
+                        className="flex-shrink-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-3 m-1 rounded-full font-medium hover:from-blue-600 hover:to-blue-700 transition-all
+             -ml-10 sm:-ml-0"
                     >
                         Search
                     </button>
+
                 </form>
             </div>
 
@@ -709,7 +711,7 @@ function Destinations() {
                         ))}
                     </div>
 
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -930,7 +932,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -1155,7 +1157,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -1379,7 +1381,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -1604,7 +1606,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -1830,7 +1832,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
@@ -2055,7 +2057,7 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-                      <button
+                    <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >

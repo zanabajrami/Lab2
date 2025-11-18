@@ -130,10 +130,14 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
         </div>
 
         {/* Account */}
-        <CircleUserRound
-          className="w-8 h-8 text-white cursor-pointer hover:text-blue-400 transition"
-          onClick={() => setIsAccountOpen(true)}
-        />
+        <div className="hidden md:flex items-center">
+          {userData && (
+            <CircleUserRound
+              className="w-8 h-8 text-white cursor-pointer hover:text-blue-400 transition"
+              onClick={() => setIsAccountOpen(true)}
+            />
+          )}
+        </div>
 
         {isAccountOpen && userData && (
           <Account
@@ -168,31 +172,84 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <ul className="md:hidden mt-4 bg-gray-800 rounded-lg p-4 space-y-3 text-center">
-          {menuItems.map((item) => (
-            <li key={item.label} className="cursor-pointer hover:text-blue-400 transition-all duration-300 font-semibold">
-              {item.label}
-              {item.label === "Deals" && (
-                <ul className="mt-2 bg-gray-700/90 rounded-xl p-2 space-y-1 backdrop-blur-md shadow-lg">
-                  <li
-                    className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors duration-200"
-                    onClick={() => handleOptionClick("Last Minute Deals")}
-                  >
-                    Last Minute Deals
-                  </li>
-                  <li
-                    className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors duration-200"
-                    onClick={() => handleOptionClick("Memberships")}
-                  >
-                    Memberships
-                  </li>
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+{menuOpen && (
+  <ul className="md:hidden mt-4 bg-gray-800 rounded-lg p-4 space-y-3 text-center">
+    {menuItems.map((item) => (
+      <li key={item.label} className="relative">
+        <div
+          className="flex justify-center items-center space-x-1 cursor-pointer text-white font-semibold hover:text-blue-400 transition-all duration-300"
+          onClick={() => {
+            if (item.label === "Deals") {
+              setShowDealsOptions(!showDealsOptions);
+            } else {
+              item.action();       // navigon në faqen tjetër
+              setMenuOpen(false);  // mbyll menu
+            }
+          }}
+        >
+          <span>{item.label}</span>
+          {item.label === "Deals" && (
+            <svg
+              className={`w-4 h-4 transform transition-transform duration-200 ${showDealsOptions ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
+        </div>
+
+        {/* Deals Dropdown */}
+        <AnimatePresence>
+          {item.label === "Deals" && showDealsOptions && (
+            <motion.ul
+              className="mt-2 bg-gray-700/90 rounded-xl p-2 space-y-1 backdrop-blur-md shadow-lg text-left"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              <li
+                className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors"
+                onClick={() => {
+                  handleOptionClick("Last Minute Deals");
+                  setMenuOpen(false); // mbyll menu pas zgjedhjes
+                }}
+              >
+                Last Minute Deals
+              </li>
+              <li
+                className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors"
+                onClick={() => {
+                  handleOptionClick("Memberships");
+                  setMenuOpen(false); // mbyll menu pas zgjedhjes
+                }}
+              >
+                Memberships
+              </li>
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </li>
+    ))}
+
+    {/* Account në mobile – hap popup */}
+    {userData && (
+      <li className="relative">
+        <div
+          className="flex justify-center items-center space-x-2 cursor-pointer text-white font-semibold hover:text-blue-400 transition"
+          onClick={() => {
+            setIsAccountOpen(true); // hap popup
+            setMenuOpen(false);     // mbyll menu
+          }}
+        >
+          <CircleUserRound className="w-6 h-6" />
+          <span>Account</span>
+        </div>
+      </li>
+    )}
+  </ul>
+)}
 
       <style>{`
         @keyframes pulseGlow {

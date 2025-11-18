@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { PlaneTakeoff, PlaneLanding, Ban } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { PlaneTakeoff, PlaneLanding } from "lucide-react";
 
 // ===== Calendar Component =====
 const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, type, returnDate }) => {

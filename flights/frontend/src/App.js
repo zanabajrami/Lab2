@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -32,7 +32,7 @@ function App() {
 
   // Ky funksion merret nga Signup
   const handleSignupSuccess = (data) => {
-    setUser(data);      // ruajmë user-in
+    setUser(data);      // ruan user-in
     setShowSignup(false);
   };
 

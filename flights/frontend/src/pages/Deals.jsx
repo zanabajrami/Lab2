@@ -1,5 +1,5 @@
-import React, { useState,useEffect, useMemo } from "react";
-import { Plane, MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp} from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Plane, MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp } from "lucide-react";
 
 import budapestImage from "../images/budapest.webp";
 import romeImage from "../images/rome.avif";
@@ -34,11 +34,11 @@ export default function LastMinuteDeals() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
-  const sampleDeals = [
+
+  const sampleDeals = useMemo(() => [
     { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departureDate: "2025-11-10", returnDate: "2025-11-14", duration: "4 days", price: 129, currency: "EUR" },
     { id: 2, from: "Prishtina", title: "Budapest", country: "Hungary", image: budapestImage, departureDate: "2025-11-15", returnDate: "2025-11-18", duration: "3 days", price: 199, currency: "EUR" },
     { id: 3, from: "Tirana", title: "Paris", country: "France", image: parisImage, departureDate: "2025-11-08", returnDate: "2025-11-12", duration: "4 days", price: 259, currency: "EUR" },
@@ -47,12 +47,12 @@ export default function LastMinuteDeals() {
     { id: 7, from: "Prishtina", title: "Cairo", country: "Egypt", image: cairoImage, departureDate: "2025-11-20", returnDate: "2025-11-25", duration: "5 days", price: 359, currency: "EUR" },
     { id: 8, from: "Prishtina", title: "Istanbul", country: "Turkey", image: istanbulImage, departureDate: "2025-11-14", returnDate: "2025-11-17", duration: "3 days", price: 149, currency: "EUR" },
     { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
-  ];
+  ], []);
 
-  const [query, setQuery] = useState("");
-  const [date, setDate] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [currency] = useState("EUR");
+
+  const [query] = useState("");
+  const [date] = useState("");
+  const [maxPrice] = useState("");
 
   const filtered = useMemo(() => {
     return sampleDeals.filter((d) => {
@@ -65,7 +65,7 @@ export default function LastMinuteDeals() {
       const matchesPrice = maxPrice === "" || d.price <= Number(maxPrice);
       return matchesQuery && matchesDate && matchesPrice;
     });
-  }, [query, date, maxPrice]);
+  }, [query, date, maxPrice, sampleDeals]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white p-6 md:p-12">

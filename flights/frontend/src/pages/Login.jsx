@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function Login({ isOpen, onSwitchToRegister, onClose }) {
   const [email, setEmail] = useState("");
@@ -7,18 +7,18 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-  if (isOpen) {
-    document.body.style.overflow = "hidden"; // blloko scroll
-    const timer = setTimeout(() => setIsVisible(true), 20);
-    return () => {
-      clearTimeout(timer);
-      document.body.style.overflow = "auto"; // rikthe scroll
-    };
-  } else {
-    setIsVisible(false);
-    document.body.style.overflow = "auto"; // rikthe scroll nëse modal nuk është hapur
-  }
-}, [isOpen]);
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // blloko scroll
+      const timer = setTimeout(() => setIsVisible(true), 20);
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = "auto"; // rikthe scroll
+      };
+    } else {
+      setIsVisible(false);
+      document.body.style.overflow = "auto"; // rikthe scroll nëse modal nuk është hapur
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -42,16 +42,14 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
       className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
       onClick={onClose}
     >
-     <form
-  onClick={(e) => e.stopPropagation()}
-  onSubmit={handleSubmit}
-  className={`relative bg-gray-800/75 backdrop-blur-sm p-6 sm:p-8 md:p-10 rounded-3xl border-2 border-gray-600 w-11/12 sm:w-3/4 md:w-full max-w-sm md:max-w-md text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${
-    isVisible
-      ? "opacity-100 scale-100 translate-y-0"
-      : "opacity-0 scale-90 translate-y-5"
-  }`}
->
-
+      <form
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={handleSubmit}
+        className={`text-xl relative bg-gray-800/75 backdrop-blur-sm p-6 sm:p-8 md:p-10 rounded-3xl border-2 border-gray-600 w-11/12 sm:w-3/4 md:w-full max-w-sm md:max-w-md text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${isVisible
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-90 translate-y-5"
+          }`}
+      >
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
           Welcome Back
         </h2>
@@ -73,11 +71,10 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="email"
-            className={`absolute left-4 transition-all duration-300 ${
-              email
+            className={`absolute left-4 transition-all duration-300 ${email
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-            }`}
+              }`}
           >
             Email address
           </label>
@@ -97,11 +94,10 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           />
           <label
             htmlFor="password"
-            className={`absolute left-4 transition-all duration-300 ${
-              password
+            className={`absolute left-4 transition-all duration-300 ${password
                 ? "top-0 text-white text-sm glow-label"
                 : "top-3 text-gray-400 text-base"
-            }`}
+              }`}
           >
             Password
           </label>
@@ -142,7 +138,7 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           </button>
         </p>
 
-          <style>{`
+        <style>{`
           .glow-label {
             text-shadow: 0 0 8px rgba(99, 123, 163, 0.8);
           }

@@ -115,7 +115,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
       w-full max-w-[480px] text-blue-400 border-2 border-gray-600
       animate-formGlow transform transition-all duration-500
       flex flex-col
-      max-h-[94vh] overflow-y-auto
+      max-h-[95vh] overflow-y-auto
       ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-5"}
     `}
       >

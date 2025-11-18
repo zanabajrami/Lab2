@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, Flame, TicketPercent, ChevronUp } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -56,8 +56,6 @@ const deals = [
     { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" }
 ];
 
-const trending = ["Italy", "France", "Spain", "Turkey"];
-
 function RefreshMap() {
     const map = useMap();
     useEffect(() => {
@@ -71,26 +69,6 @@ export default function Home() {
     const sliderRef = useRef(null);
     const navigate = useNavigate();
     const [showTopButton, setShowTopButton] = useState(false);
-
-    const italyRef = useRef(null);
-    const hungaryRef = useRef(null);
-    const franceRef = useRef(null);
-    const spainRef = useRef(null);
-    const egyptRef = useRef(null);
-    const ukRef = useRef(null);
-    const turkeyRef = useRef(null);
-    const austriaRef = useRef(null);
-
-    const destinationsMap = {
-        italy: italyRef,
-        hungary: hungaryRef,
-        france: franceRef,
-        spain: spainRef,
-        egypt: egyptRef,
-        uk: ukRef,
-        turkey: turkeyRef,
-        austria: austriaRef,
-    };
 
     const previewCards = [
         { title: "Standard", price: "€49.99 / year", icon: <Flame className="w-7 h-7 text-blue-400" />, highlight: "Best for beginners" },
