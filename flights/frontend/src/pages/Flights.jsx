@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { TicketsPlane, Check, ChevronDown } from "lucide-react";
 import { Listbox, Transition } from "@headlessui/react";
 
@@ -57,12 +57,24 @@ const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
-        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className="px-2 py-1 rounded hover:bg-gray-200 transition">&lt;</button>
+        <button
+          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
+          className="px-2 py-1 rounded hover:bg-gray-200 transition"
+        >
+          &lt;
+        </button>
         <span className="font-semibold">{currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}</span>
-        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className="px-2 py-1 rounded hover:bg-gray-200 transition">&gt;</button>
+        <button
+          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+          className="px-2 py-1 rounded hover:bg-gray-200 transition"
+        >
+          &gt;
+        </button>
       </div>
       <div className="grid grid-cols-7 gap-2 text-center">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => <div key={d} className="font-semibold">{d}</div>)}
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+          <div key={d} className="font-semibold">{d}</div>
+        ))}
         {daysArray.map((day, index) => {
           const disabled = isDisabled(day);
           const isSelected = day && selectedDate && day.toDateString() === selectedDate.toDateString();
@@ -70,7 +82,9 @@ const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate }) => {
             <button
               key={index}
               onClick={() => !disabled && setSelectedDate(day)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full transition ${disabled ? "text-gray-300 cursor-not-allowed" : isSelected ? "bg-blue-600 text-white" : "hover:bg-blue-100"}`}
+              className={`w-10 h-10 flex items-center justify-center rounded-full transition ${
+                disabled ? "text-gray-300 cursor-not-allowed" : isSelected ? "bg-blue-600 text-white" : "hover:bg-blue-100"
+              }`}
             >
               {day ? day.getDate() : ""}
             </button>
@@ -144,47 +158,49 @@ const FlightCard = ({ flight, isReturn, openModal }) => {
 };
 const CustomDropdown = ({ options, selected, setSelected, placeholder }) => {
   return (
-    <Listbox value={selected} onChange={setSelected}>
-      <div className="relative w-40">
-        <Listbox.Button className="relative w-full cursor-pointer bg-white border border-gray-300 rounded-lg pl-3 pr-10 py-2 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-between items-center">
-          <span>{selected || placeholder}</span>
-          <ChevronDown className="w-5 h-5 text-gray-500" />
-        </Listbox.Button>
+<Listbox value={selected} onChange={setSelected}>
+  <div className="relative w-40">
+    <Listbox.Button className="relative w-full cursor-pointer bg-white border border-gray-300 rounded-lg py-2 px-3 text-left shadow-sm flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <span className="truncate">{selected || placeholder}</span>
+      <ChevronDown className="w-5 h-5 text-gray-500" />
+    </Listbox.Button>
 
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <Listbox.Options className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto z-10">
-            {options.map((option) => (
-              <Listbox.Option
-                key={option}
-                value={option}
-                className={({ active, selected }) =>
-                  `cursor-pointer select-none relative py-2 pl-3 pr-10 ${active ? "bg-blue-100 text-blue-900" : "text-gray-700"
-                  } ${selected ? "font-semibold" : ""}`
-                }
-              >
-                {({ selected }) => (
-                  <>
-                    <span className={`block truncate ${selected ? "font-semibold" : ""}`}>
-                      {option}
-                    </span>
-                    {selected && (
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-blue-600">
-                        <Check className="w-5 h-5" />
-                      </span>
-                    )}
-                  </>
+    <Transition
+      as={Fragment}
+      leave="transition ease-in duration-100"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+        {options.map((option) => (
+          <Listbox.Option
+            key={option}
+            value={option}
+            className={({ active, selected }) =>
+              `cursor-pointer select-none relative py-2 pl-3 pr-8 ${
+                active ? "bg-blue-100 text-blue-900" : "text-gray-700"
+              } ${selected ? "font-semibold" : ""}`
+            }
+          >
+            {({ selected }) => (
+              <>
+                <span className={`block truncate ${selected ? "font-semibold" : ""}`}>
+                  {option}
+                </span>
+                {selected && (
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-blue-600">
+                    <Check className="w-5 h-5" />
+                  </span>
                 )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
-      </div>
-    </Listbox>
+              </>
+            )}
+          </Listbox.Option>
+        ))}
+      </Listbox.Options>
+    </Transition>
+  </div>
+</Listbox>
+
   );
 };
 
@@ -198,6 +214,24 @@ const FlightsSection = () => {
 
   const today = new Date();
   const maxDate = new Date(today.getFullYear(), today.getMonth() + 12, today.getDate());
+
+  useEffect(() => {
+    if (returnDate && departureDate && returnDate < departureDate) {
+      setReturnDate(null);
+    }
+  }, [departureDate]);
+
+  const handleConfirm = () => {
+    if (!departureDate) {
+      alert("Choose a departure date");
+      return;
+    }
+    if (isReturn && !returnDate) {
+      alert("Choose a return date");
+      return;
+    }
+    alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}`);
+  };
 
   const openModal = (flight) => setModalFlight(flight);
   const closeModal = () => {
@@ -215,7 +249,7 @@ const FlightsSection = () => {
   const toCities = [...new Set(baseFlights.map(f => f.to))];
 
   return (
-    <section className="py-20 bg-gray-100 w-full -mt-10 flex flex-col items-center">
+    <section className="py-20 w-full -mt-10 flex flex-col items-center">
       {/* Buttons OneWay/Return */}
       <div className="flex gap-4 mb-6">
         <button onClick={() => setIsReturn(false)} className={`px-6 py-2 rounded-xl font-semibold transition ${!isReturn ? "bg-blue-600 text-white" : "bg-white text-gray-800 border border-gray-300"}`}>OneWay</button>
