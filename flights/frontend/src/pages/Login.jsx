@@ -7,12 +7,18 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => setIsVisible(true), 20);
-    } else {
-      setIsVisible(false);
-    }
-  }, [isOpen]);
+  if (isOpen) {
+    document.body.style.overflow = "hidden"; // blloko scroll
+    const timer = setTimeout(() => setIsVisible(true), 20);
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = "auto"; // rikthe scroll
+    };
+  } else {
+    setIsVisible(false);
+    document.body.style.overflow = "auto"; // rikthe scroll nëse modal nuk është hapur
+  }
+}, [isOpen]);
 
   if (!isOpen) return null;
 

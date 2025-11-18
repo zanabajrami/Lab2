@@ -13,9 +13,16 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => setIsVisible(true), 20);
+      document.body.style.overflow = "hidden"; // blloko scroll
+      const timer = setTimeout(() => setIsVisible(true), 20);
+
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = "auto"; // rikthe scroll kur modal mbyllet
+      };
     } else {
       setIsVisible(false);
+      document.body.style.overflow = "auto"; // rikthe scroll
     }
   }, [isOpen]);
 

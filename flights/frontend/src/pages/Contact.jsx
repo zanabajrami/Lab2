@@ -7,10 +7,25 @@ function Contact({ onClose }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // efekt smooth kur forma hapet
     const timeout = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timeout);
   }, []);
+
+  // bllokon scroll kur modal hapet
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto"; // rikthen scroll kur modal mbyllet
+    };
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose?.();
+      document.body.style.overflow = "auto";
+    }, 300); // koha duhet të përputhet me animacionin
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,6 +33,7 @@ function Contact({ onClose }) {
     setName("");
     setEmail("");
     setMessage("");
+    handleClose();
   };
 
   return (
