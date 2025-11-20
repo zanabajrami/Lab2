@@ -1,16 +1,46 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { TicketsPlane, Check, ChevronDown } from "lucide-react";
+import { TicketsPlane, Check, ChevronDown, Plane } from "lucide-react";
 import { Listbox, Transition } from "@headlessui/react";
+import swiss from "../images/swiss.png";
+import turkish from "../images/turkish.png";
+import wizz from "../images/wizz.png";
+import pegasus from "../images/pegasus.png";
+import a_jet from "../images/a_jet.png";
+import airAlbania from "../images/air_alb.png";
+import austrian from "../images/austrian.png";
+import ryan_air from "../images/ryan_air.png";
+import british from "../images/british.png";
 
 const baseFlights = [
-  { from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "IST", oneWayPrice: 75, duration: "1h 45min", airline: "Turkish Airlines", departure: "08:55", arrival: "12:40", returnDeparture: "08:25", returnArrival: "08:05", returnTo: "Prishtina", returnToCode: "PRN" },
-  { from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LHR", oneWayPrice: 84, duration: "3h 30min", airline: "British Airways", departure: "11:00", arrival: "13:30", returnDeparture: "20:30", returnArrival: "00:00", returnTo: "Prishtina", returnToCode: "PRN" },
-  { from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "FCO", oneWayPrice: 90, duration: "1h 50min", airline: "Alitalia", departure: "09:30", arrival: "11:20", returnDeparture: "17:15", returnArrival: "19:05", returnTo: "Tirana", returnToCode: "TIA" },
-  { from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "CDG", oneWayPrice: 200, duration: "3h 40min", airline: "Air France", departure: "12:45", arrival: "16:25", returnDeparture: "21:00", returnArrival: "00:40", returnTo: "Tirana", returnToCode: "TIA" }
+  { from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "IST", oneWayPrice: 75, duration: "1h 45min", airline: turkish, departure: "08:55", arrival: "12:40", returnDeparture: "08:25", returnArrival: "08:05", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "SAW", oneWayPrice: 30, duration: "1h 35min", airline: pegasus, departure: "10:20", arrival: "11:55", returnDeparture: "18:10", returnArrival: "19:45", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "SAW", oneWayPrice: 30, duration: "1h 40min", airline: a_jet, departure: "09:45", arrival: "11:25", returnDeparture: "17:30", returnArrival: "19:10", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "IST", oneWayPrice: 102, duration: "1h 30min", airline: turkish, departure: "10:15", arrival: "11:45", returnDeparture: "19:00", returnArrival: "20:30", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "SAW", oneWayPrice: 41, duration: "1h 35min", airline: pegasus, departure: "08:20", arrival: "09:55", returnDeparture: "18:10", returnArrival: "19:45", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "IST", oneWayPrice: 80, duration: "1h 35min", airline: airAlbania, departure: "10:00", arrival: "11:35", returnDeparture: "18:00", returnArrival: "19:35", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 256, duration: "2h 10min", airline: swiss, departure: "09:00", arrival: "11:10", returnDeparture: "17:30", returnArrival: "19:40", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 167, duration: "2h 05min", airline: pegasus, departure: "10:30", arrival: "12:35", returnDeparture: "18:00", returnArrival: "20:05", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 30, duration: "1h 45min", airline: wizz, departure: "11:20", arrival: "13:05", returnDeparture: "19:40", returnArrival: "21:25", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 181, duration: "2h 10min", airline: turkish, departure: "09:00", arrival: "11:10", returnDeparture: "17:30", returnArrival: "19:40", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 256, duration: "2h 15min", airline: austrian, departure: "08:45", arrival: "11:00", returnDeparture: "17:00", returnArrival: "19:15", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", oneWayPrice: 19, duration: "2h 05min", airline: wizz, departure: "14:10", arrival: "16:15", returnDeparture: "20:45", returnArrival: "22:50", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", oneWayPrice: 61, duration: "2h 00min", airline: airAlbania, departure: "09:30", arrival: "11:30", returnDeparture: "18:00", returnArrival: "20:00", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", oneWayPrice: 72, duration: "2h 05min", airline: ryan_air, departure: "12:00", arrival: "14:05", returnDeparture: "19:00", returnArrival: "21:05", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LHR", oneWayPrice: 30, duration: "3h 20min", airline: wizz, departure: "10:15", arrival: "13:35", returnDeparture: "18:50", returnArrival: "22:10", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", oneWayPrice: 191, duration: "3h 05min", airline: british, departure: "10:30", arrival: "13:35", returnDeparture: "18:45", returnArrival: "21:50", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", oneWayPrice: 64, duration: "3h 10min", airline: wizz, departure: "09:00", arrival: "12:10", returnDeparture: "17:30", returnArrival: "20:40", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", oneWayPrice: 135, duration: "3h 10min", airline: ryan_air, departure: "11:00", arrival: "14:10", returnDeparture: "19:00", returnArrival: "22:10", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 69, duration: "1h 15min", airline: wizz, departure: "10:30", arrival: "11:45", returnDeparture: "18:20", returnArrival: "19:35", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 99, duration: "1h 20min", airline: austrian, departure: "09:00", arrival: "10:20", returnDeparture: "17:00", returnArrival: "18:20", returnTo: "Prishtina", returnToCode: "PRN" },
+  { from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", oneWayPrice: 201, duration: "1h 30min", airline: austrian, departure: "10:15", arrival: "11:45", returnDeparture: "18:00", returnArrival: "19:30", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", oneWayPrice: 62, duration: "1h 30min", airline: wizz, departure: "14:20", arrival: "15:50", returnDeparture: "20:00", returnArrival: "21:30", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", oneWayPrice: 30, duration: "1h 30min", airline: ryan_air, departure: "21:25", arrival: "22:55", returnDeparture: "06:00", returnArrival: "07:30", returnTo: "Tirana", returnToCode: "TIA" },
+  { from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", oneWayPrice: 85, duration: "1h 30min", airline: wizz, departure: "09:50", arrival: "11:20", returnDeparture: "17:10", returnArrival: "18:40", returnTo: "Tirana", returnToCode: "TIA" },
+
 ];
 
 // Gjenerimi i variantëve me orare të ndryshme
-const generateFlightVariants = (flight, count = 10, intervalHours = 2) => {
+const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
   const variants = [];
   for (let i = 0; i < count; i++) {
     const dep = new Date(`1970-01-01T${flight.departure}:00`);
@@ -35,7 +65,7 @@ const generateFlightVariants = (flight, count = 10, intervalHours = 2) => {
 };
 
 // Gjenerojmë të gjitha variantet
-const flights = baseFlights.flatMap(f => generateFlightVariants(f, 10, 2));
+const flights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2));
 
 //Bllokim i scroll-it
 const useBodyScrollLock = (isLocked) => {
@@ -119,9 +149,9 @@ const FlightCard = ({ flight, isReturn, openModal }) => {
 
   return (
     <div className="bg-white relative rounded-3xl shadow-md border border-gray-300 hover:shadow-xl transition-all duration-300 w-full mx-auto">
-      <div className="p-7 pb-5">
+      <div className="p-5 pb-4">
         <div className="flex items-center justify-between mb-4">
-          <span className="font-semibold text-gray-800">{flight.airline}</span>
+          <img src={flight.airline} alt="Airline Logo" className="w-16 h-16 object-contain" />
           <TicketsPlane className="text-blue-600 w-6 h-6" />
         </div>
         <div className="flex flex-col gap-4">
@@ -131,7 +161,23 @@ const FlightCard = ({ flight, isReturn, openModal }) => {
               <p className="text-gray-400 text-sm">{flight.fromCode}</p>
               <p className="text-gray-800 font-semibold text-xl mt-1">{flight.departure}</p>
             </div>
-            <div className="text-4xl h-12 flex items-center justify-center">→</div>
+
+            <div className="flex items-center justify-center w-full relative mt-4">
+              {/* Linja horizontale */}
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+
+              {/* Pika nisjes */}
+              <div className="absolute left-0 top-1/2 w-2 h-2 bg-blue-600 rounded-full transform -translate-y-1/2"></div>
+
+              {/* Pika mbërritjes */}
+              <div className="absolute right-0 top-1/2 w-2 h-2 bg-blue-600 rounded-full transform -translate-y-1/2"></div>
+
+              {/* Ikona e avionit */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
+                <Plane className="w-6 h-6 text-blue-600 animate-flight" />
+              </div>
+            </div>
+            
             <div>
               <h3 className="text-2xl font-bold">{flight.to}</h3>
               <p className="text-gray-400 text-sm">{flight.toCode}</p>
