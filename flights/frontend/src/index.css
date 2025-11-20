@@ -57,3 +57,26 @@ main {
   background-size: 200% 200%;
   animation: gradient-x 5s ease infinite;
 }
+.modal-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  z-index: 50;
+  padding: 1rem;
+  overflow-y: auto; /* Kjo e lejon scroll-in brenda modal-it */
+}
+
+.modal-form {
+  background-color: rgba(31, 41, 55, 0.75); /* gray-800/75 */
+  backdrop-filter: blur(5px);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  max-height: 95vh; /* Limito lartësinë */
+  overflow-y: auto; /* Scroll i brendshëm */
+  width: 100%;
+  max-width: 480px;
+}

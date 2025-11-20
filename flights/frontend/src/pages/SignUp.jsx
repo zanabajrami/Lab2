@@ -115,7 +115,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
       w-full max-w-[480px] text-blue-400 border-2 border-gray-600
       animate-formGlow transform transition-all duration-500
       flex flex-col
-      max-h-[95vh] overflow-y-auto
+      max-h-[98vh] overflow-y-auto
       ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-5"}
     `}
       >
@@ -124,7 +124,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </h2>
 
         {/* First Name */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <input
             type="text"
             id="firstName"
@@ -146,7 +146,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Last Name */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <input
             type="text"
             id="lastName"
@@ -168,7 +168,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Email */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <input
             type="email"
             id="email"
@@ -190,7 +190,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Gender */}
-        <div className="relative mb-6 flex items-center justify-between bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50">
+        <div className="relative mb-5 flex items-center justify-between bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50">
           <span className="text-gray-300 glow-label">Gender</span>
 
           <div className="flex gap-4">
@@ -221,7 +221,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Birthday */}
-        <div className="relative mb-6 bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50 flex items-center justify-between transition duration-300">
+        <div className="relative mb-5 bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50 flex items-center justify-between transition duration-300">
           <span className="text-gray-300 glow-label">Birthday</span>
 
           <input
@@ -251,7 +251,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Password */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <input
             type={showPassword ? "text" : "password"}
             id="password"
@@ -273,7 +273,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Confirm Password */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <input
             type={showPassword ? "text" : "password"}
             id="confirmPassword"
@@ -295,7 +295,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Show Password */}
-        <div className="flex items-center justify-start mb-6">
+        <div className="flex items-center justify-start mb-5">
           <label
             htmlFor="showPassword"
             className="flex items-center cursor-pointer select-none"
@@ -314,7 +314,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         {/* Submit button */}
         <button
           type="submit"
-          className="mt-auto font-serif w-full py-3 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
+          className="mt-auto font-serif w-full py-2 rounded-xl bg-gradient-to-r from-blue-900 via-blue-500 to-blue-700 text-white font-bold shadow-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] animate-pulseButton"
         >
           Sign Up
         </button>

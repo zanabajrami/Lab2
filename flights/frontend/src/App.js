@@ -11,6 +11,7 @@ import Deals from "./pages/Deals";
 import Destinations from "./pages/Destinations";
 import HomePage from "./pages/HomePage";
 import Flights from "./pages/Flights";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -36,6 +37,13 @@ function App() {
     setShowSignup(false);
   };
 
+  const [favorites, setFavorites] = useState(() => {
+    // Merr favoritet nga localStorage kur aplikohet faqja
+    const stored = localStorage.getItem("favorites");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
@@ -44,7 +52,7 @@ function App() {
           openLogin={() => setShowLogin(true)}
           openSignup={() => setShowSignup(true)}
           openContact={() => setShowContact(true)}
-          userData={user}     
+          userData={user}
           setUserData={setUser}
         />
 
@@ -54,7 +62,8 @@ function App() {
             <Route path="/membership" element={<Membership />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/destinations" element={<Destinations />} />
-            <Route path="/flights" element={<Flights />} />
+            <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
           </Routes>
         </main>
 
