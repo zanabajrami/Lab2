@@ -62,6 +62,21 @@ const baseFlights = [
   { id: 24, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 256, duration: "2h 10min", airline: swiss, departure: "09:00", arrival: "11:10", returnDeparture: "17:30", returnArrival: "19:40", returnTo: "Prishtina", returnToCode: "PRN", isReturn: true },
   { id: 25, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", oneWayPrice: 19, duration: "2h 05min", airline: wizz, departure: "14:10", arrival: "16:15", returnDeparture: "20:45", returnArrival: "22:50", returnTo: "Tirana", returnToCode: "TIA", isReturn: false },
   { id: 25, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", oneWayPrice: 19, duration: "2h 05min", airline: wizz, departure: "14:10", arrival: "16:15", returnDeparture: "20:45", returnArrival: "22:50", returnTo: "Tirana", returnToCode: "TIA", isReturn: true },
+  { id: 26, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "CDG", oneWayPrice: 110, duration: "2h 15min", airline: wizz, departure: "08:30", arrival: "10:45", returnDeparture: "18:00", returnArrival: "20:15", returnTo: "Tirana", returnToCode: "TIA", isReturn: false },
+  { id: 26, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "CDG", oneWayPrice: 110, duration: "2h 15min", airline: wizz, departure: "08:30", arrival: "10:45", returnDeparture: "18:00", returnArrival: "20:15", returnTo: "Tirana", returnToCode: "TIA", isReturn: true },
+  { id: 27, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 189, duration: "4h 30min", airline: swiss, departure: "09:40", arrival: "14:10", returnDeparture: "09:40", returnArrival: "14:10", returnTo: "Prishtina", returnToCode: "PRN", isReturn: false },
+  { id: 27, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 189, duration: "4h 30min", airline: swiss, departure: "09:40", arrival: "14:10", returnDeparture: "09:40", returnArrival: "14:10", returnTo: "Prishtina", returnToCode: "PRN", isReturn: true },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  { id: 35, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 165, duration: "6h 55min", airline: austrian, departure: "12:25", arrival: "19:20", returnDeparture: "12:25", returnArrival: "19:20", returnTo: "Prishtina", returnToCode: "PRN", isReturn: false },
+  { id: 35, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 165, duration: "6h 55min", airline: austrian, departure: "12:25", arrival: "19:20", returnDeparture: "12:25", returnArrival: "19:20", returnTo: "Prishtina", returnToCode: "PRN", isReturn: true },
 
 ];
 
@@ -81,7 +96,8 @@ const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
 
     variants.push({
       ...flight,
-      id: `${flight.id}-${i}`, // id unik për çdo variant
+      id: `${flight.id}-${i}`, // id unik për variantin
+      baseId: flight.id,       // id origjinale për favorites
       departure: dep.toTimeString().slice(0, 5),
       arrival: arr.toTimeString().slice(0, 5),
       returnDeparture: retDep.toTimeString().slice(0, 5),
@@ -175,55 +191,67 @@ const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites 
   const price = isReturn ? Math.round(flight.oneWayPrice * 1.6) : flight.oneWayPrice;
   const displayPrice = `€${price}`;
 
-  const isFavorite = favorites.some(f => f.id === flight.id && f.isReturn === isReturn);
+  const isFavorite = favorites.some(
+    (f) => f.id === flight.id && f.isReturn === isReturn
+  );
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (flight, isReturn) => {
     const flightData = { ...flight, isReturn };
-    let updated;
-    if (isFavorite) {
-      updated = favorites.filter(f => !(f.id === flight.id && f.isReturn === isReturn));
-    } else {
-      updated = [...favorites, flightData];
-    }
+
+    const updated = favorites.some(
+      f => f.id === flight.id && f.isReturn === isReturn
+    )
+      ? favorites.filter(
+        f => !(f.id === flight.id && f.isReturn === isReturn)
+      )
+      : [...favorites, flightData];
+
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
 
   return (
     <div className="bg-white relative rounded-3xl shadow-md border border-gray-300 hover:shadow-xl transition-all duration-300 w-full mx-auto">
-
       {/* Favorite Heart */}
-      <div className="absolute top-4 right-4 cursor-pointer z-10" onClick={(e) => { e.stopPropagation(); toggleFavorite(); }}>
-        <Heart className={`w-6 h-6 transition-all ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`} />
+      <div
+        className="absolute top-4 right-4 cursor-pointer z-10"
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleFavorite(flight, isReturn);
+        }}
+      >
+        <Heart
+          className={`w-6 h-6 transition-all ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-400"
+            }`}
+        />
       </div>
 
-      <div className="p-5 pb-4">
+      <div className="p-3 pb-1">
         <div className="flex items-center justify-between mb-4">
           <img src={flight.airline} alt="Airline Logo" className="w-16 h-16 object-contain" />
-          <Plane className="text-blue-600 w-6 h-6" />
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between -mt-5">
             <div>
-              <h3 className="text-2xl font-bold ml-2">{flight.from}</h3>
-              <p className="text-gray-400 text-sm ml-2">{flight.fromCode}</p>
-              <p className="text-gray-800 font-semibold text-xl mt-1 ml-2">{flight.departure}</p>
+              <h3 className="text-2xl font-bold ml-4">{flight.from}</h3>
+              <p className="text-gray-400 text-sm ml-4">{flight.fromCode}</p>
+              <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.departure}</p>
             </div>
 
             <div className="flex items-center justify-center w-full relative mt-4">
               <div className="absolute top-1/2 -left-5 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-              <div className="absolute -left-5 top-1/2 w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></div>
-              <div className="absolute right-5 top-1/2 w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></div>
+              <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+              <div className="absolute right-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                <Plane className="w-6 h-6 text-black animate-flight" />
+                <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
               </div>
             </div>
 
             <div>
               <h3 className="text-2xl font-bold">{flight.to}</h3>
               <p className="text-gray-400 text-sm">{flight.toCode}</p>
-              <p className="text-gray-800 font-semibold text-xl mt-1">{flight.arrival}</p>
+              <p className="text-gray-800 font-semibold text-xl mt-1 mr-4">{flight.arrival}</p>
             </div>
           </div>
 
@@ -231,17 +259,17 @@ const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites 
             <div className="mt-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold ml-2">{flight.to}</h3>
-                  <p className="text-gray-400 text-sm ml-2">{flight.toCode}</p>
-                  <p className="text-gray-800 font-semibold text-xl mt-1 ml-2">{flight.returnDeparture}</p>
+                  <h3 className="text-2xl font-bold ml-4">{flight.to}</h3>
+                  <p className="text-gray-400 text-sm ml-4">{flight.toCode}</p>
+                  <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.returnDeparture}</p>
                 </div>
 
                 <div className="flex items-center justify-center w-full relative mt-4">
-                  <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-                  <div className="absolute left-0 top-1/2 w-2 h-2 bg-blue-900 rounded-full transform -translate-y-1/2"></div>
-                  <div className="absolute right-0 top-1/2 w-2 h-2 bg-blue-900 rounded-full transform -translate-y-1/2"></div>
+                  <div className="absolute top-1/2 -left-2 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                  <div className="absolute -left-2 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                  <div className="absolute right-4 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                    <Plane className="w-6 h-6 text-blue-900 animate-flight" />
+                    <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
                   </div>
                 </div>
 
@@ -255,19 +283,20 @@ const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites 
             </div>
           )}
         </div>
-
         <div className="mt-4 flex justify-between">
-          <span className="text-gray-600">Duration: {flight.duration}</span>
-          <span className="text-blue-600 font-bold text-lg">{displayPrice}</span>
+          <span className="text-sm text-gray-600 ml-4">Duration: {flight.duration}</span>
+          <span className="text-blue-600 font-bold text-lg mr-5">{displayPrice}</span>
         </div>
       </div>
-
       <div className="border-t border-dashed border-gray-300 my-2"></div>
-      <div className="p-6 pt-4">
-        <button onClick={() => openModal(flight)} className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition">
+      <div className="p-4 pt-1">
+        <button onClick={() => openModal(flight)} className="bg-blue-700 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition">
           Book Now
         </button>
       </div>
+      {/*circles*/}
+      <div className="absolute top-1/2 -left-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-r-full"></div>
+      <div className="absolute top-1/2 -right-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-l-full"></div>
     </div>
   );
 };
@@ -287,7 +316,7 @@ const CustomDropdown = ({ options, selected, setSelected, placeholder }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <Listbox.Options className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
             {options.map((option) => (
               <Listbox.Option
                 key={option}
@@ -359,7 +388,8 @@ const FlightsSection = () => {
 
   const filteredFlights = flights.filter(flight =>
     (!fromFilter || flight.from === fromFilter) &&
-    (!toFilter || flight.to === toFilter)
+    (!toFilter || flight.to === toFilter) &&
+    flight.isReturn === isReturn  // filtrohet sipas OneWay/Return
   );
 
   const fromCities = [...new Set(baseFlights.map(f => f.from))];
@@ -380,17 +410,28 @@ const FlightsSection = () => {
 
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(JSON.parse(stored));
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setFavorites(Array.isArray(parsed) ? parsed : []);
+      } catch (error) {
+        console.error("Error parsing favorites from localStorage:", error);
+        setFavorites([]);
+      }
+    }
   }, []);
 
-  const toggleFavorite = (flight) => {
-    const isFav = favorites.some(f => f.id === flight.id);
-    let updated;
-    if (isFav) {
-      updated = favorites.filter(f => f.id !== flight.id);
-    } else {
-      updated = [...favorites, flight];
-    }
+  const toggleFavorite = (flight, isReturn) => {
+    const flightData = { ...flight, isReturn };
+
+    const exists = favorites.some(
+      f => f.baseId === flight.baseId && f.isReturn === isReturn
+    );
+
+    const updated = exists
+      ? favorites.filter(f => !(f.baseId === flight.baseId && f.isReturn === isReturn))
+      : [...favorites, flightData];
+
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };

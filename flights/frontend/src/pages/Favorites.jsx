@@ -44,10 +44,10 @@ const Favorites = ({ openModal }) => {
     };
 
     if (favorites.length === 0)
-        return <p className="text-center mt-10">No favorite flights yet.</p>;
+        return <p className="text-gray-500 text-lg font-medium text-center mt-10">No favorite flights yet.</p>;
 
     return (
-        <div className="py-10 px-4 max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="mt-5 mb-5 py-2 px-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
             {favorites.map((flight, index) => (
                 <div
                     key={index}
@@ -62,28 +62,27 @@ const Favorites = ({ openModal }) => {
                     </div>
 
                     <div className="p-5 pb-4">
-                        {/* Logo + plane icon */}
+                        {/* Logo */}
                         <div className="flex items-center justify-between mb-4">
                             <img src={flight.airline} alt="Airline Logo" className="w-16 h-16 object-contain" />
-                            <Plane className="text-blue-600 w-6 h-6" />
                         </div>
 
                         {/* One-way flight */}
-                        <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center justify-between mb-4 -mt-5">
                             <div>
-                                <h3 className="text-2xl font-bold">{flight.from}</h3>
-                                <p className="text-gray-400 text-sm">{flight.fromCode}</p>
-                                <p className="text-gray-800 font-semibold text-xl mt-1">
+                                <h3 className="text-2xl font-bold ml-3">{flight.from}</h3>
+                                <p className="text-gray-400 text-sm ml-3">{flight.fromCode}</p>
+                                <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
                                     {flight.departure}
                                 </p>
                             </div>
 
                             <div className="flex items-center justify-center w-full relative mt-4">
-                                <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-                                <div className="absolute left-0 top-1/2 w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></div>
-                                <div className="absolute right-0 top-1/2 w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></div>
+                                <div className="absolute top-1/2 -left-5 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                                <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                                <div className="absolute right-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                                    <Plane className="w-6 h-6 text-black animate-flight" />
+                                    <Plane className="w-6 h-6 text-gray-600 animate-flight" />
                                 </div>
                             </div>
 
@@ -101,19 +100,19 @@ const Favorites = ({ openModal }) => {
                             <div className="mt-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-2xl font-bold">{flight.to}</h3>
-                                        <p className="text-gray-400 text-sm">{flight.toCode}</p>
-                                        <p className="text-gray-800 font-semibold text-xl mt-1">
+                                        <h3 className="text-2xl font-bold ml-3">{flight.to}</h3>
+                                        <p className="text-gray-400 text-sm ml-3">{flight.toCode}</p>
+                                        <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
                                             {flight.returnDeparture}
                                         </p>
                                     </div>
 
                                     <div className="flex items-center justify-center w-full relative mt-4">
-                                        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-                                        <div className="absolute left-0 top-1/2 w-2 h-2 bg-blue-900 rounded-full transform -translate-y-1/2"></div>
-                                        <div className="absolute right-0 top-1/2 w-2 h-2 bg-blue-900 rounded-full transform -translate-y-1/2"></div>
+                                        <div className="absolute top-1/2 -left-2 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                                        <div className="absolute -left-2 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                                        <div className="absolute right-4 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
                                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                                            <Plane className="w-6 h-6 text-blue-900 animate-flight" />
+                                            <Plane className="w-6 h-6 text-gray-600 animate-flight" />
                                         </div>
                                     </div>
 
@@ -132,8 +131,8 @@ const Favorites = ({ openModal }) => {
                         )}
 
                         {/* Duration + price */}
-                        <div className="mt-4 flex justify-between">
-                            <span className="text-gray-600">Duration: {flight.duration}</span>
+                        <div className="mt-4 flex justify-between -mb-3">
+                            <span className="text-gray-600 text-sm">Duration: {flight.duration}</span>
                             <span className="text-blue-600 font-bold text-lg">
                                 €{flight.oneWayPrice}
                             </span>
@@ -142,7 +141,7 @@ const Favorites = ({ openModal }) => {
 
                     {/* Book Now */}
                     <div className="border-t border-dashed border-gray-300 my-2"></div>
-                    <div className="p-6 pt-4">
+                    <div className="p-3 pt-2">
                         <button
                             onClick={() => openModal && openModal(flight)}
                             className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition"
@@ -150,6 +149,9 @@ const Favorites = ({ openModal }) => {
                             Book Now
                         </button>
                     </div>
+                    {/*circles*/}
+                    <div className="absolute top-1/2 -left-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-r-full"></div>
+                    <div className="absolute top-1/2 -right-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-l-full"></div>
                 </div>
             ))}
         </div>
