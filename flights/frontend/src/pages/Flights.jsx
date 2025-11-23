@@ -15,10 +15,7 @@ import easyJet from "../images/easyJet.png";
 import aegean from "../images/aegean.png";
 
 const baseFlights = [
-  { id: 1, from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "IST", oneWayPrice: 75, duration: "1h 45min", airline: turkish, departure: "08:55", arrival: "12:40", returnDeparture: "08:25", returnArrival: "08:05", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 1, 2, 3, 4, 5, 6], isReturn: false },
-  { id: 1, from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "IST", oneWayPrice: 75, duration: "1h 45min", airline: turkish, departure: "08:55", arrival: "12:40", returnDeparture: "08:25", returnArrival: "08:05", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 1, 2, 3, 4, 5, 6], isReturn: true },
-  { id: 2, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 167, duration: "2h 05min", airline: pegasus, departure: "10:30", arrival: "12:35", returnDeparture: "18:00", returnArrival: "20:05", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 3, 5, 6], isReturn: false },
-  { id: 2, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 167, duration: "2h 05min", airline: pegasus, departure: "10:30", arrival: "12:35", returnDeparture: "18:00", returnArrival: "20:05", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 3, 5, 6], isReturn: true },
+  { id: 1, from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "IST", airline: turkish, validDays: [0, 1, 2, 3, 4, 5, 6], oneWay: { departure: "08:55", arrival: "12:40", duration: "1h 45min", price: 75 }, return: { departure: "16:25", arrival: "16:05", returnTo: "Prishtina", returnToCode: "PRN" } }, { id: 2, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", oneWayPrice: 167, duration: "2h 05min", airline: pegasus, departure: "10:30", arrival: "12:35", returnDeparture: "18:00", returnArrival: "20:05", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 3, 5, 6], isReturn: true },
   { id: 3, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", oneWayPrice: 191, duration: "3h 05min", airline: british, departure: "10:30", arrival: "13:35", returnDeparture: "18:45", returnArrival: "21:50", returnTo: "Tirana", returnToCode: "TIA", validDays: [1, 3, 5], isReturn: false },
   { id: 3, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", oneWayPrice: 191, duration: "3h 05min", airline: british, departure: "10:30", arrival: "13:35", returnDeparture: "18:45", returnArrival: "21:50", returnTo: "Tirana", returnToCode: "TIA", validDays: [1, 3, 5], isReturn: true },
   { id: 4, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 69, duration: "1h 15min", airline: wizz, departure: "10:30", arrival: "11:45", returnDeparture: "18:20", returnArrival: "19:35", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 1, 3, 5, 6, 7], isReturn: false },
@@ -107,12 +104,13 @@ const baseFlights = [
   { id: 45, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 198, duration: "13h 55min", airline: turkish, departure: "20:35", arrival: "10:30", returnDeparture: "20:35", returnArrival: "10:30", returnTo: "Prishtina", returnToCode: "PRN", validDays: [5, 6], isReturn: true },
   { id: 46, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", oneWayPrice: 218, duration: "9h 30min", airline: british, departure: "13:00", arrival: "22:30", returnDeparture: "13:00", returnArrival: "22:30", returnTo: "Tirana", returnToCode: "TIA", validDays: [2], isReturn: false },
   { id: 46, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", oneWayPrice: 218, duration: "9h 30min", airline: british, departure: "13:00", arrival: "22:30", returnDeparture: "13:00", returnArrival: "22:30", returnTo: "Tirana", returnToCode: "TIA", validDays: [2], isReturn: true },
-
   { id: 47, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "FCO", oneWayPrice: 29, duration: "1h 30min", airline: ryan_air, departure: "10:20", arrival: "11:50", returnDeparture: "18:40", returnArrival: "20:10", returnTo: "Tirana", returnToCode: "TIA", validDays: [0, 1, 3, 5, 6], isReturn: false },
   { id: 47, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "FCO", oneWayPrice: 29, duration: "1h 30min", airline: ryan_air, departure: "10:20", arrival: "11:50", returnDeparture: "18:40", returnArrival: "20:10", returnTo: "Tirana", returnToCode: "TIA", validDays: [0, 1, 3, 5, 6], isReturn: true },
   { id: 48, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", oneWayPrice: 94, duration: "9h 00min", airline: pegasus, departure: "11:00", arrival: "20:00", returnDeparture: "11:00", returnArrival: "20:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1], isReturn: false },
   { id: 48, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", oneWayPrice: 94, duration: "9h 00min", airline: pegasus, departure: "11:00", arrival: "20:00", returnDeparture: "11:00", returnArrival: "20:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1], isReturn: true },
 
+  { id: 50, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 267, duration: "4h 20min", airline: swiss, departure: "09:40", arrival: "14:00", returnDeparture: "09:40", returnArrival: "14:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 4, 6], isReturn: false },
+  { id: 50, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 267, duration: "4h 20min", airline: swiss, departure: "09:40", arrival: "14:00", returnDeparture: "09:40", returnArrival: "14:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 4, 6], isReturn: true },
   { id: 51, from: "Tirana", fromCode: "TIA", to: "Madrid", toCode: "MAD", oneWayPrice: 110, duration: "8h 50min", airline: pegasus, departure: "02:55", arrival: "11:45", returnDeparture: "02:55", returnArrival: "11:45", returnTo: "Tirana", returnToCode: "TIA", validDays: [1, 3], isReturn: false },
   { id: 51, from: "Tirana", fromCode: "TIA", to: "Madrid", toCode: "MAD", oneWayPrice: 110, duration: "8h 50min", airline: pegasus, departure: "02:55", arrival: "11:45", returnDeparture: "02:55", returnArrival: "11:45", returnTo: "Tirana", returnToCode: "TIA", validDays: [1, 3], isReturn: true },
   { id: 52, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 261, duration: "7h 20min", airline: austrian, departure: "12:25", arrival: "19:45", returnDeparture: "12:25", returnArrival: "19:45", returnTo: "Prishtina", returnToCode: "PRN", validDays: [3], isReturn: false },
@@ -126,6 +124,9 @@ const baseFlights = [
   { id: 56, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 347, duration: "9h 20min", airline: swiss, departure: "09:40", arrival: "19:00", returnDeparture: "09:40", returnArrival: "19:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 6], isReturn: false },
   { id: 56, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 347, duration: "9h 20min", airline: swiss, departure: "09:40", arrival: "19:00", returnDeparture: "09:40", returnArrival: "19:00", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 6], isReturn: true },
 
+  { id: 58, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 246, duration: "6h 30min", airline: turkish, departure: "08:55", arrival: "15:25", returnDeparture: "08:55", returnArrival: "15:25", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 1, 2, 5, 6], isReturn: false },
+  { id: 58, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 246, duration: "6h 30min", airline: turkish, departure: "08:55", arrival: "15:25", returnDeparture: "08:55", returnArrival: "15:25", returnTo: "Prishtina", returnToCode: "PRN", validDays: [0, 1, 2, 5, 6], isReturn: true },
+
   { id: 61, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", oneWayPrice: 115, duration: "7h 15min", airline: lufthansa, departure: "16:05", arrival: "23:20", returnDeparture: "16:05", returnArrival: "23:20", returnTo: "Tirana", returnToCode: "TIA", validDays: [0, 1, 3, 4, 5, 6], isReturn: false },
   { id: 61, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", oneWayPrice: 115, duration: "7h 15min", airline: lufthansa, departure: "16:05", arrival: "23:20", returnDeparture: "16:05", returnArrival: "23:20", returnTo: "Tirana", returnToCode: "TIA", validDays: [0, 1, 3, 4, 5, 6], isReturn: true },
   { id: 62, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 308, duration: "5h 35min", airline: easyJet, departure: "10:05", arrival: "15:40", returnDeparture: "10:05", returnArrival: "15:40", returnTo: "Prishtina", returnToCode: "PRN", validDays: [3, 4, 5], isReturn: false },
@@ -137,44 +138,78 @@ const baseFlights = [
   { id: 75, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 226, duration: "9h 00min", airline: pegasus, departure: "02:45", arrival: "11:45", returnDeparture: "02:45", returnArrival: "11:45", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: false },
   { id: 75, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", oneWayPrice: 226, duration: "9h 00min", airline: pegasus, departure: "02:45", arrival: "11:45", returnDeparture: "02:45", returnArrival: "11:45", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: true },
 
+
+  { id: 78, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 217, duration: "6h 10min", airline: lufthansa, departure: "13:20", arrival: "19:30", returnDeparture: "13:20", returnArrival: "19:30", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 5, 6], isReturn: false },
+  { id: 78, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 217, duration: "6h 10min", airline: lufthansa, departure: "13:20", arrival: "19:30", returnDeparture: "13:20", returnArrival: "19:30", returnTo: "Prishtina", returnToCode: "PRN", validDays: [2, 5, 6], isReturn: true },
+
+  { id: 85, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 277, duration: "5h 35min", airline: pegasus, departure: "11:40", arrival: "17:15", returnDeparture: "11:40", returnArrival: "17:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 4, 6], isReturn: false },
+  { id: 85, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", oneWayPrice: 277, duration: "5h 35min", airline: pegasus, departure: "11:40", arrival: "17:15", returnDeparture: "11:40", returnArrival: "17:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 4, 6], isReturn: true },
+
+  { id: 90, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 305, duration: "7h 00min", airline: lufthansa, departure: "11:15", arrival: "18:15", returnDeparture: "11:15", returnArrival: "18:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: false },
+  { id: 90, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 305, duration: "7h 00min", airline: lufthansa, departure: "11:15", arrival: "18:15", returnDeparture: "11:15", returnArrival: "18:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: true },
+
+
+  { id: 97, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 121, duration: "7h 20min", airline: turkish, departure: "08:55", arrival: "16:15", returnDeparture: "08:55", returnArrival: "16:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: false },
+  { id: 97, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", oneWayPrice: 121, duration: "7h 20min", airline: turkish, departure: "08:55", arrival: "16:15", returnDeparture: "08:55", returnArrival: "16:15", returnTo: "Prishtina", returnToCode: "PRN", validDays: [1, 3, 5], isReturn: true },
+
 ];
 
 // Gjenerimi i variantëve me orare të ndryshme
-const generateFlightVariants = (flight, count = 5, intervalHours = 2, isReturn = false) => {
+const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
+  if (!flight.oneWay) return [];
+
   const variants = [];
   for (let i = 0; i < count; i++) {
-    const dep = new Date(`1970-01-01T${flight.departure}:00`);
-    const arr = new Date(`1970-01-01T${flight.arrival}:00`);
+    const dep = new Date(`1970-01-01T${flight.oneWay.departure}:00`);
+    const arr = new Date(`1970-01-01T${flight.oneWay.arrival}:00`);
     dep.setHours(dep.getHours() + i * intervalHours);
     arr.setHours(arr.getHours() + i * intervalHours);
 
-    let retDep, retArr;
-    if (isReturn) {
-      retDep = new Date(`1970-01-01T${flight.returnDeparture}:00`);
-      retArr = new Date(`1970-01-01T${flight.returnArrival}:00`);
-      retDep.setHours(retDep.getHours() + i * intervalHours);
-      retArr.setHours(retArr.getHours() + i * intervalHours);
-    }
-
+    // One-way flight
     variants.push({
       ...flight,
-      id: `${flight.id}-${i}`,
-      baseId: flight.id,
-      departure: dep.toTimeString().slice(0, 5),
-      arrival: arr.toTimeString().slice(0, 5),
-      returnDeparture: isReturn ? retDep.toTimeString().slice(0, 5) : null,
-      returnArrival: isReturn ? retArr.toTimeString().slice(0, 5) : null,
-      isReturn
+      id: `${flight.id}-oneWay-${i}`,
+      oneWay: {
+        departure: dep.toTimeString().slice(0, 5),
+        arrival: arr.toTimeString().slice(0, 5),
+        duration: flight.oneWay.duration,
+        price: flight.oneWay.price
+      },
+      return: null,
+      isReturn: false
     });
+
+    // Return flight
+    if (flight.return) {
+      const retDep = new Date(`1970-01-01T${flight.return.departure}:00`);
+      const retArr = new Date(`1970-01-01T${flight.return.arrival}:00`);
+      retDep.setHours(retDep.getHours() + i * intervalHours);
+      retArr.setHours(retArr.getHours() + i * intervalHours);
+
+      variants.push({
+        ...flight,
+        id: `${flight.id}-return-${i}`,
+        oneWay: {
+          departure: dep.toTimeString().slice(0, 5),
+          arrival: arr.toTimeString().slice(0, 5),
+          duration: flight.oneWay.duration,
+          price: flight.oneWay.price
+        },
+        return: {
+          departure: retDep.toTimeString().slice(0, 5),
+          arrival: retArr.toTimeString().slice(0, 5),
+          returnTo: flight.return.returnTo,
+          returnToCode: flight.return.returnToCode
+        },
+        isReturn: true
+      });
+    }
   }
   return variants;
 };
 
-// Gjenerojmë të gjitha variantet
-const oneWayFlights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2, false));
-const returnFlights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2, true));
-
-const flights = [...oneWayFlights, ...returnFlights];
+// Gjenerojmë të gjitha fluturimet
+const flights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2));
 
 //Bllokim i scroll-it
 const useBodyScrollLock = (isLocked) => {
@@ -257,25 +292,17 @@ const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, availableFl
 };
 
 // FlightCard Component
-const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites }) => {
-  const price = isReturn ? Math.round(flight.oneWayPrice * 1.6) : flight.oneWayPrice;
+const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
+  const isReturn = !!flight.return;
+  const price = isReturn ? Math.round(flight.oneWay.price * 1.6) : flight.oneWay.price;
   const displayPrice = `€${price}`;
 
-  const isFavorite = favorites.some(
-    (f) => f.id === flight.id && f.isReturn === isReturn
-  );
+  const isFavorite = favorites.some(f => f.id === flight.id);
 
-  const toggleFavorite = (flight, isReturn) => {
-    const flightData = { ...flight, isReturn };
-
-    const updated = favorites.some(
-      f => f.id === flight.id && f.isReturn === isReturn
-    )
-      ? favorites.filter(
-        f => !(f.id === flight.id && f.isReturn === isReturn)
-      )
-      : [...favorites, flightData];
-
+  const toggleFavorite = (flight) => {
+    const updated = isFavorite
+      ? favorites.filter(f => f.id !== flight.id)
+      : [...favorites, flight];
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
@@ -285,15 +312,9 @@ const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites 
       {/* Favorite Heart */}
       <div
         className="absolute top-4 right-4 cursor-pointer z-10"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleFavorite(flight, isReturn);
-        }}
+        onClick={(e) => { e.stopPropagation(); toggleFavorite(flight); }}
       >
-        <Heart
-          className={`w-6 h-6 transition-all ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-400"
-            }`}
-        />
+        <Heart className={`w-6 h-6 transition-all ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-400"}`} />
       </div>
 
       <div className="p-3 pb-1">
@@ -301,62 +322,60 @@ const FlightCard = ({ flight, isReturn, openModal, favorites = [], setFavorites 
           <img src={flight.airline} alt="Airline Logo" className="w-16 h-16 object-contain" />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between -mt-5">
-            <div>
-              <h3 className="text-2xl font-bold ml-4">{flight.from}</h3>
-              <p className="text-gray-400 text-sm ml-4">{flight.fromCode}</p>
-              <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.departure}</p>
-            </div>
+        {/* One-way segment */}
+        <div className="flex items-center justify-between gap-4 -mt-5">
+          <div>
+            <h3 className="text-2xl font-bold ml-4">{flight.from}</h3>
+            <p className="text-gray-400 text-sm ml-4">{flight.fromCode}</p>
+            <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.oneWay.departure}</p>
+          </div>
 
-            <div className="flex items-center justify-center w-full relative mt-4">
-              <div className="absolute top-1/2 -left-5 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-              <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
-              <div className="absolute right-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold">{flight.to}</h3>
-              <p className="text-gray-400 text-sm">{flight.toCode}</p>
-              <p className="text-gray-800 font-semibold text-xl mt-1 mr-4">{flight.arrival}</p>
+          <div className="flex items-center justify-center w-full relative mt-4">
+            <div className="absolute top-1/2 -left-5 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+            <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+            <div className="absolute right-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
+              <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
             </div>
           </div>
 
-          {isReturn && (
-            <div className="mt-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold ml-4">{flight.to}</h3>
-                  <p className="text-gray-400 text-sm ml-4">{flight.toCode}</p>
-                  <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.returnDeparture}</p>
-                </div>
+          <div>
+            <h3 className="text-2xl font-bold">{flight.to}</h3>
+            <p className="text-gray-400 text-sm">{flight.toCode}</p>
+            <p className="text-gray-800 font-semibold text-xl mt-1 mr-4">{flight.oneWay.arrival}</p>
+          </div>
+        </div>
 
-                <div className="flex items-center justify-center w-full relative mt-4">
-                  <div className="absolute top-1/2 -left-2 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-                  <div className="absolute -left-2 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
-                  <div className="absolute right-4 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                    <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold mr-4">{flight.returnTo}</h3>
-                  <p className="text-gray-400 text-sm">{flight.returnToCode}</p>
-                  <p className="text-gray-800 font-semibold text-xl mt-1">{flight.returnArrival}</p>
+        {/* Return segment */}
+        {isReturn && (
+          <div className="mt-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h3 className="text-2xl font-bold ml-4">{flight.to}</h3>
+                <p className="text-gray-400 text-sm ml-4">{flight.toCode}</p>
+                <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.return.departure}</p>
+              </div>
+              <div className="flex items-center justify-center w-full relative mt-4">
+                <div className="absolute top-1/2 -left-5 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
+                  <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mt-2 font-semibold">Return Flight</p>
+              <div>
+                <h3 className="text-2xl font-bold ml-4">{flight.return.returnTo}</h3>
+                <p className="text-gray-400 text-sm ml-4">{flight.return.returnToCode}</p>
+                <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">{flight.return.arrival}</p>
+              </div>
             </div>
-          )}
-        </div>
-        <div className="mt-4 flex justify-between">
-          <span className="text-sm text-gray-600 ml-4">Duration: {flight.duration}</span>
-          <span className="text-blue-600 font-bold text-lg mr-5">{displayPrice}</span>
-        </div>
+            <p className="text-sm text-gray-500 mt-2 font-semibold">Return Flight</p>
+          </div>
+        )}
+      </div>
+      <div className="mt-4 flex justify-between px-4">
+        <span className="text-sm text-gray-600">Duration: {flight.oneWay.duration}</span>
+        <span className="text-blue-600 font-bold text-lg">{displayPrice}</span>
       </div>
       <div className="border-t border-dashed border-gray-300 my-2"></div>
       <div className="p-4 pt-1">
@@ -453,7 +472,11 @@ const FlightsSection = () => {
   const totalPages = Math.ceil(uniqueFlights.length / flightsPerPage);
   const indexOfLastFlight = currentPage * flightsPerPage;
   const indexOfFirstFlight = indexOfLastFlight - flightsPerPage;
-  const currentFlights = uniqueFlights.slice(indexOfFirstFlight, indexOfLastFlight);
+
+  // Filtron fluturimet sipas tipit OneWay / Return dhe bën pagination
+  const currentFlights = flights
+    .filter(f => f.isReturn === isReturn) // filtrimi sipas butonit OneWay / Return
+    .slice(indexOfFirstFlight, indexOfLastFlight);
 
   // Funksion për pagination 1 2 3 ... 9
   const getPages = (totalPages, currentPage) => {
@@ -608,7 +631,7 @@ const FlightsSection = () => {
       <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
         {currentFlights.map((flight, index) => (
           <FlightCard
-            key={index}
+            key={flight.id}
             flight={flight}
             isReturn={isReturn}
             openModal={openModal}
@@ -647,6 +670,7 @@ const FlightsSection = () => {
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-xl font-bold">{modalFlight.from} → {modalFlight.to}</h2>
             </div>
+
             <div className="p-6 overflow-y-auto flex-1 space-y-4">
               <div>
                 <p className="mb-2 font-semibold">Departure Date</p>
@@ -655,11 +679,11 @@ const FlightsSection = () => {
                   setSelectedDate={setDepartureDate}
                   minDate={today}
                   maxDate={maxDate}
-                  availableFlights={[modalFlight]} // këtu i japim fluturimin aktual
+                  availableFlights={[modalFlight]}
                 />
               </div>
 
-              {isReturn && (
+              {modalFlight.return && (
                 <div>
                   <p className="mb-2 mt-4 font-semibold">Return Date</p>
                   <Calendar
@@ -667,7 +691,7 @@ const FlightsSection = () => {
                     setSelectedDate={setReturnDate}
                     minDate={departureDate || today}
                     maxDate={maxDate}
-                    availableFlights={[modalFlight]} // edhe për kthim e përdorim të njëjtën listë
+                    availableFlights={[modalFlight]}
                   />
                 </div>
               )}
@@ -675,13 +699,13 @@ const FlightsSection = () => {
 
             <div className="p-6 border-t border-gray-200 flex justify-between items-center">
               <div className="text-lg font-semibold">
-                Price: €{isReturn ? Math.round(modalFlight.oneWayPrice * 1.6) : modalFlight.oneWayPrice}
+                Price: €{modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price}
               </div>
               <button
                 onClick={() => {
-                  if (!departureDate) { alert("You didn't choose a departure date"); return; }
-                  if (isReturn && !returnDate) { alert("You didn't choose a return date"); return; }
-                  alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}\nPrice: €${isReturn ? Math.round(modalFlight.oneWayPrice * 1.6) : modalFlight.oneWayPrice}`);
+                  if (!departureDate) { alert("Choose departure date"); return; }
+                  if (modalFlight.return && !returnDate) { alert("Choose return date"); return; }
+                  alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}\nPrice: €${modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price}`);
                   closeModal();
                 }}
                 className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"

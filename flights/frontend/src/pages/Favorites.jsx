@@ -73,7 +73,7 @@ const Favorites = ({ openModal }) => {
                                 <h3 className="text-2xl font-bold ml-3">{flight.from}</h3>
                                 <p className="text-gray-400 text-sm ml-3">{flight.fromCode}</p>
                                 <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
-                                    {flight.departure}
+                                    {flight.oneWay.departure}
                                 </p>
                             </div>
 
@@ -90,51 +90,49 @@ const Favorites = ({ openModal }) => {
                                 <h3 className="text-2xl font-bold">{flight.to}</h3>
                                 <p className="text-gray-400 text-sm">{flight.toCode}</p>
                                 <p className="text-gray-800 font-semibold text-xl mt-1">
-                                    {flight.arrival}
+                                    {flight.oneWay.arrival}
                                 </p>
                             </div>
                         </div>
 
                         {/* Return flight */}
-                        {flight.isReturn && (
+                        {flight.isReturn && flight.return && (
                             <div className="mt-4">
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between gap-4">
                                     <div>
-                                        <h3 className="text-2xl font-bold ml-3">{flight.to}</h3>
-                                        <p className="text-gray-400 text-sm ml-3">{flight.toCode}</p>
-                                        <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
-                                            {flight.returnDeparture}
+                                        <h3 className="text-2xl font-bold ml-4">{flight.to}</h3>
+                                        <p className="text-gray-400 text-sm ml-4">{flight.toCode}</p>
+                                        <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">
+                                            {flight.return.departure}
                                         </p>
                                     </div>
 
                                     <div className="flex items-center justify-center w-full relative mt-4">
-                                        <div className="absolute top-1/2 -left-2 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
-                                        <div className="absolute -left-2 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
-                                        <div className="absolute right-4 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                                        <div className="absolute top-1/2 -left-5 right-5 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                                        <div className="absolute -left-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
+                                        <div className="absolute right-5 top-1/2 w-2 h-2 bg-gray-600 rounded-full transform -translate-y-1/2"></div>
                                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45">
-                                            <Plane className="w-6 h-6 text-gray-600 animate-flight" />
+                                            <Plane className="w-6 h-6 text-gray-600 bg-white animate-flight" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-2xl font-bold">{flight.returnTo}</h3>
-                                        <p className="text-gray-400 text-sm">{flight.returnToCode}</p>
-                                        <p className="text-gray-800 font-semibold text-xl mt-1">
-                                            {flight.returnArrival}
+                                        <h3 className="text-2xl font-bold ml-4">{flight.return.returnTo}</h3>
+                                        <p className="text-gray-400 text-sm ml-4">{flight.return.returnToCode}</p>
+                                        <p className="text-gray-800 font-semibold text-xl mt-1 ml-4">
+                                            {flight.return.arrival}
                                         </p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-500 mt-2 font-semibold">
-                                    Return Flight
-                                </p>
+                                <p className="text-sm text-gray-500 mt-2 font-semibold">Return Flight</p>
                             </div>
                         )}
 
                         {/* Duration + price */}
                         <div className="mt-4 flex justify-between -mb-3">
-                            <span className="text-gray-600 text-sm">Duration: {flight.duration}</span>
+                            <span className="text-gray-600 text-sm">Duration: {flight.oneWay.duration}</span>
                             <span className="text-blue-600 font-bold text-lg">
-                                €{flight.oneWayPrice}
+                                €{flight.isReturn ? Math.round(flight.oneWay.price * 1.6) : flight.oneWay.price}
                             </span>
                         </div>
                     </div>
@@ -149,7 +147,8 @@ const Favorites = ({ openModal }) => {
                             Book Now
                         </button>
                     </div>
-                    {/*circles*/}
+
+                    {/* Circles */}
                     <div className="absolute top-1/2 -left-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-r-full"></div>
                     <div className="absolute top-1/2 -right-0 w-6 h-8 bg-gray-100 border border-gray-300 rounded-l-full"></div>
                 </div>
