@@ -1,29 +1,5 @@
-// Favorites.jsx
 import React, { useState, useEffect } from "react";
 import { Plane, Heart } from "lucide-react";
-
-import swiss from "../images/swiss.png";
-import turkish from "../images/turkish.png";
-import wizz from "../images/wizz.png";
-import pegasus from "../images/pegasus.png";
-import a_jet from "../images/a_jet.png";
-import airAlbania from "../images/air_alb.png";
-import austrian from "../images/austrian.png";
-import ryan_air from "../images/ryan_air.png";
-import british from "../images/british.png";
-
-// Mapping për logot
-const airlineLogos = {
-    turkish,
-    wizz,
-    pegasus,
-    swiss,
-    ryan_air,
-    airAlbania,
-    austrian,
-    british,
-    a_jet,
-};
 
 const Favorites = ({ openModal }) => {
     const [favorites, setFavorites] = useState([]);
@@ -73,7 +49,7 @@ const Favorites = ({ openModal }) => {
                                 <h3 className="text-2xl font-bold ml-3">{flight.from}</h3>
                                 <p className="text-gray-400 text-sm ml-3">{flight.fromCode}</p>
                                 <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
-                                    {flight.oneWay.departure}
+                                    {flight?.oneWay?.departure || "—"}
                                 </p>
                             </div>
 
