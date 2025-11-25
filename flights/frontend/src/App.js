@@ -43,7 +43,6 @@ function App() {
     return stored ? JSON.parse(stored) : [];
   });
 
-
   return (
     <Router>
       <div className="flex flex-col min-h-screen">

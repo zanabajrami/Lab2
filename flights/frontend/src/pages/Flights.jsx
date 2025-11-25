@@ -26,7 +26,7 @@ const baseFlights = [
   { id: 9, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", airline: austrian, validDays: [0, 6], oneWay: { departure: "08:45", arrival: "11:00", duration: "2h 15min", price: 256 }, return: { departure: "17:00", arrival: "19:15", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 10, from: "Tirana", fromCode: "TIA", to: "Budapest", toCode: "BUD", airline: austrian, validDays: [0, 2, 5], oneWay: { departure: "12:15", arrival: "17:15", duration: "5h 00min", price: 137 }, return: { departure: "12:15", arrival: "17:15", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 11, from: "Prishtina", fromCode: "PRN", to: "Istanbul", toCode: "SAW", airline: pegasus, validDays: [0, 2, 5, 6], oneWay: { departure: "10:20", arrival: "11:55", duration: "1h 35min", price: 30 }, return: { departure: "18:10", arrival: "19:45", returnTo: "Prishtina", returnToCode: "PRN" } },
-
+  { id: 12, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "ROM", airline: austrian, validDays: [1, 3], oneWay: { departure: "12:15", arrival: "19:15", duration: "7h 00min", price: 262 }, return: { departure: "16:10", arrival: "23:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 13, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: austrian, validDays: [3], oneWay: { departure: "12:25", arrival: "19:45", duration: "7h 20min", price: 261 }, return: { departure: "12:25", arrival: "19:45", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 14, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", airline: ryan_air, validDays: [0, 3, 4, 6], oneWay: { departure: "11:00", arrival: "14:10", duration: "3h 10min", price: 135 }, return: { departure: "19:00", arrival: "22:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 15, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", airline: austrian, validDays: [0, 6], oneWay: { departure: "09:00", arrival: "10:20", duration: "1h 20min", price: 99 }, return: { departure: "17:00", arrival: "18:20", returnTo: "Prishtina", returnToCode: "PRN" } },
@@ -59,35 +59,37 @@ const baseFlights = [
   { id: 43, from: "Prishtina", fromCode: "PRN", to: "Rome", toCode: "FCO", airline: ryan_air, validDays: [1, 3, 5, 7], oneWay: { departure: "02:45", arrival: "10:15", duration: "7h 30min", price: 115 }, return: { departure: "02:45", arrival: "10:15", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 44, from: "Tirana", fromCode: "TIA", to: "Madrid", toCode: "MAD", airline: wizz, validDays: [3, 5], oneWay: { departure: "17:50", arrival: "21:30", duration: "3h 40min", price: 34 }, return: { departure: "17:50", arrival: "21:30", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 45, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: turkish, validDays: [5, 6], oneWay: { departure: "20:35", arrival: "10:30", duration: "13h 55min", price: 198 }, return: { departure: "20:35", arrival: "10:30", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 46, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MIL", airline: turkish, validDays: [1], oneWay: { departure: "07:00", arrival: "13:30", duration: "6h 30min", price: 298 }, return: { departure: "15:20", arrival: "21:50", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 47, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "PAR", airline: turkish, validDays: [1], oneWay: { departure: "07:00", arrival: "14:30", duration: "7h 30min", price: 250 }, return: { departure: "15:05", arrival: "22:40", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 48, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", airline: pegasus, validDays: [1], oneWay: { departure: "11:00", arrival: "20:00", duration: "9h 00min", price: 94 }, return: { departure: "11:00", arrival: "20:00", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 49, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: austrian, validDays: [1], oneWay: { departure: "12:15", arrival: "18:50", duration: "5h 35min", price: 377 }, return: { departure: "09:15", arrival: "15:50", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 50, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", airline: swiss, validDays: [2, 4, 6], oneWay: { departure: "09:40", arrival: "14:00", duration: "4h 20min", price: 267 }, return: { departure: "09:40", arrival: "14:00", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 51, from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "IST", airline: turkish, validDays: [0, 1, 2, 3, 4, 5, 6], oneWay: { departure: "07:00", arrival: "10:40", duration: "1h 40min", price: 117 }, return: { departure: "23:00", arrival: "22:40", returnTo: "Tirana", returnToCode: "TIA" } },
-  { id: 52, from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LHR", airline: swiss, validDays: [4], oneWay: { departure: "13:45", arrival: "19:50", duration: "5h 05min", price: 153 }, return: { departure: "09:20", arrival: "14:25", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 53, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", airline: pegasus, validDays: [0, 3], oneWay: { departure: "02:15", arrival: "11:45", duration: "9h 30min", price: 109 }, return: { departure: "02:15", arrival: "11:45", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 52, from: "Prishtina", fromCode: "PRN", to: "Budapest", toCode: "BUD", airline: turkish, validDays: [0, 6], oneWay: { departure: "08:50", arrival: "19:00", duration: "10h", price: 186 }, return: { departure: "20:05", arrival: "06:05", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 53, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "CDG", airline: lufthansa, validDays: [1, 3, 5], oneWay: { departure: "08:45", arrival: "15:00", duration: "6h 15min", price: 118 }, return: { departure: "16:05", arrival: "22:20", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 54, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", airline: turkish, validDays: [1, 3, 5], oneWay: { departure: "08:55", arrival: "16:25", duration: "7h 30min", price: 168 }, return: { departure: "08:55", arrival: "16:25", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 55, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LON", airline: pegasus, validDays: [1], oneWay: { departure: "03:10", arrival: "09:40", duration: "7h 30min", price: 85 }, return: { departure: "06:10", arrival: "12:40", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 56, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: swiss, validDays: [2, 6], oneWay: { departure: "09:40", arrival: "19:00", duration: "9h 20min", price: 347 }, return: { departure: "09:40", arrival: "19:00", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 57, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: aegean, validDays: [4, 0], oneWay: { departure: "10:05", arrival: "20:00", duration: "10h 00min", price: 169 }, return: { departure: "17:55", arrival: "", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 57, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MIL", airline: pegasus, validDays: [1], oneWay: { departure: "03:10", arrival: "11:20", duration: "8h 10min", price: 340 }, return: { departure: "11:30", arrival: "21:40", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 58, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", airline: turkish, validDays: [0, 1, 2, 5, 6], oneWay: { departure: "08:55", arrival: "15:25", duration: "6h 30min", price: 246 }, return: { departure: "08:55", arrival: "15:25", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 59, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", airline: lufthansa, validDays: [1, 2], oneWay: { departure: "16:05", arrival: "20:50", duration: "5h 45min", price: 124 }, return: { departure: "16:30", arrival: "23:15", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 60, from: "Prishtina", fromCode: "PRN", to: "Cairo", toCode: "CAI", airline: swiss, validDays: [3], oneWay: { departure: "10:40", arrival: "19:00", duration: "7h 50min", price: 399 }, return: { departure: "13:00", arrival: "19:35", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 61, from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "IST", airline: lufthansa, validDays: [1], oneWay: { departure: "06:30", arrival: "17:00", duration: "10h 30min", price: 159 }, return: { departure: "09:30", arrival: "18:00", returnTo: "Tirana", returnToCode: "TIA" } },
-  { id: 62, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: easyJet, validDays: [3, 4, 5], oneWay: { departure: "10:05", arrival: "15:40", duration: "5h 35min", price: 308 }, return: { departure: "10:05", arrival: "15:40", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 63, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: turkish, validDays: [1], oneWay: { departure: "07:10", arrival: "14:00", duration: "6h 50min", price: 359 }, return: { departure: "", arrival: "", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 62, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", airline: austrian, validDays: [5], oneWay: { departure: "12:25", arrival: "20:15", duration: "7h 50min", price: 162 }, return: { departure: "08:15", arrival: "16:05", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 63, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: turkish, validDays: [1], oneWay: { departure: "07:10", arrival: "14:00", duration: "6h 50min", price: 359 }, return: { departure: "02:25", arrival: "09:15", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 64, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", airline: swiss, validDays: [1, 6], oneWay: { departure: "09:40", arrival: "14:10", duration: "4h 30min", price: 189 }, return: { departure: "09:40", arrival: "14:10", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 65, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "FCO", airline: ryan_air, validDays: [0, 1, 3, 5, 6], oneWay: { departure: "10:20", arrival: "11:50", duration: "1h 30min", price: 29 }, return: { departure: "18:40", arrival: "20:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 66, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: lufthansa, validDays: [1], oneWay: { departure: "17:45", arrival: "01:40", duration: "7h 55min", price: 396 }, return: { departure: "11:55", arrival: "19:50", returnTo: "Prishtina", returnToCode: "PRN" } },
-
+  { id: 67, from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", airline: austrian, validDays: [0, 2, 4, 6], oneWay: { departure: "10:15", arrival: "11:45", duration: "1h 30min", price: 201 }, return: { departure: "18:00", arrival: "19:30", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 68, from: "Prishtina", fromCode: "PRN", to: "London", toCode: "STN", airline: pegasus, validDays: [1], oneWay: { departure: "12:30", arrival: "21:50", duration: "8h 20min", price: 559 }, return: { departure: "08:50", arrival: "17:10", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 69, from: "Tirana", fromCode: "TIA", to: "Istanbul", toCode: "IST", airline: british, validDays: [1], oneWay: { departure: "13:15", arrival: "00:25", duration: "9h 10min", price: 327 }, return: { departure: "07:40", arrival: "15:50", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 70, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "ORY", airline: easyJet, validDays: [3], oneWay: { departure: "15:30", arrival: "22:10", duration: "6h 40min", price: 97 }, return: { departure: "10:00", arrival: "17:40", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 71, from: "Tirana", fromCode: "TIA", to: "Madrid", toCode: "MAD", airline: aegean, validDays: [1, 6], oneWay: { departure: "10:05", arrival: "17:25", duration: "7h 20min", price: 176 }, return: { departure: "04:50", arrival: "12:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 72, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: swiss, validDays: [2], oneWay: { departure: "18:50", arrival: "13:40", duration: "19h 50min", price: 267 }, return: { departure: "10:45", arrival: "18:35", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 73, from: "Prishtina", fromCode: "PRN", to: "Budapest", toCode: "BUD", airline: pegasus, validDays: [0], oneWay: { departure: "22:20", arrival: "03:10", duration: "4h 50min", price: 104 }, return: { departure: "08:00", arrival: "12:50", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 74, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "CDG", airline: lufthansa, validDays: [1, 3, 5], oneWay: { departure: "08:45", arrival: "15:00", duration: "6h 15min", price: 118 }, return: { departure: "16:05", arrival: "22:20", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 74, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", airline: wizz, validDays: [2, 5, 6], oneWay: { departure: "14:10", arrival: "16:15", duration: "2h 05min", price: 19 }, return: { departure: "20:45", arrival: "22:50", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 75, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: pegasus, validDays: [1, 3, 5], oneWay: { departure: "02:45", arrival: "11:45", duration: "9h 00min", price: 226 }, return: { departure: "02:45", arrival: "11:45", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 76, from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", airline: austrian, validDays: [0, 2, 4, 6], oneWay: { departure: "10:15", arrival: "11:45", duration: "1h 30min", price: 201 }, return: { departure: "18:00", arrival: "19:30", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 76, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "ROM", airline: pegasus, validDays: [1, 4, 5, 6], oneWay: { departure: "11:45", arrival: "21:45", duration: "10h", price: 141 }, return: { departure: "03:10", arrival: "13:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 77, from: "Tirana", fromCode: "TIA", to: "London", toCode: "LHR", airline: wizz, validDays: [2, 4, 6], oneWay: { departure: "09:00", arrival: "12:10", duration: "3h 10min", price: 64 }, return: { departure: "17:30", arrival: "20:40", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 78, from: "Prishtina", fromCode: "PRN", to: "Vienna", toCode: "VIE", airline: lufthansa, validDays: [2, 5, 6], oneWay: { departure: "13:20", arrival: "19:30", duration: "6h 10min", price: 217 }, return: { departure: "13:20", arrival: "19:30", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 79, from: "Tirana", fromCode: "TIA", to: "Budapest", toCode: "BUD", airline: wizz, validDays: [0, 2, 5], oneWay: { departure: "06:45", arrival: "13:45", duration: "7h 00min", price: 137 }, return: { departure: "06:45", arrival: "13:45", returnTo: "Tirana", returnToCode: "TIA" } },
@@ -103,7 +105,7 @@ const baseFlights = [
   { id: 89, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "MXP", airline: wizz, validDays: [0, 3, 5, 6], oneWay: { departure: "11:20", arrival: "13:05", duration: "1h 45min", price: 30 }, return: { departure: "19:40", arrival: "21:25", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 90, from: "Tirana", fromCode: "TIA", to: "Budapest", toCode: "BUD", airline: lufthansa, validDays: [1, 3, 5], oneWay: { departure: "16:05", arrival: "23:05", duration: "7h 00min", price: 87 }, return: { departure: "10:10", arrival: "17:10", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 91, from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LON", airline: lufthansa, validDays: [1, 3, 4], oneWay: { departure: "06:00", arrival: "12:50", duration: "7h 50min", price: 157 }, return: { departure: "08:30", arrival: "17:20", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 92, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MXP", airline: wizz, validDays: [2, 5, 6], oneWay: { departure: "14:10", arrival: "16:15", duration: "2h 05min", price: 19 }, return: { departure: "20:45", arrival: "22:50", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 92, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "ROM", airline: turkish, validDays: [0, 1, 2, 3, 4, 5], oneWay: { departure: "07:00", arrival: "13:50", duration: "6h 50min", price: 237 }, return: { departure: "14:50", arrival: "21:40", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 93, from: "Prishtina", fromCode: "PRN", to: "Cairo", toCode: "CAI", airline: lufthansa, validDays: [1], oneWay: { departure: "15:40", arrival: "00:15", duration: "7h 35min", price: 379 }, return: { departure: "10:20", arrival: "17:55", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 94, from: "Tirana", fromCode: "TIA", to: "Madrid", toCode: "MAD", airline: ryan_air, validDays: [1, 3, 5], oneWay: { departure: "17:40", arrival: "00:55", duration: "5h 15min", price: 70 }, return: { departure: "17:40", arrival: "00:55", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 95, from: "Prishtina", fromCode: "PRN", to: "Milano", toCode: "LIN", airline: lufthansa, validDays: [0, 5], oneWay: { departure: "13:45", arrival: "18:15", duration: "4h 30min", price: 158 }, return: { departure: "11:45", arrival: "16:15", returnTo: "Prishtina", returnToCode: "PRN" } },
@@ -111,7 +113,18 @@ const baseFlights = [
   { id: 97, from: "Prishtina", fromCode: "PRN", to: "Paris", toCode: "CDG", airline: turkish, validDays: [1, 3, 5], oneWay: { departure: "08:55", arrival: "16:15", duration: "7h 20min", price: 121 }, return: { departure: "08:55", arrival: "16:15", returnTo: "Prishtina", returnToCode: "PRN" } },
   { id: 98, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", airline: wizz, validDays: [0, 1, 3, 4, 5, 6], oneWay: { departure: "19:15", arrival: "22:00", duration: "2h 45min", price: 29 }, return: { departure: "19:15", arrival: "22:00", returnTo: "Tirana", returnToCode: "TIA" } },
   { id: 99, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", airline: wizz, validDays: [4], oneWay: { departure: "07:55", arrival: "21:05", duration: "13h 10min", price: 84 }, return: { departure: "07:55", arrival: "21:05", returnTo: "Prishtina", returnToCode: "PRN" } },
-  { id: 100, from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", airline: wizz, validDays: [0, 1, 4, 6], oneWay: { departure: "14:20", arrival: "15:50", duration: "1h 30min", price: 62 }, return: { departure: "20:00", arrival: "21:30", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 100, from: "Tirana", fromCode: "TIA", to: "Rome", toCode: "ROM", airline: lufthansa, validDays: [1, 2, 4, 6], oneWay: { departure: "09:40", arrival: "15:00", duration: "5h 20min", price: 186 }, return: { departure: "06:05", arrival: "11:15", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 101, from: "Tirana", fromCode: "TIA", to: "Vienna", toCode: "VIE", airline: wizz, validDays: [0, 1, 4, 6], oneWay: { departure: "14:20", arrival: "15:50", duration: "1h 30min", price: 62 }, return: { departure: "20:00", arrival: "21:30", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 102, from: "Prishtina", fromCode: "PRN", to: "Budapest", toCode: "BUD", airline: swiss, validDays: [1], oneWay: { departure: "09:40", arrival: "19:50", duration: "10h 10min", price: 131 }, return: { departure: "02:40", arrival: "12:50", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 103, from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LHR", airline: swiss, validDays: [4], oneWay: { departure: "13:45", arrival: "19:50", duration: "5h 05min", price: 153 }, return: { departure: "09:20", arrival: "14:25", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 104, from: "Tirana", fromCode: "TIA", to: "Paris", toCode: "PAR", airline: austrian, validDays: [1], oneWay: { departure: "06:00", arrival: "14:45", duration: "8h 45min", price: 322 }, return: { departure: "07:15", arrival: "15:50", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 105, from: "Prishtina", fromCode: "PRN", to: "Cairo", toCode: "CAI", airline: a_jet, validDays: [2], oneWay: { departure: "13:30", arrival: "22:45", duration: "8h 15min", price: 185 }, return: { departure: "10:05", arrival: "15:20", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 106, from: "Tirana", fromCode: "TIA", to: "Milano", toCode: "MIL", airline: lufthansa, validDays: [1], oneWay: { departure: "18:05", arrival: "02:05", duration: "8h", price: 141 }, return: { departure: "14:50", arrival: "22:50", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 107, from: "Tirana", fromCode: "TIA", to: "Barcelona", toCode: "BCN", airline: pegasus, validDays: [0, 3], oneWay: { departure: "02:15", arrival: "11:45", duration: "9h 30min", price: 109 }, return: { departure: "02:15", arrival: "11:45", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 108, from: "Prishtina", fromCode: "PRN", to: "London", toCode: "LHR", airline: austrian, validDays: [1], oneWay: { departure: "06:00", arrival: "14:25", duration: "9h 25min", price: 418 }, return: { departure: "13:55", arrival: "00:20", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 109, from: "Tirana", fromCode: "TIA", to: "Cairo", toCode: "CAI", airline: aegean, validDays: [4, 0], oneWay: { departure: "10:05", arrival: "20:00", duration: "10h 00min", price: 169 }, return: { departure: "17:55", arrival: "03:55", returnTo: "Tirana", returnToCode: "TIA" } },
+  { id: 110, from: "Prishtina", fromCode: "PRN", to: "Madrid", toCode: "MAD", airline: lufthansa, validDays: [1], oneWay: { departure: "12:25", arrival: "20:15", duration: "7h 50min", price: 162 }, return: { departure: "08:15", arrival: "16:05", returnTo: "Prishtina", returnToCode: "PRN" } },
+  { id: 111, from: "Prishtina", fromCode: "PRN", to: "Barcelona", toCode: "BCN", airline: easyJet, validDays: [3, 4, 5], oneWay: { departure: "10:05", arrival: "15:40", duration: "5h 35min", price: 308 }, return: { departure: "10:05", arrival: "15:40", returnTo: "Prishtina", returnToCode: "PRN" } },
 
 ];
 
@@ -465,19 +478,7 @@ const FlightsSection = () => {
     if (returnDate && departureDate && returnDate < departureDate) {
       setReturnDate(null);
     }
-  }, [departureDate]);
-
-  const handleConfirm = () => {
-    if (!departureDate) {
-      alert("Choose a departure date");
-      return;
-    }
-    if (isReturn && !returnDate) {
-      alert("Choose a return date");
-      return;
-    }
-    alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}`);
-  };
+  }, [departureDate, returnDate]);
 
   const openModal = (flight) => setModalFlight(flight);
   const closeModal = () => {
@@ -488,19 +489,17 @@ const FlightsSection = () => {
 
   const fromCities = [...new Set(baseFlights.map(f => f.from))];
   const toCities = [...new Set(baseFlights.map(f => f.to))];
-
-  {
-    filteredFlights.map((flight, index) => (
-      <FlightCard
-        key={flight.id}
-        flight={flight}
-        isReturn={flight.isReturn}
-        openModal={openModal}
-        favorites={favorites}
-        setFavorites={setFavorites}
-      />
-    ))
-  }
+  
+  filteredFlights.map((flight, index) => (
+    <FlightCard
+      key={flight.id}
+      flight={flight}
+      isReturn={flight.isReturn}
+      openModal={openModal}
+      favorites={favorites}
+      setFavorites={setFavorites}
+    />
+  ))
 
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
@@ -514,15 +513,6 @@ const FlightsSection = () => {
       }
     }
   }, []);
-
-  const toggleFavorite = (flight) => {
-    const exists = favorites.some(f => f.baseId === flight.baseId && f.isReturn === flight.isReturn);
-    const updated = exists
-      ? favorites.filter(f => !(f.baseId === flight.baseId && f.isReturn === flight.isReturn))
-      : [...favorites, flight];
-    setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -665,8 +655,8 @@ const FlightsSection = () => {
               </div>
               <button
                 onClick={() => {
-                  if (!departureDate) { alert("Choose departure date"); return; }
-                  if (modalFlight.return && !returnDate) { alert("Choose return date"); return; }
+                  if (!departureDate) { alert("Choose a departure date"); return; }
+                  if (modalFlight.return && !returnDate) { alert("Choose a return date"); return; }
                   alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}\nPrice: €${modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price}`);
                   closeModal();
                 }}
