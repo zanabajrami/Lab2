@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Check, ChevronDown, Plane, Heart, ChevronUp } from "lucide-react";
 import { Listbox, Transition } from "@headlessui/react";
+import Calendar from "../components/Calendar";
 import swiss from "../images/swiss.png";
 import turkish from "../images/turkish.png";
 import wizz from "../images/wizz.png";
@@ -199,78 +200,11 @@ const useBodyScrollLock = (isLocked) => {
   }, [isLocked]);
 };
 
-// Calendar Component
-const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, availableFlights }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-  const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-  const daysArray = [];
-
-  for (let i = 0; i < firstDay; i++) daysArray.push(null);
-  for (let i = 1; i <= daysInMonth; i++) daysArray.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i));
-
-  const isDisabled = (day) => {
-    if (!day) return true;
-    if (minDate && day < minDate) return true;
-    if (maxDate && day > maxDate) return true;
-
-    // Kontroll për validDays
-    const validDays = availableFlights?.[0]?.validDays || [0, 1, 2, 3, 4, 5, 6]; // default: të gjitha ditët
-    if (!validDays.includes(day.getDay())) return true;
-
-    return false;
-  };
-
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-2">
-        <button
-          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-          className="px-2 py-1 rounded hover:bg-gray-200 transition"
-        >
-          &lt;
-        </button>
-        <span className="font-semibold">
-          {currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}
-        </span>
-        <button
-          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-          className="px-2 py-1 rounded hover:bg-gray-200 transition"
-        >
-          &gt;
-        </button>
-      </div>
-
-      <div className="grid grid-cols-7 gap-2 text-center">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
-          <div key={d} className="font-semibold">{d}</div>
-        ))}
-        {daysArray.map((day, index) => {
-          const disabled = isDisabled(day);
-          const isSelected = day && selectedDate && day.toDateString() === selectedDate.toDateString();
-          return (
-            <button
-              key={index}
-              onClick={() => !disabled && setSelectedDate(day)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full transition
-                ${disabled ? "text-gray-300 cursor-not-allowed" :
-                  isSelected ? "bg-blue-600 text-white" : "hover:bg-blue-100"}`}
-            >
-              {day ? day.getDate() : ""}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 // FlightCard Component
 const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
   const isReturn = !!flight.return;
   const price = isReturn ? Math.round(flight.oneWay.price * 1.6) : flight.oneWay.price;
   const displayPrice = `€${price}`;
-
   const isFavorite = favorites.some(f => f.id === flight.id);
 
   const toggleFavorite = (flight) => {
@@ -407,7 +341,6 @@ const CustomDropdown = ({ options, selected, setSelected, placeholder }) => {
         </Transition>
       </div>
     </Listbox>
-
   );
 };
 
@@ -489,7 +422,7 @@ const FlightsSection = () => {
 
   const fromCities = [...new Set(baseFlights.map(f => f.from))];
   const toCities = [...new Set(baseFlights.map(f => f.to))];
-  
+
   filteredFlights.map((flight, index) => (
     <FlightCard
       key={flight.id}
@@ -529,6 +462,43 @@ const FlightsSection = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // state për numrin e personave
+  const [persons, setPersons] = useState(1);
+
+  // llogaritja e çmimit total
+  const basePrice = modalFlight
+    ? (modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price)
+    : 0;
+
+  const totalPrice = basePrice * persons;
+
+  const [modalStep, setModalStep] = useState(1);
+  const [passengerInfo, setPassengerInfo] = useState([]);
+  const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
+
+  useEffect(() => {
+    if (modalFlight) {
+      setPassengerInfo(
+        Array.from({ length: persons }, () => ({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          passportNumber: "",
+          dob: "",
+          nationality: "",
+        }))
+      );
+      setCurrentPassengerIndex(0);
+    }
+  }, [modalFlight, persons]);
+
+  const handleInputChange = (field, value) => {
+    const updated = [...passengerInfo];
+    updated[currentPassengerIndex][field] = value;
+    setPassengerInfo(updated);
   };
 
   return (
@@ -619,52 +589,185 @@ const FlightsSection = () => {
       {modalFlight && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
           <div className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-bold">{modalFlight.from} → {modalFlight.to}</h2>
-            </div>
 
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
-              <div>
-                <p className="mb-2 font-semibold">Departure Date</p>
-                <Calendar
-                  selectedDate={departureDate}
-                  setSelectedDate={setDepartureDate}
-                  minDate={today}
-                  maxDate={maxDate}
-                  availableFlights={[modalFlight]}
-                />
-              </div>
+            {modalStep === 1 && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-bold">{modalFlight.from} → {modalFlight.to}</h2>
+                </div>
+                <div className="p-6 overflow-y-auto flex-1 space-y-4">
+                  {/* Departure Date */}
+                  <div>
+                    <p className="mb-2 font-semibold">Departure Date</p>
+                    <Calendar
+                      selectedDate={departureDate}
+                      setSelectedDate={setDepartureDate}
+                      minDate={today}
+                      maxDate={maxDate}
+                      availableFlights={[modalFlight]}
+                    />
+                  </div>
+                  {/* Return Date */}
+                  {modalFlight?.return && (
+                    <div>
+                      <p className="mb-2 mt-4 font-semibold">Return Date</p>
+                      <Calendar
+                        selectedDate={returnDate}
+                        setSelectedDate={setReturnDate}
+                        minDate={departureDate || today}
+                        maxDate={maxDate}
+                        availableFlights={[modalFlight]}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 border-t border-gray-200 flex justify-between items-center">
+                  <div className="-ml-3">
+                    <select
+                      value={persons}
+                      onChange={(e) => setPersons(Number(e.target.value))}
+                      className="w-full border p-2 rounded-lg"
+                    >
+                      {[1, 2, 3, 4, 5, 6].map(n => (
+                        <option key={n} value={n}>{n} {n === 1 ? "Passenger" : "Passengers"}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="text-lg font-semibold">
+                    Total Price: €{modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) * persons : modalFlight.oneWay.price * persons}
+                  </div>
+                  <button
+                    onClick={() => {
+                      if (!departureDate) { alert("Choose a departure date"); return; }
+                      if (modalFlight.return && !returnDate) { alert("Choose a return date"); return; }
+                      setModalStep(2); // kalon te hapi i dytë
+                    }}
+                    className="px-4 py-2 rounded-lg bg-blue-600 text-white -mr-3 hover:bg-blue-700 transition"
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
 
-              {modalFlight.return && (
-                <div>
-                  <p className="mb-2 mt-4 font-semibold">Return Date</p>
-                  <Calendar
-                    selectedDate={returnDate}
-                    setSelectedDate={setReturnDate}
-                    minDate={departureDate || today}
-                    maxDate={maxDate}
-                    availableFlights={[modalFlight]}
+            {modalStep === 2 && (
+              <>
+                <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Passenger {currentPassengerIndex + 1} of {persons}
+                  </h3>
+
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].firstName}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].firstName = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].lastName}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].lastName = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].email}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].email = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].phone}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].phone = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Passport Number"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].passportNumber}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].passportNumber = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="date"
+                    placeholder="Date of Birth"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].dob}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].dob = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nationality"
+                    className="border p-2 rounded-lg"
+                    value={passengerInfo[currentPassengerIndex].nationality}
+                    onChange={(e) => {
+                      const updated = [...passengerInfo];
+                      updated[currentPassengerIndex].nationality = e.target.value;
+                      setPassengerInfo(updated);
+                    }}
                   />
                 </div>
-              )}
-            </div>
 
-            <div className="p-6 border-t border-gray-200 flex justify-between items-center">
-              <div className="text-lg font-semibold">
-                Price: €{modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price}
-              </div>
-              <button
-                onClick={() => {
-                  if (!departureDate) { alert("Choose a departure date"); return; }
-                  if (modalFlight.return && !returnDate) { alert("Choose a return date"); return; }
-                  alert(`Departure: ${departureDate.toDateString()}\nReturn: ${returnDate ? returnDate.toDateString() : "N/A"}\nPrice: €${modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price}`);
-                  closeModal();
-                }}
-                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
-              >
-                Confirm
-              </button>
-            </div>
+                <div className="p-6 border-t border-gray-200 flex justify-between items-center">
+                  <button
+                    onClick={() => setModalStep(1)}
+                    className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={() => {
+                      const p = passengerInfo[currentPassengerIndex];
+                      // kontrollo fushat
+                      if (!p.firstName || !p.lastName || !p.email || !p.phone || !p.passportNumber || !p.dob || !p.nationality) {
+                        alert("Please fill all required fields");
+                        return;
+                      }
+                      if (currentPassengerIndex < persons - 1) {
+                        // kalon tek pasagjeri tjetër
+                        setCurrentPassengerIndex(currentPassengerIndex + 1);
+                      } else {
+                        // confirm në fund
+                        alert(`Booking confirmed for ${persons} passenger(s)\nTotal Price: €${totalPrice}`);
+                        closeModal();
+                      }
+                    }}
+                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+                  >
+                    {currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm"}
+                  </button>
+                </div>
+              </>
+            )}
+
           </div>
         </div>
       )}
