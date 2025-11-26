@@ -80,8 +80,6 @@ function MembershipCard({ title, price, benefits, badge, onJoin }) {
   );
 }
 
-// ------------------ Parent Component ------------------
-
 export default function Membership() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedAmount, setSelectedAmount] = useState("");

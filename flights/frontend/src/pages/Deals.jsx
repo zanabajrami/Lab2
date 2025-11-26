@@ -49,7 +49,6 @@ export default function LastMinuteDeals() {
     { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
   ], []);
 
-
   const [query] = useState("");
   const [date] = useState("");
   const [maxPrice] = useState("");

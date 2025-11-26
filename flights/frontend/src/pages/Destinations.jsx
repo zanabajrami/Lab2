@@ -15,61 +15,29 @@ import spainImage from "../images/spain.jpg";
 import egyptImage from "../images/cairo.jpg";
 import ukImage from "../images/uk1.jpg";
 
-import italy1 from "../images/italy1.jpg";
-import italy2 from "../images/italy2.jpg";
-import italy3 from "../images/italy3.avif";
-import italy4 from "../images/italy4.jpg";
-import italy5 from "../images/italy5.jpeg";
-import italy6 from "../images/italy6.jpg";
+import italy1 from "../images/italy1.jpg"; import italy2 from "../images/italy2.jpg"; import italy3 from "../images/italy3.avif";
+import italy4 from "../images/italy4.jpg"; import italy5 from "../images/italy5.jpeg"; import italy6 from "../images/italy6.jpg";
 
-import hungary1 from "../images/hungary1.webp";
-import hungary2 from "../images/hungary2.webp";
-import hungary3 from "../images/hungary3.jpg";
-import hungary4 from "../images/hungary4.jpg";
-import hungary5 from "../images/hungary5.webp";
-import hungary6 from "../images/hungary6.jpg";
+import hungary1 from "../images/hungary1.webp"; import hungary2 from "../images/hungary2.webp"; import hungary3 from "../images/hungary3.jpg";
+import hungary4 from "../images/hungary4.jpg"; import hungary5 from "../images/hungary5.webp"; import hungary6 from "../images/hungary6.jpg";
 
-import spain1 from "../images/spain1.webp";
-import spain2 from "../images/spain2.webp";
-import spain3 from "../images/spain3.jpg";
-import spain4 from "../images/spain4.jpg";
-import spain5 from "../images/spain5.png";
-import spain6 from "../images/spain6.jpg";
+import spain1 from "../images/spain1.webp"; import spain2 from "../images/spain2.webp"; import spain3 from "../images/spain3.jpg";
+import spain4 from "../images/spain4.jpg"; import spain5 from "../images/spain5.png"; import spain6 from "../images/spain6.jpg";
 
-import egypt1 from "../images/egypt1.jpg";
-import egypt2 from "../images/egypt2.avif";
-import egypt3 from "../images/egypt3.jpg";
-import egypt4 from "../images/egypt4.jpg";
-import egypt5 from "../images/egypt5.jpeg";
-import egypt6 from "../images/egypt6.avif";
+import egypt1 from "../images/egypt1.jpg"; import egypt2 from "../images/egypt2.avif"; import egypt3 from "../images/egypt3.jpg";
+import egypt4 from "../images/egypt4.jpg"; import egypt5 from "../images/egypt5.jpeg"; import egypt6 from "../images/egypt6.avif";
 
-import france1 from "../images/france1.avif";
-import france2 from "../images/france2.webp";
-import france3 from "../images/france3.avif";
-import france4 from "../images/france4.jpg";
-import france5 from "../images/france5.webp";
-import france6 from "../images/france6.jpg";
+import france1 from "../images/france1.avif"; import france2 from "../images/france2.webp"; import france3 from "../images/france3.avif";
+import france4 from "../images/france4.jpg"; import france5 from "../images/france5.webp"; import france6 from "../images/france6.jpg";
 
-import austria1 from "../images/austria1.jpg";
-import austria2 from "../images/austria2.jpg";
-import austria3 from "../images/austria3.jpg";
-import austria4 from "../images/austria4.jpg";
-import austria5 from "../images/austria5.avif";
-import austria6 from "../images/austria6.webp";
+import austria1 from "../images/austria1.jpg"; import austria2 from "../images/austria2.jpg"; import austria3 from "../images/austria3.jpg";
+import austria4 from "../images/austria4.jpg"; import austria5 from "../images/austria5.avif"; import austria6 from "../images/austria6.webp";
 
-import turkey1 from "../images/turkey1.webp";
-import turkey2 from "../images/turkey2.jpg";
-import turkey3 from "../images/turkey3.avif";
-import turkey4 from "../images/turkey4.avif";
-import turkey5 from "../images/turkey5.jpeg";
-import turkey6 from "../images/turkey6.png";
+import turkey1 from "../images/turkey1.webp"; import turkey2 from "../images/turkey2.jpg"; import turkey3 from "../images/turkey3.avif";
+import turkey4 from "../images/turkey4.avif"; import turkey5 from "../images/turkey5.jpeg"; import turkey6 from "../images/turkey6.png";
 
-import uk1 from "../images/uk1.jpg";
-import uk2 from "../images/uk2.jpg";
-import uk3 from "../images/uk3.webp";
-import uk4 from "../images/uk4.jpg";
-import uk5 from "../images/uk5.jpg";
-import uk6 from "../images/uk6.jpg";
+import uk1 from "../images/uk1.jpg"; import uk2 from "../images/uk2.jpg"; import uk3 from "../images/uk3.webp";
+import uk4 from "../images/uk4.jpg"; import uk5 from "../images/uk5.jpg"; import uk6 from "../images/uk6.jpg";
 
 function Destinations() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -89,14 +57,7 @@ function Destinations() {
     const austriaRef = useRef(null);
 
     const destinationsMap = useMemo(() => ({
-        italy: italyRef,
-        hungary: hungaryRef,
-        france: franceRef,
-        spain: spainRef,
-        egypt: egyptRef,
-        uk: ukRef,
-        turkey: turkeyRef,
-        austria: austriaRef,
+    italy: italyRef, hungary: hungaryRef, france: franceRef, spain: spainRef, egypt: egyptRef, uk: ukRef, turkey: turkeyRef, austria: austriaRef
     }), []);
 
     const slides = [
@@ -184,7 +145,6 @@ function Destinations() {
                     >
                         Search
                     </button>
-
                 </form>
             </div>
 
@@ -487,7 +447,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Hungary
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Hungary
@@ -725,7 +684,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Spain
                 </h2>
-
                 <div ref={spainRef} className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Spain
@@ -1388,7 +1346,6 @@ function Destinations() {
                         Book Your Ticket
                     </button>
                 </section>
-
             </section>
 
             <section ref={austriaRef} className="py-16 text-gray-800 px-6 md:px-20">
@@ -1482,7 +1439,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -1540,7 +1496,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Austria
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🎻</span>
@@ -1613,14 +1568,12 @@ function Destinations() {
                         Book Your Ticket
                     </button>
                 </section>
-
             </section>
 
             <section ref={turkeyRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Turkey
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Istanbul
@@ -1708,7 +1661,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -1766,7 +1718,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Turkey
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🌉</span>
@@ -1805,7 +1756,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in Istanbul
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "8°C", desc: "Cold", icon: "❄️" },
@@ -1845,7 +1795,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     United Kingdom
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in London
@@ -1991,7 +1940,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about United Kingdom
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🎡</span>
@@ -2030,7 +1978,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in United Kingdom
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "6°C", desc: "Cold", icon: "❄️" },

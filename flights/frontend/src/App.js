@@ -46,7 +46,6 @@ function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-
         <Header
           openLogin={() => setShowLogin(true)}
           openSignup={() => setShowSignup(true)}
@@ -81,7 +80,7 @@ function App() {
             isOpen={showSignup}
             onClose={() => setShowSignup(false)}
             onSwitchToLogin={handleSwitchToLogin}
-            onSignupSuccess={handleSignupSuccess}  // 👈 SUPER E RENCISME
+            onSignupSuccess={handleSignupSuccess}  
           />
         )}
 
