@@ -413,11 +413,24 @@ const FlightsSection = () => {
     }
   }, [departureDate, returnDate]);
 
-  const openModal = (flight) => setModalFlight(flight);
-  const closeModal = () => {
-    setModalFlight(null);
+  const openModal = (flight) => {
+    setModalFlight(flight);
+    setModalStep(1);
     setDepartureDate(null);
     setReturnDate(null);
+    setPersons(1);
+    setPassengerInfo([]);
+    setCurrentPassengerIndex(0);
+  };
+
+  const closeModal = () => {
+    setModalFlight(null);
+    setModalStep(1);
+    setDepartureDate(null);
+    setReturnDate(null);
+    setPersons(1);
+    setPassengerInfo([]);
+    setCurrentPassengerIndex(0);
   };
 
   const fromCities = [...new Set(baseFlights.map(f => f.from))];
@@ -477,7 +490,9 @@ const FlightsSection = () => {
   const [modalStep, setModalStep] = useState(1);
   const [passengerInfo, setPassengerInfo] = useState([]);
   const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
+  const currentPassenger = passengerInfo[currentPassengerIndex];
 
+  // Reset passengerInfo sa herë që ndryshon numri i personave ose modalFlight
   useEffect(() => {
     if (modalFlight) {
       setPassengerInfo(
@@ -587,16 +602,21 @@ const FlightsSection = () => {
 
       {/* Modal */}
       {modalFlight && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
-          <div className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col" onClick={e => e.stopPropagation()}>
-
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Step 1: Dates */}
             {modalStep === 1 && (
               <>
                 <div className="p-6 border-b border-gray-200">
                   <h2 className="text-xl font-bold">{modalFlight.from} → {modalFlight.to}</h2>
                 </div>
-                <div className="p-6 overflow-y-auto flex-1 space-y-4">
-                  {/* Departure Date */}
+                <div className="p-6 flex-1 overflow-y-auto space-y-4">
                   <div>
                     <p className="mb-2 font-semibold">Departure Date</p>
                     <Calendar
@@ -607,7 +627,6 @@ const FlightsSection = () => {
                       availableFlights={[modalFlight]}
                     />
                   </div>
-                  {/* Return Date */}
                   {modalFlight?.return && (
                     <div>
                       <p className="mb-2 mt-4 font-semibold">Return Date</p>
@@ -634,13 +653,13 @@ const FlightsSection = () => {
                     </select>
                   </div>
                   <div className="text-lg font-semibold">
-                    Total Price: €{modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) * persons : modalFlight.oneWay.price * persons}
+                    Total Price: €{basePrice * persons}
                   </div>
                   <button
                     onClick={() => {
                       if (!departureDate) { alert("Choose a departure date"); return; }
                       if (modalFlight.return && !returnDate) { alert("Choose a return date"); return; }
-                      setModalStep(2); // kalon te hapi i dytë
+                      setModalStep(2);
                     }}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white -mr-3 hover:bg-blue-700 transition"
                   >
@@ -650,6 +669,7 @@ const FlightsSection = () => {
               </>
             )}
 
+            {/* Step 2: Passenger Info */}
             {modalStep === 2 && (
               <>
                 <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
@@ -657,117 +677,55 @@ const FlightsSection = () => {
                     Passenger {currentPassengerIndex + 1} of {persons}
                   </h3>
 
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].firstName}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].firstName = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].lastName}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].lastName = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].email}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].email = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].phone}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].phone = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Passport Number"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].passportNumber}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].passportNumber = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="date"
-                    placeholder="Date of Birth"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].dob}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].dob = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Nationality"
-                    className="border p-2 rounded-lg"
-                    value={passengerInfo[currentPassengerIndex].nationality}
-                    onChange={(e) => {
-                      const updated = [...passengerInfo];
-                      updated[currentPassengerIndex].nationality = e.target.value;
-                      setPassengerInfo(updated);
-                    }}
-                  />
+                  {["firstName", "lastName", "email", "phone", "passportNumber", "dob", "nationality"].map((field) => (
+                    <input
+                      key={field}
+                      type={field === "email" ? "email" : field === "phone" ? "tel" : field === "dob" ? "date" : "text"}
+                      placeholder={field.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
+                      className="border p-2 rounded-lg"
+                      value={passengerInfo[currentPassengerIndex][field]}
+                      onChange={(e) => handleInputChange(field, e.target.value)}
+                    />
+                  ))}
                 </div>
 
                 <div className="p-6 border-t border-gray-200 flex justify-between items-center">
                   <button
-                    onClick={() => setModalStep(1)}
+                    onClick={() => {
+                      if (currentPassengerIndex > 0) {
+                        setCurrentPassengerIndex(prev => prev - 1);
+                      } else {
+                        setModalStep(1); // kthe tek calendar
+                      }
+                    }}
                     className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
                   >
                     Back
                   </button>
+
                   <button
                     onClick={() => {
                       const p = passengerInfo[currentPassengerIndex];
-                      // kontrollo fushat
+                      // kontrollo fushat e domosdoshme
                       if (!p.firstName || !p.lastName || !p.email || !p.phone || !p.passportNumber || !p.dob || !p.nationality) {
                         alert("Please fill all required fields");
                         return;
                       }
+
                       if (currentPassengerIndex < persons - 1) {
-                        // kalon tek pasagjeri tjetër
-                        setCurrentPassengerIndex(currentPassengerIndex + 1);
+                        setCurrentPassengerIndex(prev => prev + 1);
                       } else {
-                        // confirm në fund
                         alert(`Booking confirmed for ${persons} passenger(s)\nTotal Price: €${totalPrice}`);
                         closeModal();
                       }
                     }}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
                   >
-                    {currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm"}
+                    {currentPassengerIndex < persons - 1 ? "Next Passenger" : "Next"}
                   </button>
                 </div>
               </>
             )}
-
           </div>
         </div>
       )}
