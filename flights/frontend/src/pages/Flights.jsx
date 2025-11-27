@@ -1,61 +1,62 @@
-import React, { useState, useEffect} from "react";
-import {Plane, Heart, ChevronUp } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Plane, Heart, ChevronUp } from "lucide-react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/Calendar";
 import { baseFlights } from "../data/FlightsData";
 
 // Gjenerimi i variantëve me orare të ndryshme
 const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
-    if (!flight.oneWay) return [];
+  if (!flight.oneWay) return [];
 
-    const variants = [];
-    for (let i = 0; i < count; i++) {
-        const dep = new Date(`1970-01-01T${flight.oneWay.departure}:00`);
-        const arr = new Date(`1970-01-01T${flight.oneWay.arrival}:00`);
-        dep.setHours(dep.getHours() + i * intervalHours);
-        arr.setHours(arr.getHours() + i * intervalHours);
+  const variants = [];
+  for (let i = 0; i < count; i++) {
+    const dep = new Date(`1970-01-01T${flight.oneWay.departure}:00`);
+    const arr = new Date(`1970-01-01T${flight.oneWay.arrival}:00`);
+    dep.setHours(dep.getHours() + i * intervalHours);
+    arr.setHours(arr.getHours() + i * intervalHours);
 
-        // One-way flight
-        variants.push({
-            ...flight,
-            id: `${flight.id}-oneWay-${i}`,
-            oneWay: {
-                departure: dep.toTimeString().slice(0, 5),
-                arrival: arr.toTimeString().slice(0, 5),
-                duration: flight.oneWay.duration,
-                price: flight.oneWay.price
-            },
-            return: null,
-            isReturn: false
-        });
+    // One-way flight
+    variants.push({
+      ...flight,
+      id: `${flight.id}-oneWay-${i}`,
+      oneWay: {
+        departure: dep.toTimeString().slice(0, 5),
+        arrival: arr.toTimeString().slice(0, 5),
+        duration: flight.oneWay.duration,
+        price: flight.oneWay.price
+      },
+      return: null,
+      isReturn: false
+    });
 
-        // Return flight
-        if (flight.return) {
-            const retDep = new Date(`1970-01-01T${flight.return.departure}:00`);
-            const retArr = new Date(`1970-01-01T${flight.return.arrival}:00`);
-            retDep.setHours(retDep.getHours() + i * intervalHours);
-            retArr.setHours(retArr.getHours() + i * intervalHours);
+    // Return flight
+    if (flight.return) {
+      const retDep = new Date(`1970-01-01T${flight.return.departure}:00`);
+      const retArr = new Date(`1970-01-01T${flight.return.arrival}:00`);
+      retDep.setHours(retDep.getHours() + i * intervalHours);
+      retArr.setHours(retArr.getHours() + i * intervalHours);
 
-            variants.push({
-                ...flight,
-                id: `${flight.id}-return-${i}`,
-                oneWay: {
-                    departure: dep.toTimeString().slice(0, 5),
-                    arrival: arr.toTimeString().slice(0, 5),
-                    duration: flight.oneWay.duration,
-                    price: flight.oneWay.price
-                },
-                return: {
-                    departure: retDep.toTimeString().slice(0, 5),
-                    arrival: retArr.toTimeString().slice(0, 5),
-                    returnTo: flight.return.returnTo,
-                    returnToCode: flight.return.returnToCode
-                },
-                isReturn: true
-            });
-        }
+      variants.push({
+        ...flight,
+        id: `${flight.id}-return-${i}`,
+        oneWay: {
+          departure: dep.toTimeString().slice(0, 5),
+          arrival: arr.toTimeString().slice(0, 5),
+          duration: flight.oneWay.duration,
+          price: flight.oneWay.price
+        },
+        return: {
+          departure: retDep.toTimeString().slice(0, 5),
+          arrival: retArr.toTimeString().slice(0, 5),
+          returnTo: flight.return.returnTo,
+          returnToCode: flight.return.returnToCode
+        },
+        isReturn: true
+      });
     }
-    return variants;
+  }
+  return variants;
 };
 // Gjenerojmë të gjitha fluturimet
 const flights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2));
@@ -184,12 +185,33 @@ const FlightsSection = () => {
   const [showTopButton, setShowTopButton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const flightsPerPage = 20;
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const searchFrom = params.get("from");
+  const searchTo = params.get("to");
+  const searchDep = params.get("dep");
+  const searchRet = params.get("ret");
+  const searchTrip = params.get("trip"); // oneway / return
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // 1. Filtron sipas qytetit
-  const filteredFlights = flights.filter(flight =>
-    (!fromFilter || flight.from === fromFilter) &&
-    (!toFilter || flight.to === toFilter)
-  );
+  // Filtrimi i SearchBar sipas query params
+  const filteredFlights = flights.filter(flight => {
+    // FROM / TO nga dropdown ose search params
+    const matchesFrom = fromFilter ?
+      flight.from.toLowerCase() === fromFilter.toLowerCase() :
+      (searchFrom ? flight.from.toLowerCase() === searchFrom.toLowerCase() : true);
+
+    const matchesTo = toFilter ?
+      flight.to.toLowerCase() === toFilter.toLowerCase() :
+      (searchTo ? flight.to.toLowerCase() === searchTo.toLowerCase() : true);
+
+    // Trip type (OneWay / Return)
+    const matchesTrip = !searchTrip ||
+      (searchTrip === "oneway" && !flight.isReturn) ||
+      (searchTrip === "return" && flight.isReturn);
+
+    return matchesFrom && matchesTo && matchesTrip;
+  });
 
   // 2. Ruaj vetëm një fluturim për secilën id bazë
   const uniqueFlights = [];
@@ -203,7 +225,7 @@ const FlightsSection = () => {
   });
 
   // 3. Filtron fluturimet sipas tipit OneWay / Return
-  const flightsByType = uniqueFlights.filter(f => f.isReturn === isReturn);
+const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
 
   // 4. Llogarit pagination mbi fluturimet e filtruar
   const totalPages = Math.ceil(flightsByType.length / flightsPerPage);
@@ -376,11 +398,14 @@ const FlightsSection = () => {
         {/* RESET Button */}
         <div className="w-auto">
           <button
-            onClick={() => { setFromFilter(""); setToFilter(""); }}
-            className="
-        px-4 py-2 bg-gray-200 text-gray-700 
-        rounded-xl hover:bg-gray-300 
-        transition-all duration-200 shadow-sm"
+            onClick={() => {
+              setFromFilter("");
+              setToFilter("");
+
+              // Reset query params → kjo fshin filtrat e SearchBar
+              setSearchParams({});
+            }}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all duration-200 shadow-sm"
           >
             Reset Filters
           </button>
@@ -389,16 +414,20 @@ const FlightsSection = () => {
 
       {/* Shfaqim FlightCards */}
       <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {currentFlights.map((flight, index) => (
-          <FlightCard
-            key={flight.id}
-            flight={flight}
-            isReturn={isReturn}
-            openModal={openModal}
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-        ))}
+        {currentFlights.length > 0 ? (
+          currentFlights.map((flight) => (
+            <FlightCard
+              key={flight.id}
+              flight={flight}
+              isReturn={isReturn}
+              openModal={openModal}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">No flights found</p>
+        )}
       </div>
       {/* Pagination */}
       <div className="flex justify-center mt-6 gap-2">
@@ -517,7 +546,8 @@ const FlightsSection = () => {
                         setCurrentPassengerIndex(prev => prev - 1);
                       } else {
                         setModalStep(1); // kthe tek calendar
-                      }}}
+                      }
+                    }}
                     className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
                   >
                     Back
@@ -537,7 +567,8 @@ const FlightsSection = () => {
                       } else {
                         alert(`Booking confirmed for ${persons} passenger(s)\nTotal Price: €${totalPrice}`);
                         closeModal();
-                      }}}
+                      }
+                    }}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
                   >
                     {currentPassengerIndex < persons - 1 ? "Next Passenger" : "Next"}
