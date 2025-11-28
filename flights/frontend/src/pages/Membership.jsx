@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, Users, TicketPercent, Utensils, CircleDollarSign, HandPlatter, BadgeCheck, Luggage, Calendar, TicketsPlane, Feather } from "lucide-react";
 import PaymentForm from "../components/PaymentForm"; // siguro path-in e saktë
@@ -9,6 +9,10 @@ function MembershipCard({ title, price, benefits, badge, onJoin }) {
   const toggleTooltip = (i) => {
     setActiveTips((prev) => ({ ...prev, [i]: !prev[i] }));
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <motion.div

@@ -158,7 +158,7 @@ export default function Home() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1 }}
                     >
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug drop-shadow-md">
+                        <h1 className="-mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-normal leading-snug drop-shadow-md">
                             Find the Best Flights
                         </h1>
                         <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto leading-relaxed drop-shadow-sm">
@@ -168,7 +168,7 @@ export default function Home() {
 
                     {/* SEARCH BAR */}
                     <motion.div
-                        className="w-full -mt-4 sm:mt-6"
+                        className="w-full -mt-5 sm:mt-6"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.8 }}
@@ -180,7 +180,7 @@ export default function Home() {
 
             {/* Destinations */}
             <section className="py-24 text-gray-600">
-                <div className="-mt-12 relative w-full max-w-6xl mx-auto h-[300px] md:h-[400px] flex items-center justify-center">
+                <div className="-mt-12 relative w-full max-w-5xl mx-auto h-[300px] md:h-[400px] flex items-center justify-center relative z-0">
                     {destinations.map((dest, index) => {
                         let pos = index - current;
                         if (pos < -Math.floor(destinations.length / 2)) pos += destinations.length;
@@ -396,6 +396,43 @@ export default function Home() {
                     </div>
                 </motion.div>
             </section>
+
+            <section className="py-24">
+                <h2 className="text-3xl text-gray-900 font-bold text-center mb-12">Travelers Reviews</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
+                        <p className="text-gray-700 mb-6">"Amazing experience! Booking was smooth and support was top-notch."</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-gray-600 text-white flex items-center justify-center font-bold text-lg">
+                                A
+                            </div>
+                            <span className="font-semibold text-gray-900">Arbër K.</span>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
+                        <p className="text-gray-700 mb-6">"Great deals and professional help. Will definitely use again."</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
+                                E
+                            </div>
+                            <span className="font-semibold text-gray-900">Elira S.</span>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
+                        <p className="text-gray-700 mb-6">"The trip was organized flawlessly and a very pleasant experience."</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-lg">
+                                B
+                            </div>
+                            <span className="font-semibold text-gray-900">Besim L.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
             {/* WHY CHOOSE US SECTION */}
             <motion.section

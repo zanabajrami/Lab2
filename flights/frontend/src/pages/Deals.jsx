@@ -9,6 +9,8 @@ import milanoImage from "../images/milano.webp";
 import londonImage from "../images/london.jpg";
 import cairoImage from "../images/cairo.jpg";
 import istanbulImage from "../images/istanbul.jpg";
+import madridImage from "../images/madrid.avif";
+import barcelonaImage from "../images/barcelona.webp";
 
 export default function LastMinuteDeals() {
   const [showTopButton, setShowTopButton] = useState(false);
@@ -39,14 +41,25 @@ export default function LastMinuteDeals() {
   }, []);
 
   const sampleDeals = useMemo(() => [
-    { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departureDate: "2025-11-10", returnDate: "2025-11-14", duration: "4 days", price: 129, currency: "EUR" },
-    { id: 2, from: "Prishtina", title: "Budapest", country: "Hungary", image: budapestImage, departureDate: "2025-11-15", returnDate: "2025-11-18", duration: "3 days", price: 199, currency: "EUR" },
-    { id: 3, from: "Tirana", title: "Paris", country: "France", image: parisImage, departureDate: "2025-11-08", returnDate: "2025-11-12", duration: "4 days", price: 259, currency: "EUR" },
-    { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" },
-    { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, departureDate: "2025-11-08", returnDate: "2025-11-11", duration: "3 days", price: 189, currency: "EUR" },
-    { id: 7, from: "Prishtina", title: "Cairo", country: "Egypt", image: cairoImage, departureDate: "2025-11-20", returnDate: "2025-11-25", duration: "5 days", price: 359, currency: "EUR" },
-    { id: 8, from: "Prishtina", title: "Istanbul", country: "Turkey", image: istanbulImage, departureDate: "2025-11-14", returnDate: "2025-11-17", duration: "3 days", price: 149, currency: "EUR" },
-    { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
+    { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departure: "10:20", arrival: "11:50", duration: "1h 30min", price: 46, currency: "EUR" },
+    { id: 2, from: "Prishtina", title: "Budapest", country: "Hungary", image: budapestImage, departure: "18:15", arrival: "00:50", duration: "6h 35min", price: 86, currency: "EUR" },
+    { id: 3, from: "Tirana", title: "Paris", country: "France", image: parisImage, departure: "10:30", arrival: "12:45", duration: "2h 15min", price: 120, currency: "EUR" },
+    { id: 4, from: "Prishtina", title: "Barcelona", country: "Spain", image: barcelonaImage, departure: "22:35", arrival: "12:30", duration: "13h 55min", price: 317, currency: "EUR" },
+    { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, departure: "11:20", arrival: "13:05", duration: "1h 45min", price: 48, currency: "EUR" },
+    { id: 7, from: "Tirana", title: "Cairo", country: "Egypt", image: cairoImage, departure: "09:10", arrival: "16:00", duration: "6h 50min", price: 574, currency: "EUR" },
+    { id: 8, from: "Prishtina", title: "Istanbul", country: "Turkey", image: istanbulImage, departure: "12:55", arrival: "16:40", duration: "1h 45min", price: 120, currency: "EUR" },
+    { id: 9, from: "Tirana", title: "London", country: "UK", image: londonImage, departure: "03:10", arrival: "09:40", duration: "7h 30min", price: 136, currency: "EUR" },
+    { id: 10, from: "Prishtina", title: "Rome", country: "Italy", image: romeImage, departure: "02:45", arrival: "10:30", duration: "7h 45min", price: 155, currency: "EUR" },
+    { id: 11, from: "Tirana", title: "Madrid", country: "Spain", image: madridImage, departure: "16:05", arrival: "23:50", duration: "7h 45min", price: 234, currency: "EUR" },
+    { id: 12, from: "Tirana", title: "Budapest", country: "Hungary", image: budapestImage, departure: "12:15", arrival: "17:15", duration: "5h 00min", price: 219, currency: "EUR" },
+    { id: 13, from: "Prishtina", title: "London", country: "UK", image: londonImage, departure: "10:15", arrival: "13:35", duration: "3h 20min", price: 48, currency: "EUR" },
+    { id: 14, from: "Tirana", title: "Istanbul", country: "Turkey", image: istanbulImage, departure: "12:00", arrival: "13:35", duration: "1h 35min", price: 128, currency: "EUR" },
+    { id: 15, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departure: "14:30", arrival: "15:45", duration: "1h 15min", price: 110, currency: "EUR" },
+    { id: 16, from: "Prishtina", title: "Cairo", country: "Egypt", image: cairoImage, departure: "16:10", arrival: "22:45", duration: "5h 35min", price: 189, currency: "EUR" },
+    { id: 17, from: "Tirana", title: "Milano", country: "Italy", image: milanoImage, departure: "12:00", arrival: "14:05", duration: "2h 05min", price: 115, currency: "EUR" },
+    { id: 18, from: "Tirana", title: "Barcelona", country: "Spain", image: barcelonaImage, departure: "10:05", arrival: "17:50", duration: "7h 45min", price: 214, currency: "EUR" },
+    { id: 19, from: "Prishtina", title: "Madrid", country: "Spain", image: madridImage, departure: "12:05", arrival: "22:10", duration: "10h 05min", price: 147, currency: "EUR" },
+
   ], []);
 
   const [query] = useState("");
@@ -115,12 +128,12 @@ export default function LastMinuteDeals() {
                 <div className="flex flex-wrap gap-4 text-xs text-slate-600 mt-2 items-center">
                   <span className="flex items-center gap-1">
                     <PlaneTakeoff className="w-4 h-4 text-blue-900" />
-                    {deal.departureDate}
+                    {deal.departure}
                   </span>
 
                   <span className="flex items-center gap-1">
                     <PlaneLanding className="w-4 h-4 text-blue-900" />
-                    {deal.returnDate}
+                    {deal.arrival}
                   </span>
 
                   <span className="flex items-center gap-1">
@@ -134,7 +147,7 @@ export default function LastMinuteDeals() {
                     className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105"
                     onClick={() => window.location.href = '/flights'}
                   >
-                    View Flights
+                  Explore Flights
                   </button>
 
                   {/* Shiko më shumë me tooltip */}

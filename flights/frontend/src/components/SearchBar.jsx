@@ -20,14 +20,14 @@ const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, type, retur
   const prevMonth = () =>
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
 
-   // bllokon scroll kur modal hapet
-    useEffect(() => {
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "auto"; // rikthen scroll kur modal mbyllet
-      };
-    }, []);
-    
+  // bllokon scroll kur modal hapet
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto"; // rikthen scroll kur modal mbyllet
+    };
+  }, []);
+
   return (
     <div>
       <div className="text-gray-800 flex justify-between items-center mb-2">
@@ -287,8 +287,8 @@ export default function SearchBar() {
             type="button"
             onClick={() => isReturn && setOpenDateModal("return")}
             className={`w-full p-3 rounded-xl border border-gray-300 bg-white/70 text-gray-700 transition-all duration-300 text-left ${!isReturn
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:border-blue-400"
+              ? "opacity-40 cursor-not-allowed"
+              : "hover:border-blue-400"
               }`}
           >
             {returnDate ? returnDate.toLocaleDateString() : "Return"}
@@ -307,12 +307,12 @@ export default function SearchBar() {
       {/* ===== DATE MODAL ===== */}
       {openDateModal && (
         <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center z-[999] pointer-events-auto"
           onClick={() => setOpenDateModal(null)}
         >
           <div
-            className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl w-86 max-h-[90vh] overflow-hidden relative flex flex-col z-[1010]"
+            onClick={(e) => e.stopPropagation()} // mos lejo klik jashtë modalit
           >
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-xl font-bold">
