@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Plane, Heart, ChevronUp } from "lucide-react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import CustomDropdown from "../components/CustomDropdown";
-import Calendar from "../components/Calendar";
 import { baseFlights } from "../data/FlightsData";
+import Calendar from "../components/Calendar";
+import PaymentForm from "../components/PaymentForm";
 
 // Gjenerimi i variantëve me orare të ndryshme
 const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
@@ -189,10 +190,9 @@ const FlightsSection = () => {
   const params = new URLSearchParams(search);
   const searchFrom = params.get("from");
   const searchTo = params.get("to");
-  const searchDep = params.get("dep");
-  const searchRet = params.get("ret");
   const searchTrip = params.get("trip"); // oneway / return
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   // Filtrimi i SearchBar sipas query params
   const filteredFlights = flights.filter(flight => {
@@ -225,7 +225,7 @@ const FlightsSection = () => {
   });
 
   // 3. Filtron fluturimet sipas tipit OneWay / Return
-const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
+  const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
 
   // 4. Llogarit pagination mbi fluturimet e filtruar
   const totalPages = Math.ceil(flightsByType.length / flightsPerPage);
@@ -339,7 +339,6 @@ const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
   const [modalStep, setModalStep] = useState(1);
   const [passengerInfo, setPassengerInfo] = useState([]);
   const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
-  const currentPassenger = passengerInfo[currentPassengerIndex];
 
   // Reset passengerInfo sa herë që ndryshon numri i personave ose modalFlight
   useEffect(() => {
@@ -552,7 +551,6 @@ const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
                   >
                     Back
                   </button>
-
                   <button
                     onClick={() => {
                       const p = passengerInfo[currentPassengerIndex];
@@ -565,8 +563,8 @@ const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
                       if (currentPassengerIndex < persons - 1) {
                         setCurrentPassengerIndex(prev => prev + 1);
                       } else {
-                        alert(`Booking confirmed for ${persons} passenger(s)\nTotal Price: €${totalPrice}`);
-                        closeModal();
+                        // Instead of alert, open PaymentForm modal
+                        setShowPaymentForm(true);
                       }
                     }}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
@@ -586,6 +584,20 @@ const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
         > <ChevronUp size={24} />
         </button>
       )}
+
+      {showPaymentForm && (
+        <PaymentForm
+          title="Payment"
+          amount={`€${totalPrice}`}
+          onClose={() => setShowPaymentForm(false)}
+          onSubmit={() => {
+            alert(`Booking confirmed for ${persons} passenger(s)\nTotal Price: €${totalPrice}`);
+            setShowPaymentForm(false);
+            closeModal(); // close main modal too
+          }}
+        />
+      )}
+
     </section>
   );
 };
