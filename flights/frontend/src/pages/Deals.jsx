@@ -80,15 +80,6 @@ export default function LastMinuteDeals() {
         </p>
       </header>
 
-      <style jsx>{`
-        @keyframes shine {
-          0% { left: -75%; }
-          50% { left: 100%; }
-          100% { left: 100%; }
-        }
-        .animate-shine { animation: shine 2.5s infinite; }
-      `}</style>
-
       {/* Deals grid */}
       <main className="max-w-7xl mx-auto mt-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -109,7 +100,7 @@ export default function LastMinuteDeals() {
                   <h3 className="text-2xl font-bold">{deal.title}</h3>
                   <p className="text-sm flex items-center gap-1 opacity-90">
                     <MapPinned className="w-4 h-4 text-blue-500" />
-                    Prishtina →
+                    {deal.from} ➝
                     <MapPlus className="w-4 h-4 text-blue-500" />
                     {deal.title}
                   </p>
@@ -139,8 +130,11 @@ export default function LastMinuteDeals() {
                 </div>
 
                 <div className="mt-4 flex items-center justify-between relative">
-                  <button className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105">
-                    Book
+                  <button
+                    className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105"
+                    onClick={() => window.location.href = '/flights'}
+                  >
+                    View Flights
                   </button>
 
                   {/* Shiko më shumë me tooltip */}

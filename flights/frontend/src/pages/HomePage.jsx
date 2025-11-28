@@ -180,22 +180,18 @@ export default function Home() {
 
             {/* Destinations */}
             <section className="py-24 text-gray-600">
-                <div className="-mt-12 relative w-full max-w-6xl mx-auto h-[420px] md:h-[500px] flex items-center justify-center">
+                <div className="-mt-12 relative w-full max-w-6xl mx-auto h-[300px] md:h-[400px] flex items-center justify-center">
                     {destinations.map((dest, index) => {
                         let pos = index - current;
-                        if (pos < -Math.floor(destinations.length / 2))
-                            pos += destinations.length;
-                        if (pos > Math.floor(destinations.length / 2))
-                            pos -= destinations.length;
+                        if (pos < -Math.floor(destinations.length / 2)) pos += destinations.length;
+                        if (pos > Math.floor(destinations.length / 2)) pos -= destinations.length;
 
-                        // përmasat & pozicioni
                         const scale = pos === 0 ? 1 : 0.82;
                         const zIndex = pos === 0 ? 30 : 10;
                         const xOffset = pos * 280;
 
-                        // width konstant, pavarësisht scale
-                        const baseWidth = 310; // në px (≈ w-80)
-                        const width = baseWidth / scale; // kompenso efektin e scale
+                        const baseWidth = 310;
+                        const width = baseWidth / scale;
 
                         return (
                             <motion.div
@@ -213,16 +209,11 @@ export default function Home() {
                                 className="absolute top-0 h-full rounded-2xl shadow-2xl cursor-pointer overflow-hidden bg-gray-200"
                                 onClick={() => goToDestination(dest.name)}
                             >
-                                <img
-                                    src={dest.src}
-                                    alt={dest.name}
-                                    className="w-full h-full object-cover"
-                                />
+                                <img src={dest.src} alt={dest.name} className="w-full h-full object-cover" />
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent backdrop-blur-sm text-white p-5 text-center">
                                     <h3 className="text-2xl font-semibold tracking-wide drop-shadow-md">{dest.name}</h3>
                                     <div className="mt-1 w-16 mx-auto h-[2px] bg-gradient-to-r from-blue-400 to-white rounded-full"></div>
                                 </div>
-
                             </motion.div>
                         );
                     })}
@@ -253,18 +244,11 @@ export default function Home() {
                                 const blueDivIcon = L.divIcon({
                                     className: "custom-marker",
                                     html: `
-              <div class="relative w-6 h-6 bg-blue-900 rounded-full border-2 border-white shadow-lg animate-pulse-inner">
+              <div class="relative w-6 h-6">
+                <div class="absolute inset-0 w-full h-full bg-blue-900 rounded-full border-2 border-white shadow-lg animate-ping"></div>
                 <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-900 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
               </div>
-              <style>
-                @keyframes pulse-inner {
-                  0% { transform: scale(1); opacity: 1; }
-                  50% { transform: scale(1.6); opacity: 0.4; }
-                  100% { transform: scale(1); opacity: 1; }
-                }
-                .animate-pulse-inner { animation: pulse-inner 1.5s infinite; }
-              </style>
-            `,
+        `,
                                 });
 
                                 return (
@@ -272,9 +256,7 @@ export default function Home() {
                                         key={i}
                                         position={[dest.lat, dest.lng]}
                                         icon={blueDivIcon}
-                                        eventHandlers={{
-                                            click: () => goToMapDestination(dest),
-                                        }}
+                                        eventHandlers={{ click: () => goToMapDestination(dest) }}
                                     >
                                         <Tooltip
                                             direction="top"
@@ -294,92 +276,60 @@ export default function Home() {
             </section>
 
             {/*Deals*/}
-            <section className="w-full py-16 px-6">
-                <h2 className="text-3xl font-semibold text-gray-800 mb-8 -mt-10 text-center flex items-center justify-center gap-3 group transition-all duration-300 hover:scale-105 hover:text-blue-900">
-                    <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
-                    Last Minute Deals
-                    <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
-                </h2>
-
-                <div className="grid gap-10 max-w-6xl mx-auto">
-                    {deals.map((item) => (
-                        <div
-                            key={item.id}
-                            className="w-full rounded-3xl shadow-md overflow-hidden bg-white border transform transition duration-300 hover:shadow-2xl hover:-translate-y-1"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3 h-full">
-
-                                {/* IMAGE + OVERLAY */}
-                                <div className="relative h-full">
-                                    <img
-                                        src={item.image}
-                                        alt={item.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                                    <p className="absolute bottom-3 left-4 text-white text-lg font-bold drop-shadow-lg">
-                                        {item.title}
-                                    </p>
-
+            <section className="w-full py-16 px-4">
+                <div className="max-w-5xl mx-auto">
+                    <h2 className="text-3xl font-semibold text-gray-800 mb-8 -mt-10 text-center flex items-center justify-center gap-3 group transition-all duration-300 hover:scale-105 hover:text-blue-900">
+                        <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
+                        Last Minute Deals
+                        <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
+                    </h2>
+                    <div className="grid gap-8 md:grid-cols-2">
+                        {deals.map((item) => (
+                            <div key={item.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-transform transform hover:-translate-y-1">
+                                <div className="relative h-56">
+                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                    <p className="absolute bottom-3 left-4 text-white font-semibold text-lg drop-shadow-md">{item.title}</p>
                                 </div>
 
-                                {/* CONTENT */}
-                                <div className="col-span-2 p-6 flex flex-col justify-between">
-
+                                <div className="p-5 flex flex-col justify-between h-40">
                                     <div>
-                                        <h3 className="text-2xl md:text-3xl font-semibold text-gray-900">
-                                            {item.title}
-                                        </h3>
-                                        <p className="text-gray-500 mt-1 text-lg">{item.country}</p>
-
-                                        <div className="mt-4 space-y-2 text-gray-700 text-sm">
+                                        <div className="-mt-2 space-y-2 text-gray-700 text-sm">
                                             <p className="flex items-center gap-2">
-                                                <MapPin className="w-5 h-5 text-blue-600" />
+                                                <MapPin className="w-4 h-4 text-blue-600" />
                                                 <span className="font-medium">From:</span> {item.from}
                                             </p>
-
                                             <p className="flex items-center gap-2">
-                                                <PlaneTakeoff className="w-5 h-5 text-blue-600" />
+                                                <PlaneTakeoff className="w-4 h-4 text-blue-600" />
                                                 <span className="font-medium">Departure:</span> {item.departureDate}
                                             </p>
-
                                             <p className="flex items-center gap-2">
-                                                <PlaneLanding className="w-5 h-5 text-blue-600" />
+                                                <PlaneLanding className="w-4 h-4 text-blue-600" />
                                                 <span className="font-medium">Return:</span> {item.returnDate}
                                             </p>
-
                                             <p className="flex items-center gap-2">
-                                                <Clock className="w-5 h-5 text-blue-600" />
+                                                <Clock className="w-4 h-4 text-blue-600" />
                                                 <span className="font-medium">Duration:</span> {item.duration}
                                             </p>
                                         </div>
                                     </div>
 
-                                    {/* PRICE + BUTTON */}
-                                    <div className="mt-6 flex items-center justify-between">
-                                        <p className="text-xl md:text-xl font-bold bg-blue-100 text-blue-900 px-4 py-1.5 rounded-xl shadow-sm">
-                                            {item.price} {item.currency}
-                                        </p>
-
-                                        <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-black font-bold rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition">
-                                            Book Now
-                                        </button>
+                                    <div className="mt-2 flex items-center justify-between">
+                                        <span className="text-lg font-bold text-blue-700">{item.price} {item.currency}</span>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
 
-                {/* BUTTON MORE */}
-                <div className="mt-10 text-center">
-                    <button
-                        onClick={() => navigate("/deals")}
-                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition"
-                    >
-                        More Deals
-                    </button>
+                    <div className="mt-12 text-center">
+                        <button
+                            onClick={() => navigate("/deals")}
+                            className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition"
+                        >
+                            More Deals
+                        </button>
+                    </div>
                 </div>
             </section>
 

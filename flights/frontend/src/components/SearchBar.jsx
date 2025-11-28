@@ -20,6 +20,14 @@ const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, type, retur
   const prevMonth = () =>
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
 
+   // bllokon scroll kur modal hapet
+    useEffect(() => {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "auto"; // rikthen scroll kur modal mbyllet
+      };
+    }, []);
+    
   return (
     <div>
       <div className="text-gray-800 flex justify-between items-center mb-2">
