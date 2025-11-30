@@ -57,7 +57,7 @@ function Destinations() {
     const austriaRef = useRef(null);
 
     const destinationsMap = useMemo(() => ({
-    italy: italyRef, hungary: hungaryRef, france: franceRef, spain: spainRef, egypt: egyptRef, uk: ukRef, turkey: turkeyRef, austria: austriaRef
+        italy: italyRef, hungary: hungaryRef, france: franceRef, spain: spainRef, egypt: egyptRef, uk: ukRef, turkey: turkeyRef, austria: austriaRef
     }), []);
 
     const slides = [
@@ -153,7 +153,6 @@ function Destinations() {
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
                     Most Popular Destinations
                 </h2>
-
                 {/* Slideshow Container */}
                 <div className="relative max-w-5xl mx-auto h-[24rem] overflow-hidden rounded-3xl shadow-2xl">
                     <AnimatePresence>
@@ -183,7 +182,6 @@ function Destinations() {
                         </motion.div>
                     </AnimatePresence>
                 </div>
-
                 {/* Navigation dots */}
                 <div className="flex justify-center gap-3 mt-6">
                     {slides.map((_, index) => (
@@ -204,7 +202,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Italy
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Italy
@@ -213,7 +210,6 @@ function Destinations() {
                         Discover Italy’s most iconic landmarks, from ancient ruins to stunning architecture.
                     </p>
                 </div>
-
                 {/* Slider */}
                 <Slider
                     dots={true}
@@ -226,12 +222,10 @@ function Destinations() {
                     pauseOnHover={true}
                     responsive={[
                         {
-                            breakpoint: 1024,
-                            settings: { slidesToShow: 2 },
+                            breakpoint: 1024, settings: { slidesToShow: 2 },
                         },
                         {
-                            breakpoint: 640,
-                            settings: { slidesToShow: 1 },
+                            breakpoint: 640, settings: { slidesToShow: 1 },
                         },
                     ]}
                 >
@@ -283,10 +277,8 @@ function Destinations() {
                                         className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-
                                 {/* Card overlay */}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
-
                                 {/* Content */}
                                 <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
                                     <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
@@ -298,11 +290,11 @@ function Destinations() {
 
                     ))}
                 </Slider>
+
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -362,7 +354,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Italy
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {/* Capital */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
@@ -370,28 +361,24 @@ function Destinations() {
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Rome</p>
                         </div>
-
                         {/* Currency */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">💶</span>
                             <h3 className="text-xl font-semibold mb-1">Currency</h3>
                             <p className="text-gray-700 text-base">Euro (EUR)</p>
                         </div>
-
                         {/* Population */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">👥</span>
                             <h3 className="text-xl font-semibold mb-1">Population</h3>
                             <p className="text-gray-700 text-base">59,854,860</p>
                         </div>
-
                         {/* Language */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🗣️</span>
                             <h3 className="text-xl font-semibold mb-1">Language</h3>
                             <p className="text-gray-700 text-base">Italian</p>
                         </div>
-
                         {/* Time Zone */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🕒</span>
@@ -400,6 +387,7 @@ function Destinations() {
                         </div>
                     </div>
                 </section>
+
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in Rome
@@ -468,12 +456,10 @@ function Destinations() {
                     pauseOnHover={true}
                     responsive={[
                         {
-                            breakpoint: 1024,
-                            settings: { slidesToShow: 2 },
+                            breakpoint: 1024, settings: { slidesToShow: 2 },
                         },
                         {
-                            breakpoint: 640,
-                            settings: { slidesToShow: 1 },
+                            breakpoint: 640, settings: { slidesToShow: 1 },
                         },
                     ]}
                 >
@@ -525,10 +511,8 @@ function Destinations() {
                                         className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-
                                 {/* Card overlay */}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl"></div>
-
                                 {/* Content */}
                                 <div className="relative z-10 p-5 bg-white/90 backdrop-blur-sm rounded-b-2xl shadow-md group-hover:shadow-xl transition-shadow duration-500">
                                     <h3 className="text-xl font-semibold mb-1">{place.name}</h3>
@@ -539,11 +523,11 @@ function Destinations() {
                         </div>
                     ))}
                 </Slider>
+
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -600,7 +584,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Hungary
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {/* Capital */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
@@ -608,28 +591,24 @@ function Destinations() {
                             <h3 className="text-xl font-semibold mb-1">Capital</h3>
                             <p className="text-gray-700 text-base">Budapest</p>
                         </div>
-
                         {/* Currency */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">💲</span>
                             <h3 className="text-xl font-semibold mb-1">Currency</h3>
                             <p className="text-gray-700 text-center">Hungarian Forint (HUF)</p>
                         </div>
-
                         {/* Population */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🧑🏻‍🤝‍🧑🏻</span>
                             <h3 className="text-xl font-semibold mb-1">Population</h3>
                             <p className="text-gray-700 text-base">9,625,818</p>
                         </div>
-
                         {/* Language */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🗣️</span>
                             <h3 className="text-xl font-semibold mb-1">Language</h3>
                             <p className="text-gray-700 text-base">Hungarian</p>
                         </div>
-
                         {/* Time Zone */}
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">⏰</span>
@@ -638,11 +617,11 @@ function Destinations() {
                         </div>
                     </div>
                 </section>
+
                 <section className="py-16 bg-white text-gray-800 px-6 md:px-20">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in Budapest
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "0°C", desc: "Cold", icon: "❄️" },
@@ -669,14 +648,12 @@ function Destinations() {
                             </div>
                         ))}
                     </div>
-
                     <button
                         onClick={() => navigate("/")}
                         className="px-8 py-4 rounded-2xl mt-10 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 mx-auto block"
                     >
                         Book Your Ticket
                     </button>
-
                 </section>
             </section>
 
@@ -771,7 +748,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -903,7 +879,6 @@ function Destinations() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     Egypt
                 </h2>
-
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
                         Top Attractions in Egypt
@@ -912,7 +887,6 @@ function Destinations() {
                         Explore Egypt’s iconic landmarks, from ancient pyramids to vibrant bazaars.
                     </p>
                 </div>
-
                 {/* Slider */}
                 <Slider
                     dots={true}
@@ -991,7 +965,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {
@@ -1049,7 +1022,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about Egypt
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🐫</span>
@@ -1088,7 +1060,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in Egypt
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "19°C", desc: "Mild", icon: "🌤️" },
@@ -1273,7 +1244,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 -mt-14 text-center">
                         Facts about France
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         <div className="flex-1 min-w-[180px] max-w-[220px] bg-black/5 rounded-xl p-6 shadow-xl hover:shadow-md transition-shadow duration-300 flex flex-col items-center">
                             <span className="text-4xl mb-3">🗼</span>
@@ -1312,7 +1282,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in France
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "5°C", desc: "Cold", icon: "❄️" },
@@ -1534,7 +1503,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Average Weather in Austria
                     </h2>
-
                     <div className="flex overflow-x-auto gap-6 max-w-full py-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {[
                             { month: "January", temp: "0°C", desc: "Cold", icon: "❄️" },
@@ -1791,6 +1759,7 @@ function Destinations() {
                 </section>
             </section>
 
+            {/*UK*/}
             <section ref={ukRef} className="py-16 text-gray-800 px-6 md:px-20">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
                     United Kingdom
@@ -1803,7 +1772,6 @@ function Destinations() {
                         Explore London’s iconic landmarks, royal palaces, and historic streets.
                     </p>
                 </div>
-
                 {/* Slider */}
                 <Slider
                     dots={true}
@@ -1882,7 +1850,6 @@ function Destinations() {
                     <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-10 text-center">
                         Visitor Reviews
                     </h2>
-
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
                         {[
                             {

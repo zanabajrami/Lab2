@@ -20,14 +20,14 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   }, []);
 
   useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (dealsRef.current && !dealsRef.current.contains(event.target)) {
-      setShowDealsOptions(false);
-    }
-  };
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
+    const handleClickOutside = (event) => {
+      if (dealsRef.current && !dealsRef.current.contains(event.target)) {
+        setShowDealsOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const menuItems = [
     { label: "Destinations", action: () => navigate("/destinations") },
@@ -47,6 +47,11 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
     hidden: { opacity: 0, y: -15, scale: 0.95 },
     visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25 } },
     exit: { opacity: 0, y: -15, scale: 0.95, transition: { duration: 0.2 } },
+  };
+
+  const handleMenuClick = (action) => {
+    action();           // kryen navigimin ose çfarëdo funksioni
+    setMenuOpen(false); // mbyll menunë
   };
 
   return (
@@ -159,44 +164,51 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <ul className="md:hidden mt-4 bg-gray-800 rounded-lg p-4 space-y-3 text-center">
           {menuItems.map((item) => (
             <li
               key={item.label}
               className="relative"
-              ref={item.label === "Deals" ? dealsRef :null}
+              ref={item.label === "Deals" ? dealsRef : null}
             >
               <div
                 className="cursor-pointer text-white font-semibold tracking-wide"
-                onClick={item.action}
+                onClick={() => {
+                  if (item.label === "Deals") {
+                    setShowDealsOptions(!showDealsOptions); // hap/mbyll dropdown
+                  } else {
+                    handleMenuClick(item.action); // navigim + mbyllje e menusë
+                  }
+                }}
               >
                 {item.label}
               </div>
 
+              {/* Deals */}
               <AnimatePresence>
                 {item.label === "Deals" && showDealsOptions && (
                   <motion.ul
-                    className="mt-2 bg-gray-700/90 rounded-xl p-2 space-y-1 backdrop-blur-md shadow-lg text-left"
+                    className="mt-2 bg-gray-700/90 rounded-xl p-2 space-y-1"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <li
-                      className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors"
+                      className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer"
                       onClick={() => {
                         handleOptionClick("Last Minute Deals");
-                        setMenuOpen(false);
+                        setMenuOpen(false); // mbylle
                       }}
                     >
                       Last Minute Deals
                     </li>
+
                     <li
-                      className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer transition-colors"
+                      className="px-2 py-1 hover:bg-blue-500/20 cursor-pointer"
                       onClick={() => {
                         handleOptionClick("Memberships");
-                        setMenuOpen(false);
+                        setMenuOpen(false); // mbylle
                       }}
                     >
                       Memberships
@@ -207,13 +219,14 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
             </li>
           ))}
 
+          {/* Account */}
           {userData && (
             <li className="relative">
               <div
-                className="flex justify-center items-center space-x-2 cursor-pointer text-white font-semibold hover:text-blue-400 transition"
+                className="flex justify-center items-center space-x-2 cursor-pointer text-white font-semibold hover:text-blue-400"
                 onClick={() => {
                   setIsAccountOpen(true);
-                  setMenuOpen(false);
+                  setMenuOpen(false); // mbylle
                 }}
               >
                 <CircleUserRound className="w-6 h-6" />
@@ -223,16 +236,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
           )}
         </ul>
       )}
-
-      <style>{`
-        @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 1px 10px rgba(59,130,246,0.6); }
-          50% { box-shadow: 0 4px 20px rgba(59,130,246,0.9); }
-        }
-        .animate-pulseGlow {
-          animation: pulseGlow 2s infinite;
-        }
-      `}</style>
     </header>
   );
 }
