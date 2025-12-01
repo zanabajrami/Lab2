@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 function IconFacebook() {
     return (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -21,6 +23,8 @@ function IconTwitter() {
 }
 
 export default function Footer() {
+    const navigate = useNavigate();
+
     return (
         <footer className="bg-gradient-to-r from-blue-900 to-blue-500 rounded-t-lg text-white py-10 mt-auto">
             <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -36,8 +40,12 @@ export default function Footer() {
                     <h3 className="text-lg font-semibold mb-3">Services</h3>
                     <ul className="space-y-2 text-gray-200">
                         <li className="hover:text-gray-900 cursor-pointer">Flight Booking</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Fare Lock</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Flight Cancellation</li>
+                        <li
+                            className="hover:text-gray-900 cursor-pointer"
+                            onClick={() => navigate("/baggage")}
+                        >
+                            Baggage Allowance
+                        </li>                        <li className="hover:text-gray-900 cursor-pointer">Flight Cancellation</li>
                         <li className="hover:text-gray-900 cursor-pointer">Customer Support</li>
                     </ul>
                 </div>
@@ -55,15 +63,19 @@ export default function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Deals</h3>
                     <ul className="space-y-2 text-gray-00">
-                        <li className="hover:text-gray-900 cursor-pointer">Last Minute Deals</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Memberships</li>
-
+                        <li
+                            className="hover:text-gray-900 cursor-pointer"
+                            onClick={() => navigate("/deals")}
+                        >
+                            Last Minute Deals
+                        </li>
+                        <li
+                            className="hover:text-gray-900 cursor-pointer"
+                            onClick={() => navigate("/membership")}
+                        >
+                            Memberships
+                        </li>
                     </ul>
-                </div>
-
-                <div>
-                    <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                    <li className="hover:text-gray-900 cursor-pointer">Contact us</li>
                 </div>
             </div>
 

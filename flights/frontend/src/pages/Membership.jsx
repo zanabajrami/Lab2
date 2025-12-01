@@ -125,7 +125,7 @@ export default function Membership() {
       price: "€99.99 / year",
       badge: "VIP",
       benefits: [
-        { icon: <Users className="w-5 h-5 text-blue-500" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
+        { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
         { icon: <HandPlatter className="w-5 h-5 text-blue-800" />, text: "Priority customer care", tooltip: "VIP support." },
         { icon: <Luggage className="w-5 h-5 text-blue-800" />, text: "Extra baggage allowance", tooltip: "Get an additional 5kg of checked baggage." },
         { icon: <TicketsPlane className="w-5 h-5 text-blue-800" />, text: "Priority boarding", tooltip: "Skip the line and board first." },

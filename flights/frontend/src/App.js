@@ -12,6 +12,7 @@ import Destinations from "./pages/Destinations";
 import HomePage from "./pages/HomePage";
 import Flights from "./pages/Flights";
 import Favorites from "./pages/Favorites";
+import Baggage from "./pages/Baggage";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -62,6 +63,8 @@ function App() {
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
             <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path="/baggage" element={<Baggage />} />
+
           </Routes>
         </main>
 
@@ -80,7 +83,7 @@ function App() {
             isOpen={showSignup}
             onClose={() => setShowSignup(false)}
             onSwitchToLogin={handleSwitchToLogin}
-            onSignupSuccess={handleSignupSuccess}  
+            onSignupSuccess={handleSignupSuccess}
           />
         )}
 
