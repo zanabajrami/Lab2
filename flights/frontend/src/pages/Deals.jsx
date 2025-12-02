@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plane, MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp } from "lucide-react";
+import { MapPinned, MapPlus, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp } from "lucide-react";
+import { GiCommercialAirplane } from "react-icons/gi";
 
 import budapestImage from "../images/budapest.webp";
 import romeImage from "../images/rome.avif";
@@ -82,10 +83,10 @@ export default function LastMinuteDeals() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white p-6 md:p-12">
       <header className="max-w-7xl mx-auto text-center relative">
-        <h1 className="relative text-2xl md:text-3xl font-extrabold text-gray-800 mb-2 tracking-wide uppercase drop-shadow-sm overflow-hidden flex items-center justify-center gap-2">
-          <Plane className="w-7 h-7 text-blue-900" />
+        <h1 className="relative text-2xl md:text-3xl font-bold text-gray-800 mb-2 tracking-wide uppercase drop-shadow-sm overflow-hidden flex items-center justify-center gap-2">
+          <GiCommercialAirplane className="w-7 h-7" />
           Last Minute Deals
-          <Plane className="w-7 h-7 text-blue-900" />
+          <GiCommercialAirplane className="w-7 h-7" />
           <span className="absolute top-0 left-[-75%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shine pointer-events-none"></span>
         </h1>
         <p className="text-gray-700 mb-8 italic transition-colors duration-300 hover:text-blue-900">

@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Contact from "./pages/Contact";
+import Contact from "./components/Contact";
 import Membership from "./pages/Membership";
 import Deals from "./pages/Deals";
 import Destinations from "./pages/Destinations";
@@ -18,6 +18,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   // KTU RUHEN TE DHENAT PAS SIGNUP
   const [user, setUser] = useState(null);
@@ -68,7 +69,7 @@ function App() {
           </Routes>
         </main>
 
-        <Footer />
+        <Footer onShowContact={() => setShowContact(true)} />
 
         {showLogin && (
           <Login

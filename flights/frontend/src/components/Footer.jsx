@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { GiCommercialAirplane } from "react-icons/gi";
 
 function IconFacebook() {
     return (
@@ -22,7 +23,7 @@ function IconTwitter() {
     );
 }
 
-export default function Footer() {
+export default function Footer({ onShowContact }) {
     const navigate = useNavigate();
 
     return (
@@ -32,37 +33,59 @@ export default function Footer() {
                     <h2 className="text-2xl font-bold mb-3">FlyHigh</h2>
                     <p className="text-sm text-gray-200">
                         Discover affordable flights, exciting destinations, and exclusive
-                        travel deals. Fly smarter with FlyHigh ✈️
+                        travel deals. Fly smarter with FlyHigh <GiCommercialAirplane className="inline ml-1" />
                     </p>
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Services</h3>
                     <ul className="space-y-2 text-gray-200">
-                        <li className="hover:text-gray-900 cursor-pointer">Flight Booking</li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/flights">Flight Booking</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">Flight Cancellation</li>
                         <li
                             className="hover:text-gray-900 cursor-pointer"
                             onClick={() => navigate("/baggage")}
                         >
                             Baggage Allowance
-                        </li>                        <li className="hover:text-gray-900 cursor-pointer">Flight Cancellation</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Customer Support</li>
+                        </li>
+                        <li
+                            className="hover:text-gray-900 cursor-pointer"
+                            onClick={() => navigate("/support")}
+                        >
+                            Customer Support
+                        </li>
+                        <li
+                            className="hover:text-gray-900 cursor-pointer transition"
+                            onClick={onShowContact}
+                        >
+                            Contact Us
+                        </li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 className="text-lg font-semibold mb-3">Destinations</h3>
+                    <h3 className="text-lg font-semibold mb-3">About</h3>
                     <ul className="space-y-2 text-gray-200">
-                        <li className="hover:text-gray-900 cursor-pointer">Paris</li>
-                        <li className="hover:text-gray-900 cursor-pointer">London</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Rome</li>
-                        <li className="hover:text-gray-900 cursor-pointer">Barcelona</li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/about-us">About Us</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/faq">FAQs</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/terms">Terms & Conditions</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/privacy">Privacy Policy</Link>
+                        </li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Deals</h3>
-                    <ul className="space-y-2 text-gray-00">
+                    <ul className="space-y-2 text-gray-200">
                         <li
                             className="hover:text-gray-900 cursor-pointer"
                             onClick={() => navigate("/deals")}
@@ -80,7 +103,7 @@ export default function Footer() {
             </div>
 
             <div className="border-t border-gray-500 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-4 text-sm text-gray-300">
-                <p>© {new Date().getFullYear()} Flyhigh. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} FlyHigh. All rights reserved.</p>
                 <div className="flex gap-5 mt-3 md:mt-0">
                     <span className="cursor-pointer hover:text-white transition"><IconFacebook /></span>
                     <span className="cursor-pointer hover:text-white transition"><IconInstagram /></span>

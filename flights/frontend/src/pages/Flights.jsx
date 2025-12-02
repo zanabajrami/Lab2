@@ -364,6 +364,10 @@ const FlightsSection = () => {
     setPassengerInfo(updated);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="py-20 w-full -mt-10 flex flex-col items-center">
       {/* Buttons OneWay/Return */}

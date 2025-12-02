@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { PlaneTakeoff, PlaneLanding } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { LiaPlaneDepartureSolid, LiaPlaneArrivalSolid } from "react-icons/lia";
 
 // ===== Calendar Component =====
 const Calendar = ({ selectedDate, setSelectedDate, minDate, maxDate, type, returnDate }) => {
@@ -224,7 +224,7 @@ export default function SearchBar() {
           <CustomDropdown
             label={
               <div className="flex items-center gap-2">
-                <PlaneTakeoff className="w-5 h-5 text-blue-500" />
+                <LiaPlaneDepartureSolid className="w-6 h-6 text-blue-500" />
                 From
               </div>
             }
@@ -244,7 +244,7 @@ export default function SearchBar() {
           <CustomDropdown
             label={
               <div className="flex items-center gap-2">
-                <PlaneLanding className="w-5 h-5 text-blue-500" />
+                <LiaPlaneArrivalSolid className="w-6 h-6 text-blue-500" />
                 To
               </div>
             }
