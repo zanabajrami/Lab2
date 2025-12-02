@@ -13,12 +13,12 @@ import HomePage from "./pages/HomePage";
 import Flights from "./pages/Flights";
 import Favorites from "./pages/Favorites";
 import Baggage from "./pages/Baggage";
+import Faq from "./pages/Faq";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
 
   // KTU RUHEN TE DHENAT PAS SIGNUP
   const [user, setUser] = useState(null);
@@ -65,6 +65,7 @@ function App() {
             <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
             <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
             <Route path="/baggage" element={<Baggage />} />
+            <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
 
           </Routes>
         </main>
