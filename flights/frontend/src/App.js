@@ -15,6 +15,7 @@ import Favorites from "./pages/Favorites";
 import Baggage from "./pages/Baggage";
 import Faq from "./pages/Faq";
 import AboutUs from "./pages/AboutUs";
+import Terms from "./pages/Terms";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -68,6 +69,7 @@ function App() {
             <Route path="/baggage" element={<Baggage />} />
             <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/terms" element={<Terms />} />
 
           </Routes>
         </main>

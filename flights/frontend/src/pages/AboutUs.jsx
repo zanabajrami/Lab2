@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { TbUserStar } from "react-icons/tb";
 import { RxUpdate } from "react-icons/rx";
@@ -13,6 +14,10 @@ import team_member5 from "../images/team_member5.png";
 import team_member6 from "../images/team_member6.png";
 
 export default function AboutUs() {
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+    }, []);
+
     const teamMembers = [
         { name: "Alice Johnson", role: "CEO & Founder", img: team_member1 },
         { name: "Michael Miller", role: "Head of Operations", img: team_member2 },
@@ -33,7 +38,7 @@ export default function AboutUs() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-16">
-            <h1 className="text-3xl font-bold mb-12 text-center text-blue-900">About FlyHigh Agency</h1>
+            <h1 className="text-3xl font-bold mb-10 text-center text-blue-900">About FlyHigh Agency</h1>
 
             {/* Our Story */}
             <section className="space-y-4">
