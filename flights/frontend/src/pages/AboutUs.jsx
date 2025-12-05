@@ -38,7 +38,7 @@ export default function AboutUs() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-16">
-            <h1 className="text-3xl font-bold mb-10 text-center text-blue-900">About FlyHigh Agency</h1>
+            <h1 className="text-3xl font-bold mb-7 -mt-5 text-center text-blue-900">About FlyHigh Agency</h1>
 
             {/* Our Story */}
             <section className="space-y-4">

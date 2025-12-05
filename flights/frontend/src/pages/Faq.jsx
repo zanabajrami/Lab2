@@ -44,7 +44,7 @@ export default function FAQ({ onShowContact }) {
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-16">
-            <h1 className="text-4xl font-bold mb-8 text-center text-blue-900">
+            <h1 className="text-3xl font-bold mb-5 -mt-5 text-center text-blue-900">
                 Frequently Asked Questions
             </h1>
             <p className="text-center text-gray-700 mb-12">
