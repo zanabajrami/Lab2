@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import Account from "../pages/Account";
-import NotificationBell from "./NotificationBell";
-import NotificationDropdown from "./NotificationDropdown";
+import NotificationBell from "./notifications/NotificationBell";
+import NotificationDropdown from "./notifications/NotificationDropdown";
 
 function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +14,13 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const notifRef = useRef(null); // ref për notifications
+  const [selectedNotification, setSelectedNotification] = useState(null);
+
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: "Booking confirmed", message: "Your flight is confirmed!", read: false },
+    { id: 2, title: "New deal available", message: "Check our last minute deals!", read: false },
+  ]);
 
   // Scroll listener
   useEffect(() => {
@@ -24,10 +31,16 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // mbyll Deals dropdown
       if (dealsRef.current && !dealsRef.current.contains(event.target)) {
         setShowDealsOptions(false);
       }
+      // mbyll Notifications dropdown
+      if (notifRef.current && !notifRef.current.contains(event.target)) {
+        setOpen(false);
+      }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -116,11 +129,7 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
             </li>
           ))}
         </ul>
-        {/* Notifications */}
-        <div className="flex items-center relative">
-          <NotificationBell onClick={() => setOpen(!open)} />
-          <NotificationDropdown open={open} />
-        </div>
+
 
         {/* Buttons */}
         <div className="flex items-center space-x-3 ">
@@ -142,10 +151,20 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
         <div className="hidden md:flex items-center">
           {userData && (
             <CircleUserRound
-              className="w-8 h-8 text-white cursor-pointer hover:text-blue-400 transition"
+              className="w-8 h-8 text-blue-200 cursor-pointer hover:text-blue-400 transition"
               onClick={() => setIsAccountOpen(true)}
             />
           )}
+        </div>
+
+        <div ref={notifRef} className="relative">
+          <NotificationBell onClick={() => setOpen(!open)} />
+          <NotificationDropdown
+            open={open}
+            notifications={notifications}
+            setNotifications={setNotifications}
+            onSelect={setSelectedNotification}
+          />
         </div>
 
         {isAccountOpen && userData && (

@@ -78,7 +78,7 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
       return;
     }
 
-    alert("🎉 You have created an account!");
+    alert("You have created an account!");
 
     // Krijo account, thjesht ruaj userData
     onSignupSuccess({

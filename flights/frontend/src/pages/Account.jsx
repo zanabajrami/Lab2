@@ -44,14 +44,14 @@ function Account({ isOpen, onClose, userData, setUserData }) {
         setYourPassword("");
         setNewPassword("");
         setError("");
-        alert("✅ Password updated successfully!");
+        alert("✔️ Password updated successfully!");
     };
 
     const handleLogout = () => {
         setUserData(null); // mbyll account
         setShowLogoutConfirm(false);
         onClose();
-        alert("✅ You have been logged out!");
+        alert("✔️ You have been logged out!");
     };
 
     return (
