@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import Account from "../pages/Account";
+import NotificationBell from "./NotificationBell";
+import NotificationDropdown from "./NotificationDropdown";
 
 function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,6 +13,7 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const dealsRef = useRef(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   // Scroll listener
   useEffect(() => {
@@ -113,6 +116,11 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
             </li>
           ))}
         </ul>
+        {/* Notifications */}
+        <div className="flex items-center relative">
+          <NotificationBell onClick={() => setOpen(!open)} />
+          <NotificationDropdown open={open} />
+        </div>
 
         {/* Buttons */}
         <div className="flex items-center space-x-3 ">

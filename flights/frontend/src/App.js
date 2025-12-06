@@ -17,6 +17,7 @@ import Faq from "./pages/Faq";
 import AboutUs from "./pages/AboutUs";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -50,56 +51,58 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header
-          openLogin={() => setShowLogin(true)}
-          openSignup={() => setShowSignup(true)}
-          openContact={() => setShowContact(true)}
-          userData={user}
-          setUserData={setUser}
-        />
-
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/membership" element={<Membership />} />
-            <Route path="/deals" element={<Deals />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
-            <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
-            <Route path="/baggage" element={<Baggage />} />
-            <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-
-          </Routes>
-        </main>
-
-        <Footer onShowContact={() => setShowContact(true)} />
-
-        {showLogin && (
-          <Login
-            isOpen={showLogin}
-            onClose={() => setShowLogin(false)}
-            onSwitchToRegister={handleSwitchToSignup}
+      <NotificationProvider>
+        <div className="flex flex-col min-h-screen">
+          <Header
+            openLogin={() => setShowLogin(true)}
+            openSignup={() => setShowSignup(true)}
+            openContact={() => setShowContact(true)}
+            userData={user}
+            setUserData={setUser}
           />
-        )}
 
-        {showSignup && (
-          <Signup
-            isOpen={showSignup}
-            onClose={() => setShowSignup(false)}
-            onSwitchToLogin={handleSwitchToLogin}
-            onSignupSuccess={handleSignupSuccess}
-          />
-        )}
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/membership" element={<Membership />} />
+              <Route path="/deals" element={<Deals />} />
+              <Route path="/destinations" element={<Destinations />} />
+              <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
+              <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
+              <Route path="/baggage" element={<Baggage />} />
+              <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
 
-        {showContact && (
-          <Contact onClose={() => setShowContact(false)} />
-        )}
+            </Routes>
+          </main>
 
-      </div>
+          <Footer onShowContact={() => setShowContact(true)} />
+
+          {showLogin && (
+            <Login
+              isOpen={showLogin}
+              onClose={() => setShowLogin(false)}
+              onSwitchToRegister={handleSwitchToSignup}
+            />
+          )}
+
+          {showSignup && (
+            <Signup
+              isOpen={showSignup}
+              onClose={() => setShowSignup(false)}
+              onSwitchToLogin={handleSwitchToLogin}
+              onSignupSuccess={handleSignupSuccess}
+            />
+          )}
+
+          {showContact && (
+            <Contact onClose={() => setShowContact(false)} />
+          )}
+
+        </div>
+      </NotificationProvider>
     </Router>
   );
 }
