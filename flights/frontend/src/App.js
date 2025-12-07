@@ -17,6 +17,7 @@ import Faq from "./pages/Faq";
 import AboutUs from "./pages/AboutUs";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import Cookies from "./pages/Cookies";
 import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/cookies" element={<Cookies />} />
 
             </Routes>
           </main>

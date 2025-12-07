@@ -51,12 +51,6 @@ export default function Footer({ onShowContact }) {
                             Baggage Allowance
                         </li>
                         <li
-                            className="hover:text-gray-900 cursor-pointer"
-                            onClick={() => navigate("/support")}
-                        >
-                            Customer Support
-                        </li>
-                        <li
                             className="hover:text-gray-900 cursor-pointer transition"
                             onClick={onShowContact}
                         >
@@ -79,6 +73,9 @@ export default function Footer({ onShowContact }) {
                         </li>
                         <li className="hover:text-gray-900 cursor-pointer">
                             <Link to="/privacy">Privacy Policy</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/cookies">Cookie Policy</Link>
                         </li>
                     </ul>
                 </div>
