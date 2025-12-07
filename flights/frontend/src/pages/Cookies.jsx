@@ -1,8 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function CookiePolicy() {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [preferences, setPreferences] = useState({
+        performance: true,
+        advertising: true,
+    });
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "auto" });
+        // Ngarko preferencat nga localStorage
+        const savedPrefs = localStorage.getItem("cookiePreferences");
+        if (savedPrefs) {
+            setPreferences(JSON.parse(savedPrefs));
+        }
     }, []);
 
     const lastUpdated = "December 7, 2025";
@@ -14,13 +25,29 @@ export default function CookiePolicy() {
         }
     };
 
-    const handleManageCookies = () => {
-        alert("You can manage your cookies via your browser settings.");
-        // Këtu mund të hapësh edhe një modal për cookie preferences në të ardhmen
+    const handleManageCookies = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+    const handleSavePreferences = () => {
+        localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
+        alert("Your cookie preferences have been saved.");
+        setModalOpen(false);
+    };
+
+    const handleAcceptAll = () => {
+        const allPrefs = { performance: true, advertising: true };
+        setPreferences(allPrefs);
+        localStorage.setItem("cookiePreferences", JSON.stringify(allPrefs));
+        alert("All cookies have been accepted.");
+        setModalOpen(false);
+    };
+
+    const togglePreference = (type) => {
+        setPreferences((prev) => ({ ...prev, [type]: !prev[type] }));
     };
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto px-4 py-16 relative">
             <header className="mb-10 text-center">
                 <h1 className="text-3xl font-bold text-blue-900 mb-3 -mt-5">Cookie Policy</h1>
                 <p className="text-sm text-gray-500">
@@ -105,6 +132,65 @@ export default function CookiePolicy() {
                     </p>
                 </section>
             </article>
+
+            {/* Modal */}
+            {modalOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-lg">
+                        <h3 className="text-xl font-semibold text-blue-900 mb-4">Cookie Preferences</h3>
+                        <div className="space-y-3">
+                            <label className="flex items-center space-x-2">
+                                <input type="checkbox" checked disabled />
+                                <span>Essential Cookies (Always Active)</span>
+                            </label>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    checked={preferences.performance}
+                                    onChange={() => togglePreference("performance")}
+                                />
+                                <span>Performance Cookies</span>
+                            </label>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    checked={preferences.advertising}
+                                    onChange={() => togglePreference("advertising")}
+                                />
+                                <span>Advertising Cookies</span>
+                            </label>
+                        </div>
+                        <div className="mt-6 flex justify-between">
+                            <button
+                                onClick={handleAcceptAll}
+                                className="px-4 py-2 rounded-2xl bg-blue-900 text-white hover:bg-green-800 transition-colors"
+                            >
+                                Accept All
+                            </button>
+                            <div className="space-x-3">
+                                <button
+                                    onClick={closeModal}
+                                    className="px-4 py-2 rounded-2xl bg-gray-300 hover:bg-gray-400 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSavePreferences}
+                                    className="px-4 py-2 rounded-2xl bg-blue-600 text-white hover:bg-blue-800 transition-colors"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                        <button
+                            onClick={closeModal}
+                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 font-bold text-lg"
+                        >
+                            &times;
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
