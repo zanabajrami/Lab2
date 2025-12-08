@@ -18,6 +18,7 @@ import AboutUs from "./pages/AboutUs";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Cookies from "./pages/Cookies";
+import CookiesModal from "./components/CookiesModal";
 import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
             userData={user}
             setUserData={setUser}
           />
-
+          <CookiesModal />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />

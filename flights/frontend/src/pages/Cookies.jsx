@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function CookiePolicy() {
     const [modalOpen, setModalOpen] = useState(false);
+    const [bannerVisible, setBannerVisible] = useState(false);
     const [preferences, setPreferences] = useState({
         performance: true,
         advertising: true,
@@ -9,27 +10,22 @@ export default function CookiePolicy() {
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "auto" });
-        // Ngarko preferencat nga localStorage
-        const savedPrefs = localStorage.getItem("cookiePreferences");
-        if (savedPrefs) {
-            setPreferences(JSON.parse(savedPrefs));
+
+        const decision = localStorage.getItem("cookieDecision");
+        if (!decision) {
+            setModalOpen(true); // hap modal automatikisht herën e parë
+        } else {
+            const savedPrefs = localStorage.getItem("cookiePreferences");
+            if (savedPrefs) setPreferences(JSON.parse(savedPrefs));
         }
+
+        // Banner-i shfaqet gjithmonë, përveç kur modal është i hapur
+        setBannerVisible(true);
     }, []);
-
-    const lastUpdated = "December 7, 2025";
-
-    const scrollToSection = (id) => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.scrollIntoView({ behavior: "smooth" });
-        }
-    };
-
-    const handleManageCookies = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
 
     const handleSavePreferences = () => {
         localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
+        localStorage.setItem("cookieDecision", "set");
         alert("Your cookie preferences have been saved.");
         setModalOpen(false);
     };
@@ -38,6 +34,7 @@ export default function CookiePolicy() {
         const allPrefs = { performance: true, advertising: true };
         setPreferences(allPrefs);
         localStorage.setItem("cookiePreferences", JSON.stringify(allPrefs));
+        localStorage.setItem("cookieDecision", "set");
         alert("All cookies have been accepted.");
         setModalOpen(false);
     };
@@ -51,71 +48,33 @@ export default function CookiePolicy() {
             <header className="mb-10 text-center">
                 <h1 className="text-3xl font-bold text-blue-900 mb-3 -mt-5">Cookie Policy</h1>
                 <p className="text-sm text-gray-500">
-                    Last updated: <strong>{lastUpdated}</strong>
+                    Last updated: <strong>December 7, 2025</strong>
                 </p>
             </header>
 
-            {/* Table of Contents */}
-            <section className="mb-10 border-l-4 border-blue-400 pl-4">
-                <h2 className="text-xl font-semibold text-blue-900 mb-3">Table of Contents</h2>
-                <ul className="list-disc list-inside text-gray-700 space-y-1">
-                    <li>
-                        <button
-                            className="text-blue-700 hover:underline"
-                            onClick={() => scrollToSection("cookies")}
-                        >
-                            1. What Are Cookies?
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            className="text-blue-700 hover:underline"
-                            onClick={() => scrollToSection("usage")}
-                        >
-                            2. How We Use Cookies
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            className="text-blue-700 hover:underline"
-                            onClick={() => scrollToSection("control")}
-                        >
-                            3. Managing Cookies
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            className="text-blue-700 hover:underline"
-                            onClick={() => scrollToSection("contact")}
-                        >
-                            4. Contact Us
-                        </button>
-                    </li>
-                </ul>
-            </section>
-
+            {/* Përmbajtja */}
             <article className="prose prose-lg max-w-none prose-blue">
                 <section id="cookies" className="mb-12">
                     <h3 className="text-2xl font-semibold text-blue-900 mb-3">1. What Are Cookies?</h3>
                     <p className="text-gray-700 leading-relaxed">
-                        Cookies are small text files stored on your device when you visit a website. They help improve your browsing experience, remember preferences, and provide analytics to the site owner.
+                        Cookies are small text files stored on your device when you visit a website.
                     </p>
                 </section>
 
                 <section id="usage" className="mb-12">
                     <h3 className="text-2xl font-semibold text-blue-900 mb-3">2. How We Use Cookies</h3>
                     <p className="text-gray-700 leading-relaxed">
-                        We use cookies to enhance website functionality, analyze traffic, and deliver personalized content. This includes essential cookies, performance cookies, and advertising cookies.
+                        We use cookies to enhance website functionality, analyze traffic, and deliver personalized content.
                     </p>
                 </section>
 
                 <section id="control" className="mb-12">
                     <h3 className="text-2xl font-semibold text-blue-900 mb-3">3. Managing Cookies</h3>
                     <p className="text-gray-700 leading-relaxed">
-                        You can manage or disable cookies via your browser settings. Note that disabling certain cookies may affect website functionality and user experience.
+                        You can manage or disable cookies via your browser settings.
                     </p>
                     <button
-                        onClick={handleManageCookies}
+                        onClick={() => setModalOpen(true)}
                         className="mt-4 px-5 py-2 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-800 transition-colors"
                     >
                         Manage Cookies
@@ -126,9 +85,6 @@ export default function CookiePolicy() {
                     <h3 className="text-xl font-semibold text-blue-900 mb-2">Contact Us</h3>
                     <p className="text-gray-700 leading-relaxed">
                         For any questions about this Cookie Policy, please contact us through our official <strong>Contact Us</strong> form.
-                    </p>
-                    <p className="text-sm text-gray-500 mt-4">
-                        <em>This page provides general information and is not professional legal advice.</em>
                     </p>
                 </section>
             </article>
@@ -160,16 +116,16 @@ export default function CookiePolicy() {
                                 <span>Advertising Cookies</span>
                             </label>
                         </div>
-                        <div className="mt-6 flex justify-between">
+                        <div className="mt-6 flex justify-between items-center">
                             <button
                                 onClick={handleAcceptAll}
-                                className="px-4 py-2 rounded-2xl bg-blue-900 text-white hover:bg-green-800 transition-colors"
+                                className="px-4 py-2 rounded-2xl bg-blue-900 text-white hover:bg-blue-600 transition-colors"
                             >
                                 Accept All
                             </button>
                             <div className="space-x-3">
                                 <button
-                                    onClick={closeModal}
+                                    onClick={() => setModalOpen(false)}
                                     className="px-4 py-2 rounded-2xl bg-gray-300 hover:bg-gray-400 transition-colors"
                                 >
                                     Cancel
@@ -183,7 +139,7 @@ export default function CookiePolicy() {
                             </div>
                         </div>
                         <button
-                            onClick={closeModal}
+                            onClick={() => setModalOpen(false)}
                             className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 font-bold text-lg"
                         >
                             &times;
