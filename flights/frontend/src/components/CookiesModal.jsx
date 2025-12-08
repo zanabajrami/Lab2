@@ -24,6 +24,18 @@ export default function CookiesModal() {
         });
     }, []);
 
+    useEffect(() => {
+        if (modalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [modalOpen]);
+
     const handleSavePreferences = () => {
         localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
         localStorage.setItem("cookieDecision", "set");
@@ -37,7 +49,7 @@ export default function CookiesModal() {
         localStorage.setItem("cookiePreferences", JSON.stringify(allPrefs));
         localStorage.setItem("cookieDecision", "set");
         setModalOpen(false);
-        setBannerVisible(false); 
+        setBannerVisible(false);
     };
 
     const togglePreference = (type) => {
