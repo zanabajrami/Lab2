@@ -20,6 +20,7 @@ import Privacy from "./pages/Privacy";
 import Cookies from "./pages/Cookies";
 import CookiesModal from "./components/CookiesModal";
 import PassagerRights from "./pages/PassagerRights";
+import AirportGuide from "./pages/AirportGuide";
 import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/cookies" element={<Cookies />} />
               <Route path="/passager-rights" element={<PassagerRights />} />
+              <Route path="/airport-guide" element={<AirportGuide />} />
 
             </Routes>
           </main>
