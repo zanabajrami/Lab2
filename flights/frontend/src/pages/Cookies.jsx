@@ -57,46 +57,67 @@ export default function CookiePolicy() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-16 relative">
-            <header className="mb-10 text-center">
-                <h1 className="text-3xl font-bold text-gray-800 mb-3 -mt-5">Cookie Policy</h1>
-                <p className="text-sm text-gray-500">
+            <header className="mb-5 text-center">
+
+                <h1 className="text-3xl font-bold text-slate-800 mb-2 -mt-5">
+                    Cookie Policy
+                </h1>
+
+                <p className="text-sm text-slate-500">
                     Last updated: <strong>December 9, 2025</strong>
                 </p>
             </header>
+            <section className="mb-10 max-w-2xl mx-auto text-center">
+                <p className="text-gray-700 leading-relaxed bg-white p-6 rounded-2xl shadow border border-gray-200">
+                    This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and services.
+                </p>
+            </section>
 
-            {/* Përmbajtja */}
-            <article className="prose prose-lg max-w-none prose-blue">
-                <section id="cookies" className="mb-12">
-                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">1. What Are Cookies?</h3>
-                    <p className="text-gray-700 leading-relaxed">
+            <article className="space-y-10">
+                <section className="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">
+                        1. What Are Cookies?
+                    </h3>
+                    <p className="text-slate-700 leading-relaxed text-sm">
                         Cookies are small text files stored on your device when you visit a website.
+                        They help the website recognize your device and remember your preferences.
                     </p>
                 </section>
 
-                <section id="usage" className="mb-12">
-                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">2. How We Use Cookies</h3>
-                    <p className="text-gray-700 leading-relaxed">
-                        We use cookies to enhance website functionality, analyze traffic, and deliver personalized content.
+                <section className="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">
+                        2. How We Use Cookies
+                    </h3>
+                    <p className="text-slate-700 leading-relaxed text-sm">
+                        We use cookies to ensure proper website functionality, understand how visitors interact
+                        with our site, and deliver relevant and personalized content.
                     </p>
                 </section>
 
-                <section id="control" className="mb-12">
-                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">3. Managing Cookies</h3>
-                    <p className="text-gray-700 leading-relaxed">
-                        You can manage or disable cookies via your browser settings.
+                <section className="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">
+                        3. Your Cookie Choices
+                    </h3>
+                    <p className="text-slate-700 leading-relaxed text-sm mb-4">
+                        You can manage your cookie preferences at any time. You may choose to accept all cookies
+                        or customize your preferences based on your comfort level.
                     </p>
+
                     <button
                         onClick={() => setModalOpen(true)}
-                        className="mt-4 px-5 py-2 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-800 transition-colors"
+                        className="px-6 py-3 rounded-2xl bg-blue-700 text-white font-semibold shadow-md hover:bg-blue-800 transition"
                     >
-                        Manage Cookies
+                        Manage Cookie Preferences
                     </button>
                 </section>
 
-                <section id="contact" className="mt-16 border-t pt-10">
-                    <h3 className="text-xl font-semibold text-blue-900 mb-2">Contact Us</h3>
-                    <p className="text-gray-700 leading-relaxed">
-                        For any questions about this Cookie Policy, please contact us through our official <strong>Contact Us</strong> form.
+                <section className="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 className="text-2xl font-semibold text-blue-900 mb-3">
+                        Contact Us
+                    </h3>
+                    <p className="text-slate-700 leading-relaxed text-sm">
+                        If you have any questions about our Cookie Policy, please reach out through
+                        our official <strong>Contact Us</strong> form.
                     </p>
                 </section>
             </article>

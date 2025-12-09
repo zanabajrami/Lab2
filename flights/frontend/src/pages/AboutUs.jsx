@@ -38,32 +38,37 @@ export default function AboutUs() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-16">
-            <h1 className="text-3xl font-bold mb-7 -mt-5 text-center text-blue-900">About FlyHigh Agency</h1>
+            <header className="text-center space-y-3 mb-10">
+                <h1 className="text-3xl font-bold text-blue-900">About FlyHigh Agency</h1>
+                <p className="text-gray-500 max-w-xl mx-auto">
+                    Learn more about our story, mission, values, and the amazing team behind our agency.
+                </p>
+            </header>
 
             {/* Our Story */}
-            <section className="space-y-4">
-                <h2 className="text-3xl font-semibold mb-6 text-blue-900 mt-5">Our Story</h2>
-                <p className="text-gray-700">
-                    FlyHigh was founded in 2018 with a simple mission: to make travel planning seamless, enjoyable, and accessible for everyone.
-                    We noticed that booking flights online could often be stressful, confusing, and time-consuming, and we wanted to offer a smarter way.
-                </p>
-                <p className="text-gray-700">
-                    Beginning as a small team of passionate travel enthusiasts, we dedicated ourselves to building a platform that is intuitive, reliable, and tailored to the needs of modern travelers.
-                    Every feature was carefully designed to help users find the best flights, compare options, and book quickly and confidently.
-                </p>
-                <p className="text-gray-700">
-                    From our humble beginnings, FlyHigh has grown steadily, now providing flight booking services, exclusive deals, and memberships that empower travelers worldwide.
-                    Our commitment to quality, customer satisfaction, and innovation has allowed thousands of travelers to explore the world with ease, comfort, and confidence.
-                </p>
-                <p className="text-gray-700">
-                    Over the years, we have continuously refined our platform, listened to user feedback, and introduced innovative features to enhance the booking experience.
-                    Today, FlyHigh is more than just a flight booking platform – it is a trusted companion for travelers seeking convenience, savings, and memorable journeys.
-                </p>
+            <section className="grid md:grid-cols-2 gap-12 items-center bg-gradient-to-r from-blue-50 to-white rounded-3xl p-10 shadow-lg mb-14">
+                <div className="space-y-4">
+                    <h2 className="text-3xl font-semibold text-blue-900">Our Story</h2>
+                    <p className="text-gray-700">
+                        FlyHigh was founded in 2018 with a simple mission: to make travel planning seamless, enjoyable, and accessible for everyone. Booking flights online could often be stressful, confusing, and time-consuming, so we wanted to offer a smarter way.
+                    </p>
+                    <p className="text-gray-700">
+                        Beginning as a small team of passionate travel enthusiasts, we dedicated ourselves to building a platform that is intuitive, reliable, and tailored to the needs of modern travelers. Every feature was carefully designed to help users find the best flights, compare options, and book confidently.
+                    </p>
+                </div>
+                <div className="space-y-4">
+                    <p className="text-gray-700">
+                        From humble beginnings, FlyHigh has grown steadily, now providing flight booking services, exclusive deals, and memberships that empower travelers worldwide. Our commitment to quality, customer satisfaction, and innovation has allowed thousands to explore the world with ease and comfort.
+                    </p>
+                    <p className="text-gray-700">
+                        Over the years, we continuously refined our platform, listened to user feedback, and introduced innovative features. Today, FlyHigh is more than a booking platform – it’s a trusted companion for travelers seeking convenience, savings, and memorable journeys.
+                    </p>
+                </div>
             </section>
 
             {/* Our Journey */}
             <section className="mb-16">
-                <h2 className="text-3xl font-semibold mb-6 text-blue-900 mt-5">Our Journey</h2>
+                <h2 className="text-3xl font-semibold mb-6 text-blue-900 mt-10">Our Journey</h2>
                 <div className="relative border-l-2 border-blue-400 ml-4">
                     <div className="mb-8 ml-6">
                         <span className="absolute -left-4 top-0 w-8 h-8 bg-blue-600 rounded-full"></span>
