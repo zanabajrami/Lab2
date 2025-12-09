@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AirportGuide() {
     const [search, setSearch] = useState("");
@@ -209,6 +209,10 @@ export default function AirportGuide() {
             airport.name.toLowerCase().includes(search.toLowerCase()) ||
             airport.city.toLowerCase().includes(search.toLowerCase())
     );
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50 py-12 px-4">

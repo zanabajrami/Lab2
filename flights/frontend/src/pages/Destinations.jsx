@@ -109,6 +109,18 @@ function Destinations() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    useEffect(() => {
+        const from = location.state?.from;
+
+        if (from === "footer") {
+            // Hapet direkt në fillim pa animacion të çuditshëm
+            window.scrollTo({
+                top: 0,
+                behavior: "auto"
+            });
+        }
+    }, [location.key]);
+
     return (
         <div className="min-h-screen bg-white text-gray-800">
             {/* Hero Section */}
