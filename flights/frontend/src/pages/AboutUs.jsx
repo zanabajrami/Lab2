@@ -42,7 +42,7 @@ export default function AboutUs() {
 
             {/* Our Story */}
             <section className="space-y-4">
-                <h2 className="text-3xl font-semibold mb-6 text-blue-600 mt-5">Our Story</h2>
+                <h2 className="text-3xl font-semibold mb-6 text-blue-900 mt-5">Our Story</h2>
                 <p className="text-gray-700">
                     FlyHigh was founded in 2018 with a simple mission: to make travel planning seamless, enjoyable, and accessible for everyone.
                     We noticed that booking flights online could often be stressful, confusing, and time-consuming, and we wanted to offer a smarter way.
@@ -63,8 +63,8 @@ export default function AboutUs() {
 
             {/* Our Journey */}
             <section className="mb-16">
-                <h2 className="text-3xl font-semibold mb-6 text-blue-600 mt-5">Our Journey</h2>
-                <div className="relative border-l-2 border-blue-200 ml-4">
+                <h2 className="text-3xl font-semibold mb-6 text-blue-900 mt-5">Our Journey</h2>
+                <div className="relative border-l-2 border-blue-400 ml-4">
                     <div className="mb-8 ml-6">
                         <span className="absolute -left-4 top-0 w-8 h-8 bg-blue-600 rounded-full"></span>
                         <h3 className="font-semibold text-lg text-blue-800">2018</h3>
@@ -86,14 +86,14 @@ export default function AboutUs() {
             {/* Mission & Vision */}
             <section className="mb-16 grid md:grid-cols-2 gap-12">
                 <motion.div whileHover={{ scale: 1.03 }} className="p-6 bg-blue-50 rounded-xl shadow hover:shadow-lg transition">
-                    <h2 className="text-2xl font-semibold mb-3 text-blue-700">Our Mission</h2>
+                    <h2 className="text-2xl font-semibold mb-3 text-blue-800">Our Mission</h2>
                     <p className="text-gray-700">
                         To simplify travel by offering reliable booking services, exclusive deals, and exceptional support.
                         Empowering travelers to explore the world with confidence.
                     </p>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.03 }} className="p-6 bg-blue-50 rounded-xl shadow hover:shadow-lg transition">
-                    <h2 className="text-2xl font-semibold mb-3 text-blue-700">Our Vision</h2>
+                    <h2 className="text-2xl font-semibold mb-3 text-blue-800">Our Vision</h2>
                     <p className="text-gray-700">
                         To be the most trusted travel platform, known for innovation, reliability, and excellence in user experience.
                     </p>
@@ -102,7 +102,7 @@ export default function AboutUs() {
 
             {/* Meet the Team */}
             <section className="mb-16">
-                <h2 className="text-3xl font-semibold mb-8 text-blue-700 text-center">Meet Our Team</h2>
+                <h2 className="text-3xl font-semibold mb-8 text-blue-800 text-center">Meet Our Team</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {teamMembers.map((member, idx) => (
                         <motion.div
@@ -120,7 +120,7 @@ export default function AboutUs() {
 
             {/* Our Values */}
             <section className="mb-16">
-                <h2 className="text-3xl font-semibold mb-8 text-blue-700 text-center">Our Values</h2>
+                <h2 className="text-3xl font-semibold mb-8 text-blue-800 text-center">Our Values</h2>
                 <div className="grid md:grid-cols-3 gap-8 ">
                     {values.map((value, idx) => (
                         <motion.div

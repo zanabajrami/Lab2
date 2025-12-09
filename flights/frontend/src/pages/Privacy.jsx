@@ -10,8 +10,10 @@ export default function PrivacyPolicy() {
     return (
         <div className="max-w-6xl mx-auto px-4 py-16">
             <header className="mb-10 text-center">
-                <h1 className="text-3xl font-bold text-blue-900 mb-3 -mt-5">Privacy Policy</h1>
-                <p className="text-sm text-gray-500">Last updated: <strong>{lastUpdated}</strong></p>
+                <h1 className="text-3xl font-bold text-gray-800 mb-3 -mt-5">Privacy Policy</h1>
+                <p className="text-sm text-gray-500">
+                    Last updated: <strong>December 9, 2025</strong>
+                </p>
             </header>
 
             {/* Intro */}
@@ -38,7 +40,7 @@ export default function PrivacyPolicy() {
 
             {/* Sections */}
             <article className="prose prose-lg max-w-none prose-blue">
-                
+
                 {/* 1. Information We Collect */}
                 <section id="information" className="mb-12">
                     <h3 className="text-2xl font-semibold text-blue-900 mb-3">1. Information We Collect</h3>

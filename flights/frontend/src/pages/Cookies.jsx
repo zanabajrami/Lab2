@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function CookiePolicy() {
     const [modalOpen, setModalOpen] = useState(false);
-    const [bannerVisible, setBannerVisible] = useState(false);
+    const [, setBannerVisible] = useState(false);
     const [preferences, setPreferences] = useState({
         performance: true,
         advertising: true,
@@ -58,9 +58,9 @@ export default function CookiePolicy() {
     return (
         <div className="max-w-6xl mx-auto px-4 py-16 relative">
             <header className="mb-10 text-center">
-                <h1 className="text-3xl font-bold text-blue-900 mb-3 -mt-5">Cookie Policy</h1>
+                <h1 className="text-3xl font-bold text-gray-800 mb-3 -mt-5">Cookie Policy</h1>
                 <p className="text-sm text-gray-500">
-                    Last updated: <strong>December 7, 2025</strong>
+                    Last updated: <strong>December 9, 2025</strong>
                 </p>
             </header>
 

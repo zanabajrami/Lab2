@@ -69,6 +69,9 @@ export default function Footer({ onShowContact }) {
                             <Link to="/faq">FAQs</Link>
                         </li>
                         <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/passager-rights">Passenger Rights & Responsibilities</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
                             <Link to="/terms">Terms & Conditions</Link>
                         </li>
                         <li className="hover:text-gray-900 cursor-pointer">

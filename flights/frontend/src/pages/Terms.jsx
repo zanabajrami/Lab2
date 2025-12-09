@@ -10,8 +10,10 @@ export default function Terms() {
     return (
         <div className="max-w-6xl mx-auto px-4 py-16">
             <header className="mb-10 text-center">
-                <h1 className="text-3xl font-bold text-blue-900 mb-3 -mt-5">Terms & Conditions</h1>
-                <p className="text-sm text-gray-500">Last updated: <strong>{lastUpdated}</strong></p>
+                <h1 className="text-3xl font-bold text-gray-800 mb-3 -mt-5">Terms & Conditions</h1>
+                <p className="text-sm text-gray-500">
+                    Last updated: <strong>December 9, 2025</strong>
+                </p>
             </header>
 
             {/* Intro */}
