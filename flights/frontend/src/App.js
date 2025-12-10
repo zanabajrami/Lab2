@@ -21,6 +21,7 @@ import Cookies from "./pages/Cookies";
 import CookiesModal from "./components/CookiesModal";
 import PassagerRights from "./pages/PassagerRights";
 import AirportGuide from "./pages/AirportGuide";
+import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
               <Route path="/cookies" element={<Cookies />} />
               <Route path="/passager-rights" element={<PassagerRights />} />
               <Route path="/airport-guide" element={<AirportGuide />} />
+              <Route path="/travel-tips" element={<TravelTips />} />
 
             </Routes>
           </main>

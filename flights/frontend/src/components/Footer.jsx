@@ -50,17 +50,19 @@ export default function Footer({ onShowContact }) {
                         >
                             Baggage Allowance
                         </li>
-<li className="hover:text-gray-900 cursor-pointer">
-  <Link
-    to="/destinations"
-    state={{ from: "footer" }}
-  >
-    Travel Guide
-  </Link>
-</li>
-
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link
+                                to="/destinations"
+                                state={{ from: "footer" }}
+                            >
+                                Travel Guide
+                            </Link>
+                        </li>
                         <li className="hover:text-gray-900 cursor-pointer">
                             <Link to="/airport-guide">Airport Guide</Link>
+                        </li>
+                        <li className="hover:text-gray-900 cursor-pointer">
+                            <Link to="/travel-tips">Travel Tips</Link>
                         </li>
                         <li
                             className="hover:text-gray-900 cursor-pointer transition"

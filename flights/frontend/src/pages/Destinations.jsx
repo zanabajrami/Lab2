@@ -119,7 +119,7 @@ function Destinations() {
                 behavior: "auto"
             });
         }
-    }, [location.key]);
+    }, [location.key, location.state?.from]);
 
     return (
         <div className="min-h-screen bg-white text-gray-800">
