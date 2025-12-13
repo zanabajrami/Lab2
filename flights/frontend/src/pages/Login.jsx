@@ -22,21 +22,34 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const passwordRegex = /^(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert(
-        "Password must be at least 8 characters long and include at least one number!"
-      );
-      return;
-    }
-    alert("You are logged in!");
-    setEmail("");
-    setPassword("");
-    onClose();
-  };
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error);
+        return;
+      }
+
+      // Ruaj token në localStorage/sessionStorage
+      localStorage.setItem("token", data.token);
+      alert("Login successful!");
+      setEmail("");
+      setPassword("");
+      onClose();
+    } catch (error) {
+      console.error(error);
+      alert("Server error");
+    }
+  };
+  
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"
@@ -46,8 +59,8 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
         className={`text-xl relative bg-gray-800/75 backdrop-blur-sm p-6 sm:p-8 md:p-10 rounded-3xl border-2 border-gray-600 w-11/12 sm:w-3/4 md:w-full max-w-sm md:max-w-md text-center text-blue-400 shadow-xl animate-formGlow transform transition-all duration-500 ${isVisible
-            ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-0 scale-90 translate-y-5"
+          ? "opacity-100 scale-100 translate-y-0"
+          : "opacity-0 scale-90 translate-y-5"
           }`}
       >
         <h2 className="text-3xl font-bold font-serif mb-2 tracking-wide glow-label">
@@ -72,8 +85,8 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           <label
             htmlFor="email"
             className={`absolute left-4 transition-all duration-300 ${email
-                ? "top-0 text-white text-sm glow-label"
-                : "top-3 text-gray-400 text-base"
+              ? "top-0 text-white text-sm glow-label"
+              : "top-3 text-gray-400 text-base"
               }`}
           >
             Email address
@@ -95,8 +108,8 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
           <label
             htmlFor="password"
             className={`absolute left-4 transition-all duration-300 ${password
-                ? "top-0 text-white text-sm glow-label"
-                : "top-3 text-gray-400 text-base"
+              ? "top-0 text-white text-sm glow-label"
+              : "top-3 text-gray-400 text-base"
               }`}
           >
             Password
