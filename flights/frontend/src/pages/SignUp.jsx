@@ -28,80 +28,102 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Kontroll password
-    const passwordRegex = /^(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert(
-        "Password must be at least 8 characters long and include at least one number!"
-      );
-      return;
-    }
+  // Kontroll password: të paktën 8 karaktere dhe një numër
+  const passwordRegex = /^(?=.*\d).{8,}$/;
+  if (!passwordRegex.test(password)) {
+    alert(
+      "Password must be at least 8 characters long and include at least one number!"
+    );
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+  // Kontroll match i password dhe confirmPassword
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
 
-    if (!gender) {
-      alert("Please select your gender!");
-      return;
-    }
+  // Kontroll gender
+  if (!gender) {
+    alert("Please select your gender!");
+    return;
+  }
 
-    if (!birthday) {
-      alert("Please select your birthday!");
-      return;
-    }
+  // Kontroll birthday
+  if (!birthday) {
+    alert("Please select your birthday!");
+    return;
+  }
 
-    // Kontroll format mm/dd/yyyy
-    const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(19|20)\d\d$/;
-    if (!dateRegex.test(birthday)) {
-      alert("⚠️ Please enter a valid birthday in mm/dd/yyyy format!");
-      return;
-    }
+  // Kontroll format mm/dd/yyyy
+  const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(19|20)\d\d$/;
+  if (!dateRegex.test(birthday)) {
+    alert("⚠️ Please enter a valid birthday in mm/dd/yyyy format!");
+    return;
+  }
 
-    // Kontroll moshe 18+
-    const [month, day, year] = birthday.split("/").map(Number);
-    const birthDate = new Date(year, month - 1, day);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const hasHadBirthday =
-      today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() &&
-        today.getDate() >= birthDate.getDate());
-    if (!hasHadBirthday) age--;
+  // Kontroll moshe 18+
+  const [month, day, year] = birthday.split("/").map(Number);
+  const birthDate = new Date(year, month - 1, day);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const hasHadBirthday =
+    today.getMonth() > birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+  if (!hasHadBirthday) age--;
+  if (age < 18) {
+    alert("🔞 You must be at least 18 years old to create an account!");
+    return;
+  }
 
-    if (age < 18) {
-      alert("🔞 You must be at least 18 years old to create an account!");
-      return;
-    }
+  // **Konverto birthday në YYYY-MM-DD për MySQL**
+  const formattedBirthday = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-    alert("You have created an account!");
-
-    // Krijo account, thjesht ruaj userData
-    onSignupSuccess({
-      firstName,
-      lastName,
-      email,
-      gender,
-      birthday,
-      password,
+  // Dërgo te backend (MySQL) për regjistrim
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+        gender,
+        birthday: formattedBirthday, 
+      }),
     });
 
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    //  Nëse suksesshëm, ruaj user-in në state
+    onSignupSuccess(data.user);
+
+    alert("✅ Account created successfully!");
     onClose();
 
-    // Reset fields
+    //  Reset input fields
     setFirstName("");
     setLastName("");
     setEmail("");
     setPassword("");
     setConfirmPassword("");
-    setShowPassword(false);
     setGender("");
     setBirthday("");
-  };
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error. Please try again later.");
+  }
+};
 
   return (
     <div

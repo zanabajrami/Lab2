@@ -23,11 +23,13 @@ import PassagerRights from "./pages/PassagerRights";
 import AirportGuide from "./pages/AirportGuide";
 import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
+import Account from "./pages/Account";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
 
   // KTU RUHEN TE DHENAT PAS SIGNUP
   const [user, setUser] = useState(null);
@@ -42,11 +44,11 @@ function App() {
     setShowLogin(true);
   };
 
-  // Ky funksion merret nga Signup
   const handleSignupSuccess = (data) => {
-    setUser(data);      // ruan user-in
+    setUser(data);          // ruan user
     setShowSignup(false);
-  };
+    setShowAccount(true);   // hap Account direkt
+  }
 
   const [favorites, setFavorites] = useState(() => {
     // Merr favoritet nga localStorage kur aplikohet faqja
@@ -94,6 +96,11 @@ function App() {
               isOpen={showLogin}
               onClose={() => setShowLogin(false)}
               onSwitchToRegister={handleSwitchToSignup}
+              onLoginSuccess={(userData) => {
+                setUser(userData);
+                setShowLogin(false);
+                setShowAccount(true);
+              }}
             />
           )}
 
@@ -108,6 +115,15 @@ function App() {
 
           {showContact && (
             <Contact onClose={() => setShowContact(false)} />
+          )}
+
+          {showAccount && user && (
+            <Account
+              isOpen={showAccount}
+              onClose={() => setShowAccount(false)}
+              userData={user}
+              setUserData={setUser}
+            />
           )}
 
         </div>

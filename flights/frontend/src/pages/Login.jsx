@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function Login({ isOpen, onSwitchToRegister, onClose }) {
+function Login({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +38,8 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
         return;
       }
 
+      onLoginSuccess(data.user); // kthen user-in
+
       // Ruaj token në localStorage/sessionStorage
       localStorage.setItem("token", data.token);
       alert("Login successful!");
@@ -49,7 +51,7 @@ function Login({ isOpen, onSwitchToRegister, onClose }) {
       alert("Server error");
     }
   };
-  
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50"

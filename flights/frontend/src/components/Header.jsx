@@ -70,6 +70,10 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
     setMenuOpen(false); // mbyll menunë
   };
 
+  const openAccount = () => {
+    setIsAccountOpen(true);
+  };
+
   return (
     <header
       className={`rounded-b-lg fixed w-full top-0 left-0 z-50 transition-all duration-500 bg-gray-900 relative shadow-lg shadow-indigo-500/50 ${scrolled ? "backdrop-blur-md" : ""}`}
@@ -132,20 +136,22 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
 
 
         {/* Buttons */}
-        <div className="flex items-center space-x-3 ">
-          <button
-            onClick={openLogin}
-            className="relative px-4 py-2 font-semibold text-blue-500 border border-blue-500 rounded-lg bg-transparent shadow-lg transition-all duration-300 transform hover:text-blue-300 hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.5)] hover:scale-105"
-          >
-            Login
-          </button>
-          <button
-            onClick={openSignup}
-            className="relative px-4 py-2 h-10 whitespace-nowrap font-semibold bg-blue-500 text-gray-900 rounded-lg shadow-lg hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-105"
-          >
-            Sign Up
-          </button>
-        </div>
+        {!userData && (
+          <div className="flex items-center space-x-3 ">
+            <button
+              onClick={openLogin}
+              className="relative px-4 py-2 font-semibold text-blue-500 border border-blue-500 rounded-lg bg-transparent shadow-lg transition-all duration-300 transform hover:text-blue-300 hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.5)] hover:scale-105"
+            >
+              Login
+            </button>
+            <button
+              onClick={openSignup}
+              className="relative px-4 py-2 h-10 whitespace-nowrap font-semibold bg-blue-500 text-gray-900 rounded-lg shadow-lg hover:shadow-[0_0_25px_5px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-105"
+            >
+              Sign Up
+            </button>
+          </div>
+        )}
 
         {/* Account */}
         <div className="hidden md:flex items-center">
@@ -248,18 +254,10 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
 
           {/* Account */}
           {userData && (
-            <li className="relative">
-              <div
-                className="flex justify-center items-center space-x-2 cursor-pointer text-white font-semibold hover:text-blue-400"
-                onClick={() => {
-                  setIsAccountOpen(true);
-                  setMenuOpen(false); // mbylle
-                }}
-              >
-                <CircleUserRound className="w-6 h-6" />
-                <span>Account</span>
-              </div>
-            </li>
+            <CircleUserRound
+              className="w-8 h-8 cursor-pointer"
+              onClick={() => setIsAccountOpen(true)}
+            />
           )}
         </ul>
       )}
