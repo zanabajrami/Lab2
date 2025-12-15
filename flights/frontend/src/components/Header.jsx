@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
@@ -134,6 +135,12 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
           ))}
         </ul>
 
+        <Link
+          to="/dashboard"
+          className="cursor-pointer text-white font-semibold tracking-wide transition-colors duration-300 hover:text-blue-400 hover:drop-shadow-[0_0_6px_rgba(59,130,246,0.7)]"
+        >
+          Dashboard
+        </Link>
 
         {/* Buttons */}
         {!userData && (
