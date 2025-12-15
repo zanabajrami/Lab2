@@ -24,6 +24,7 @@ import AirportGuide from "./pages/AirportGuide";
 import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -85,6 +86,7 @@ function App() {
               <Route path="/passager-rights" element={<PassagerRights />} />
               <Route path="/airport-guide" element={<AirportGuide />} />
               <Route path="/travel-tips" element={<TravelTips />} />
+              <Route path="/dashboard" element={<Dashboard />} />
 
             </Routes>
           </main>
