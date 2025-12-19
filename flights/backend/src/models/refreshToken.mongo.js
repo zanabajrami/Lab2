@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const refreshTokenSchema = new mongoose.Schema({
-  userId: { type: Number, required: true }, // i referohet id nga MySQL
+  userId: { type: Number, required: true }, // id nga MySQL
   token: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });

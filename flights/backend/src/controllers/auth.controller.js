@@ -2,28 +2,17 @@ import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import RefreshToken from "../models/refreshToken.mongo.js";
-import {
-  ACCESS_SECRET,
-  REFRESH_SECRET,
-  ACCESS_EXPIRES,
-  REFRESH_EXPIRES,
-} from "../config/jwt.js";
+import { ACCESS_SECRET, REFRESH_SECRET, ACCESS_EXPIRES, REFRESH_EXPIRES } from "../config/jwt.js";
 
-// REGISTER 
+// REGISTER
 export const register = async (req, res) => {
-  console.log("Register request body:", req.body);
-
   const { firstName, lastName, email, password, gender, birthday } = req.body;
-
   try {
-    // Kontrollo nëse email ekziston
     const [exists] = await db.query("SELECT id FROM users WHERE email = ?", [email]);
     if (exists.length) return res.status(400).json({ error: "Email already exists" });
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Shto user në db, default role = 'user'
     const [result] = await db.query(
       `INSERT INTO users (role, first_name, last_name, email, password, gender, birthday)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -47,49 +36,30 @@ export const register = async (req, res) => {
   }
 };
 
-// LOGIN 
+// LOGIN
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const [users] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
     if (!users.length) return res.status(404).json({ error: "User not found" });
 
     const user = users[0];
 
-    // Kontrollo password
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: "Invalid password" });
 
-    // Krijo access token me role
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      ACCESS_SECRET,
-      { expiresIn: ACCESS_EXPIRES }
-    );
+    const accessToken = jwt.sign({ id: user.id, role: user.role }, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRES });
+    const refreshToken = jwt.sign({ id: user.id }, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRES });
 
-    // Krijo refresh token
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      REFRESH_SECRET,
-      { expiresIn: REFRESH_EXPIRES }
-    );
-
-    // Ruaj refresh token në MongoDB
     await RefreshToken.create({ userId: user.id, token: refreshToken });
 
-    // Kthe token dhe user info te frontend
     res.json({
       accessToken,
       refreshToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
+      user: { id: user.id, email: user.email, role: user.role },
     });
   } catch (err) {
-    console.error("Register Error:", err);
+    console.error("Login Error:", err);
     res.status(500).json({ error: "Server error", details: err.message });
   }
 };
