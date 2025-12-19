@@ -70,17 +70,23 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
     const birthDate = new Date(year, month - 1, day);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
-    const hasHadBirthday =
-      today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
-    if (!hasHadBirthday) age--;
+
+    // Kontroll nëse ka kaluar ditëlindja këtë vit
+    if (
+      today.getMonth() < birthDate.getMonth() ||
+      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
     if (age < 18) {
       alert("🔞 You must be at least 18 years old to create an account!");
       return;
     }
 
-    // **Konverto birthday në YYYY-MM-DD për MySQL**
+    // Konverto birthday në YYYY-MM-DD për MySQL
     const formattedBirthday = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    console.log("Formatted birthday:", formattedBirthday);
 
     // Dërgo te backend (MySQL) për regjistrim
     try {
@@ -243,32 +249,18 @@ function Signup({ isOpen, onClose, onSwitchToLogin, onSignupSuccess }) {
         </div>
 
         {/* Birthday */}
-        <div className="relative mb-5 bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50 flex flex-col">
-          <label htmlFor="birthday" className="text-gray-300 glow-label mb-1">
-            Birthday (MM/DD/YYYY)
-          </label>
-          <input
-            type="text"
-            id="birthday"
-            value={birthday}
-            onChange={(e) => {
-              let input = e.target.value.replace(/[^0-9]/g, ""); // vetëm numra
-              if (input.length > 8) input = input.slice(0, 8);
-
-              // Formatimi automatik MM/DD/YYYY
-              if (input.length > 4) {
-                input = input.slice(0, 2) + "/" + input.slice(2, 4) + "/" + input.slice(4);
-              } else if (input.length > 2) {
-                input = input.slice(0, 2) + "/" + input.slice(2);
-              }
-
-              setBirthday(input);
-            }}
-            placeholder="MM/DD/YYYY"
-            required
-            maxLength={10}
-            className="bg-transparent text-white w-full p-2 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400/60 transition duration-300"
-          />
+        <div className="relative mb-5 bg-gray-700/50 rounded-xl p-3 shadow-lg shadow-blue-800/50 flex items-center justify-between transition duration-300">
+          <span className="text-gray-300 glow-label">Birthday</span>
+          <input type="text" id="birthday" value={birthday} onChange={(e) => {
+            let input = e.target.value.replace(/\D/g, ""); // vetëm numra 
+            if (input.length > 8) input = input.slice(0, 8); // Formatimi automatik mm/dd/yyyy 
+            if (input.length > 4) { input = input.slice(0, 2) + "/" + input.slice(2, 4) + "/" + input.slice(4); }
+            else if (input.length > 2) { input = input.slice(0, 2) + "/" + input.slice(2); }
+            setBirthday(input);
+          }} placeholder="mm/dd/yyyy" required maxLength={10}
+            className="bg-transparent text-white placeholder-gray-400 text-right w-[28%] 
+        tracking-wider border border-transparent focus:border-blue-400 focus:ring-2 
+        focus:ring-blue-400/60 rounded-lg transition duration-300" />
         </div>
 
         {/* Password */}
