@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 
-const schema = new mongoose.Schema({
-  userId: Number,
-  token: String,
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    expires: "7d",
-  },
+const refreshTokenSchema = new mongoose.Schema({
+  userId: { type: Number, required: true }, // i referohet id nga MySQL
+  token: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("RefreshToken", schema);
+const RefreshToken = mongoose.model("RefreshToken", refreshTokenSchema);
+
+export default RefreshToken;
