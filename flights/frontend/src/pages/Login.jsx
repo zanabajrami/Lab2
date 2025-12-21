@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Login({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -23,31 +21,6 @@ function Login({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) {
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("userData", JSON.stringify(data.user));
-
-          if (data.user.role === "admin") {
-            navigate("/dashboard");
-          } else {
-            navigate("/");
-          }
-        } else {
-          alert("Login failed");
-        }
-      });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

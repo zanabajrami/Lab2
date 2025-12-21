@@ -16,7 +16,7 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const notifRef = useRef(null); // ref për notifications
-  const [selectedNotification, setSelectedNotification] = useState(null);
+  const [, setSelectedNotification] = useState(null);
 
   const [notifications, setNotifications] = useState([
     { id: 1, title: "Booking confirmed", message: "Your flight is confirmed!", read: false },
@@ -69,10 +69,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const handleMenuClick = (action) => {
     action();           // kryen navigimin ose çfarëdo funksioni
     setMenuOpen(false); // mbyll menunë
-  };
-
-  const openAccount = () => {
-    setIsAccountOpen(true);
   };
 
   return (
