@@ -24,7 +24,7 @@ import AirportGuide from "./pages/AirportGuide";
 import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Admin/DashboardLayout";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
