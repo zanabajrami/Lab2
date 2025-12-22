@@ -158,7 +158,7 @@ const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
       </div>
       <div className="mt-4 flex justify-between px-4">
         <span className="text-sm text-gray-600">Duration: {flight.oneWay.duration}</span>
-        <span className="text-blue-600 font-bold text-lg">{displayPrice}</span>
+        <span className="text-gray-900 font-bold text-lg">{displayPrice}</span>
       </div>
       <div className="border-t border-dashed border-gray-300 my-2"></div>
       <div className="p-4 pt-1">
