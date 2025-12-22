@@ -135,10 +135,10 @@ const Favorites = ({ openModal }) => {
             {/* Duration + price */}
             {flight.oneWay && (
               <div className="mt-4 flex justify-between -mb-3">
-                <span className="text-gray-600 text-sm">
+                <span className="text-gray-600 text-sm ml-2">
                   Duration: {flight.oneWay.duration || "—"}
                 </span>
-                <span className="text-blue-600 font-bold text-lg">
+                <span className="text-gray-800 font-bold text-lg mr-2">
                   €
                   {flight.isReturn
                     ? Math.round(flight.oneWay.price * 1.6)
@@ -155,7 +155,7 @@ const Favorites = ({ openModal }) => {
               className="w-full flex items-center justify-between p-4 text-gray-700 font-semibold hover:bg-gray-50 hover:rounded-full transition-colors"
             >
               <span className="flex items-center gap-2">
-                Includes <span className="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">Details</span>
+                Includes <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Details</span>
               </span>
               {openDetails[index] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
@@ -164,15 +164,15 @@ const Favorites = ({ openModal }) => {
             {openDetails[index] && (
               <div className="px-5 pb-5 pt-2 space-y-3 bg-blue-50/30 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Ticket size={18} className="text-blue-500" />
+                  <Ticket size={18} className="text-gray-700" />
                   <span className="text-sm">Ticket for 1 person</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Briefcase size={18} className="text-blue-500" />
+                  <Briefcase size={18} className="text-gray-700" />
                   <span className="text-sm">10 kg baggage included</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Receipt size={18} className="text-blue-500" />
+                  <Receipt size={18} className="text-gray-700" />
                   <span className="text-sm">All taxes and fees included</span>
                 </div>
               </div>
