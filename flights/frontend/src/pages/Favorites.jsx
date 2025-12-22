@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Plane, Heart } from "lucide-react";
+import { Plane, Heart, ChevronDown, ChevronUp, Ticket, Briefcase, Receipt } from "lucide-react";
 
 const Favorites = ({ openModal }) => {
   const [favorites, setFavorites] = useState([]);
+  const [openDetails, setOpenDetails] = useState({});
 
   // Merr favorites nga localStorage
   useEffect(() => {
@@ -30,6 +31,14 @@ const Favorites = ({ openModal }) => {
       </p>
     );
   }
+
+  // Funksioni për të hapur/mbyllur detajet
+  const toggleDetails = (index) => {
+    setOpenDetails((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   return (
     <div className="mt-5 mb-5 py-2 px-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -139,15 +148,35 @@ const Favorites = ({ openModal }) => {
             )}
           </div>
 
-          {/* Book Now */}
-          <div className="border-t border-dashed border-gray-300 my-2"></div>
-          <div className="p-3 pt-2">
+          {/* SECTION: INCLUDES (Zëvendëson Book Now) */}
+          <div className="border-t border-dashed border-gray-300">
             <button
-              onClick={() => openModal && openModal(flight)}
-              className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition"
+              onClick={() => toggleDetails(index)}
+              className="w-full flex items-center justify-between p-4 text-gray-700 font-semibold hover:bg-gray-50 hover:rounded-full transition-colors"
             >
-              Book Now
+              <span className="flex items-center gap-2">
+                Includes <span className="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">Details</span>
+              </span>
+              {openDetails[index] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
+
+            {/* Detajet që shfaqen kur klikohet butoni */}
+            {openDetails[index] && (
+              <div className="px-5 pb-5 pt-2 space-y-3 bg-blue-50/30 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Ticket size={18} className="text-blue-500" />
+                  <span className="text-sm">Ticket for 1 person</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Briefcase size={18} className="text-blue-500" />
+                  <span className="text-sm">10 kg baggage included</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Receipt size={18} className="text-blue-500" />
+                  <span className="text-sm">All taxes and fees included</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Decorative Circles */}
