@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { Plane, Headset, ShieldCheck, Globe2, MapPin, Clock, Flame, ChevronUp, AlertCircle } from "lucide-react";
+import { Plane, Headset, ShieldCheck, Globe2, MapPin, Clock, Flame, ChevronUp, AlertCircle, ArrowRight } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -50,10 +51,10 @@ const mapDestinations = [
 ];
 
 const deals = [
-    { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, departureDate: "2025-11-10", returnDate: "2025-11-14", duration: "4 days", price: 129, currency: "EUR" },
-    { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, departureDate: "2025-11-08", returnDate: "2025-11-11", duration: "3 days", price: 189, currency: "EUR" },
-    { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, departureDate: "2025-11-08", returnDate: "2025-11-13", duration: "5 days", price: 279, currency: "EUR" },
-    { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, departureDate: "2025-11-12", returnDate: "2025-11-15", duration: "3 days", price: 109, currency: "EUR" }
+    { id: 1, from: "Tirana", title: "Rome", country: "Italy", image: romeImage, duration: "4 days", price: 46, currency: "EUR" },
+    { id: 5, from: "Prishtina", title: "Milano", country: "Italy", image: milanoImage, duration: "3 days", price: 48, currency: "EUR" },
+    { id: 9, from: "Prishtina", title: "London", country: "UK", image: londonImage, duration: "5 days", price: 48, currency: "EUR" },
+    { id: 4, from: "Prishtina", title: "Vienna", country: "Austria", image: viennaImage, duration: "3 days", price: 110, currency: "EUR" }
 ];
 
 function RefreshMap() {
@@ -276,26 +277,63 @@ export default function Home() {
             </section>
 
             {/* Deals */}
-            <section className="w-full py-20">
-                <div className="max-w-6xl mx-auto px-4">
+            <motion.section
+                className="w-full py-20"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.2,
+                        },
+                    },
+                }}
+            >
+                <div className="max-w-6xl mx-auto px-4 -mt-5">
 
-                    <div className="flex flex-col items-center mb-12">
+                    {/* Header */}
+                    <motion.div
+                        className="flex flex-col items-center mb-12"
+                        variants={{
+                            hidden: { opacity: 0, y: 50 },
+                            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+                        }}
+                    >
                         <div className="flex items-center gap-2 mb-2">
                             <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
-                            <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Special Offers</span>
+                            <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">
+                                Special Offers
+                            </span>
                             <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
                         </div>
-                        <h2 className="text-3xl font-bold text-gray-900 text-center flex items-center gap-3">
+
+                        <h2 className="text-4xl font-bold text-gray-900 text-center">
                             Last Minute Deals
                         </h2>
-                    </div>
+                    </motion.div>
 
-                    {/* Grid me 4 Kolona */}
+                    {/* Cards */}
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {deals.map((item) => (
-                            <div key={item.id} className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+                        {deals.map((item, i) => (
+                            <motion.div
+                                key={item.id}
+                                className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl 
+                     transition-all duration-500 overflow-hidden 
+                     border border-gray-100"
+                                variants={{
+                                    hidden: { opacity: 0, y: 50 },
+                                    visible: {
+                                        opacity: 1,
+                                        y: 0,
+                                        transition: { duration: 0.6, ease: "easeOut" },
+                                    },
+                                }}
+                                whileHover={{ y: -12, scale: 1.05 }}
+                            >
 
-                                {/* Foto me Zoom Effect dhe Badge */}
+                                {/* Image */}
                                 <div className="relative h-48 overflow-hidden">
                                     <img
                                         src={item.image}
@@ -306,16 +344,22 @@ export default function Home() {
 
                                     {/* Price Badge */}
                                     <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-lg shadow-lg">
-                                        <span className="text-white/80 font-bold text-lg">{item.price}{item.currency}</span>
+                                        <span className="text-white/80 font-bold text-lg">
+                                            {item.price}{item.currency}
+                                        </span>
                                     </div>
 
                                     <div className="absolute bottom-3 left-4">
-                                        <p className="text-white font-bold text-xl tracking-tight">{item.title}</p>
-                                        <p className="text-blue-200 text-xs font-medium uppercase tracking-wider">{item.country}</p>
+                                        <p className="text-white font-bold text-xl tracking-tight">
+                                            {item.title}
+                                        </p>
+                                        <p className="text-blue-200 text-xs font-medium uppercase tracking-wider">
+                                            {item.country}
+                                        </p>
                                     </div>
                                 </div>
 
-                                {/* Detajet */}
+                                {/* Details */}
                                 <div className="p-5">
                                     <div className="space-y-3 mb-6">
                                         <div className="flex items-center justify-between text-xs text-gray-500 font-medium">
@@ -333,22 +377,41 @@ export default function Home() {
                                                     <AlertCircle className="w-4 h-4 text-blue-900 animate-pulse" />
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="text-[10px] uppercase text-gray-400 leading-none">Status</span>
-                                                    <span className="font-bold text-blue-900">Only {Math.floor(Math.random() * 5) + 1} seats left!</span>
+                                                    <span className="text-[10px] uppercase text-gray-400 leading-none">
+                                                        Status
+                                                    </span>
+                                                    <span className="font-bold text-blue-900">
+                                                        Only {Math.floor(Math.random() * 5) + 1} seats left!
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <button className="w-full py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl group-hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center gap-2">
+                                    <Link
+                                        to="/flights"
+                                        className="w-full py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl 
+                         group-hover:bg-blue-600 transition-colors duration-300 
+                         flex items-center justify-center gap-2 text-center"
+                                    >
                                         Book Now
-                                    </button>
+                                    </Link>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
+                    {/* View All Deals */}
+                    <div className="mt-10 -mb-10 flex justify-center">
+                        <button
+                            onClick={() => navigate("/deals")}
+                            className="group flex items-center gap-2 px-6 py-2.5 border-2 border-gray-700 text-gray-900 text-sm font-bold rounded-full hover:bg-gray-900 hover:text-white transition-all duration-300"
+                        >
+                            View All Deals
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                    </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/*Memberships*/}
             <section className="py-32">
@@ -374,7 +437,7 @@ export default function Home() {
                             visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
                         }}
                     >
-                        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                        <h2 className="text-4xl font-bold text-gray-800 mb-4">
                             Upgrade Your Travel Experience
                         </h2>
                         <p className="text-gray-600 max-w-xl mx-auto text-lg">
