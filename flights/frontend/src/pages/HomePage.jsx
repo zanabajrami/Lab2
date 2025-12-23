@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { Plane, Headset, ShieldCheck, Globe2, PlaneTakeoff, PlaneLanding, MapPin, Clock, Flame, TicketPercent, ChevronUp } from "lucide-react";
+import { Plane, Headset, ShieldCheck, Globe2, MapPin, Clock, Flame, ChevronUp, AlertCircle } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -275,60 +275,77 @@ export default function Home() {
                 </div>
             </section>
 
-            {/*Deals*/}
-            <section className="w-full py-16 px-4">
-                <div className="max-w-5xl mx-auto">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-8 -mt-10 text-center flex items-center justify-center gap-3 group transition-all duration-300 hover:scale-105 hover:text-blue-900">
-                        <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
-                        Last Minute Deals
-                        <TicketPercent className="w-6 h-6 text-blue-800 transition-transform duration-300 group-hover:scale-125" />
-                    </h2>
-                    <div className="grid gap-8 md:grid-cols-2">
+            {/* Deals */}
+            <section className="w-full py-20">
+                <div className="max-w-6xl mx-auto px-4">
+
+                    <div className="flex flex-col items-center mb-12">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
+                            <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Special Offers</span>
+                            <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-900 text-center flex items-center gap-3">
+                            Last Minute Deals
+                        </h2>
+                    </div>
+
+                    {/* Grid me 4 Kolona */}
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         {deals.map((item) => (
-                            <div key={item.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-transform transform hover:-translate-y-1">
-                                <div className="relative h-56">
-                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    <p className="absolute bottom-3 left-4 text-white font-semibold text-lg drop-shadow-md">{item.title}</p>
+                            <div key={item.id} className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+
+                                {/* Foto me Zoom Effect dhe Badge */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                                    {/* Price Badge */}
+                                    <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-lg shadow-lg">
+                                        <span className="text-white/80 font-bold text-lg">{item.price}{item.currency}</span>
+                                    </div>
+
+                                    <div className="absolute bottom-3 left-4">
+                                        <p className="text-white font-bold text-xl tracking-tight">{item.title}</p>
+                                        <p className="text-blue-200 text-xs font-medium uppercase tracking-wider">{item.country}</p>
+                                    </div>
                                 </div>
 
-                                <div className="p-5 flex flex-col justify-between h-40">
-                                    <div>
-                                        <div className="-mt-2 space-y-2 text-gray-700 text-sm">
-                                            <p className="flex items-center gap-2">
-                                                <MapPin className="w-4 h-4 text-blue-600" />
-                                                <span className="font-medium">From:</span> {item.from}
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <PlaneTakeoff className="w-4 h-4 text-blue-600" />
-                                                <span className="font-medium">Departure:</span> {item.departureDate}
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <PlaneLanding className="w-4 h-4 text-blue-600" />
-                                                <span className="font-medium">Return:</span> {item.returnDate}
-                                            </p>
-                                            <p className="flex items-center gap-2">
-                                                <Clock className="w-4 h-4 text-blue-600" />
-                                                <span className="font-medium">Duration:</span> {item.duration}
-                                            </p>
+                                {/* Detajet */}
+                                <div className="p-5">
+                                    <div className="space-y-3 mb-6">
+                                        <div className="flex items-center justify-between text-xs text-gray-500 font-medium">
+                                            <span className="flex items-center gap-1">
+                                                <MapPin className="w-3.5 h-3.5 text-blue-500" /> {item.from}
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                                <Clock className="w-3.5 h-3.5 text-blue-500" /> {item.duration}
+                                            </span>
+                                        </div>
+
+                                        <div className="pt-3 border-t border-gray-50">
+                                            <div className="flex items-center gap-3 text-sm">
+                                                <div className="bg-blue-50 p-2 rounded-lg">
+                                                    <AlertCircle className="w-4 h-4 text-blue-900 animate-pulse" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-[10px] uppercase text-gray-400 leading-none">Status</span>
+                                                    <span className="font-bold text-blue-900">Only {Math.floor(Math.random() * 5) + 1} seats left!</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="mt-2 flex items-center justify-between">
-                                        <span className="text-lg font-bold text-blue-700">{item.price} {item.currency}</span>
-                                    </div>
+                                    <button className="w-full py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl group-hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center gap-2">
+                                        Book Now
+                                    </button>
                                 </div>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="mt-12 text-center">
-                        <button
-                            onClick={() => navigate("/deals")}
-                            className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition"
-                        >
-                            More Deals
-                        </button>
                     </div>
                 </div>
             </section>
@@ -411,17 +428,16 @@ export default function Home() {
                     },
                 }}
             >
-<motion.h2
-  variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
-  transition={{ duration: 0.8 }}
-  className="text-3xl md:text-4xl font-bold text-center mb-12 drop-shadow-md"
->
-  <span className="text-gray-900">Travelers </span>
-  <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">
-    Reviews
-  </span>
-</motion.h2>
-
+                <motion.h2
+                    variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
+                    transition={{ duration: 0.8 }}
+                    className="text-3xl md:text-4xl font-bold text-center mb-12 drop-shadow-md"
+                >
+                    <span className="text-gray-900">Travelers </span>
+                    <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">
+                        Reviews
+                    </span>
+                </motion.h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
                     {[
