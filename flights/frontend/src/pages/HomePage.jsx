@@ -397,42 +397,79 @@ export default function Home() {
                 </motion.div>
             </section>
 
-            <section className="py-24">
-                <h2 className="text-3xl text-gray-900 font-bold text-center mb-12">Travelers Reviews</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* TRAVELERS REVIEWS */}
+            <motion.section
+                className="py-24"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.2 },
+                    },
+                }}
+            >
+<motion.h2
+  variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
+  transition={{ duration: 0.8 }}
+  className="text-3xl md:text-4xl font-bold text-center mb-12 drop-shadow-md"
+>
+  <span className="text-gray-900">Travelers </span>
+  <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">
+    Reviews
+  </span>
+</motion.h2>
 
-                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
-                        <p className="text-gray-700 mb-6">"Amazing experience! Booking was smooth and support was top-notch."</p>
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-gray-600 text-white flex items-center justify-center font-bold text-lg">
-                                A
-                            </div>
-                            <span className="font-semibold text-gray-900">Arbër K.</span>
-                        </div>
-                    </div>
 
-                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
-                        <p className="text-gray-700 mb-6">"Great deals and professional help. Will definitely use again."</p>
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
-                                E
-                            </div>
-                            <span className="font-semibold text-gray-900">Elira S.</span>
-                        </div>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+                    {[
+                        {
+                            text: "Amazing experience! Booking was smooth and support was top-notch.",
+                            name: "Arbër K.",
+                            letter: "A",
+                            color: "bg-gray-600",
+                        },
+                        {
+                            text: "Great deals and professional help. Will definitely use again.",
+                            name: "Elira S.",
+                            letter: "E",
+                            color: "bg-blue-600",
+                        },
+                        {
+                            text: "The trip was organized flawlessly and a very pleasant experience.",
+                            name: "Besim L.",
+                            letter: "B",
+                            color: "bg-purple-600",
+                        },
+                    ].map((review, i) => (
+                        <motion.div
+                            key={i}
+                            variants={{
+                                hidden: { opacity: 0, y: 40, scale: 0.95 },
+                                visible: { opacity: 1, y: 0, scale: 1 },
+                            }}
+                            transition={{ duration: 0.8, delay: i * 0.2, ease: "easeOut" }}
+                            whileHover={{ y: -10, scale: 1.05 }}
+                            className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between"
+                        >
+                            <p className="text-gray-700 mb-6 italic">
+                                "{review.text}"
+                            </p>
 
-                    <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col justify-between">
-                        <p className="text-gray-700 mb-6">"The trip was organized flawlessly and a very pleasant experience."</p>
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-lg">
-                                B
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg`}
+                                >
+                                    {review.letter}
+                                </div>
+                                <span className="font-semibold text-gray-900">{review.name}</span>
                             </div>
-                            <span className="font-semibold text-gray-900">Besim L.</span>
-                        </div>
-                    </div>
+                        </motion.div>
+                    ))}
                 </div>
-            </section>
-
+            </motion.section>
 
             {/* WHY CHOOSE US SECTION */}
             <motion.section
