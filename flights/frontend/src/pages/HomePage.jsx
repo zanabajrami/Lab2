@@ -413,66 +413,91 @@ export default function Home() {
                 </div>
             </motion.section>
 
-            {/*Memberships*/}
-            <section className="py-32">
+            {/* Memberships*/}
+            <section className="py-24 relative overflow-hidden">
+
                 <motion.div
-                    className="max-w-[1200px] mx-auto px-6 sm:px-12"
+                    className="max-w-6xl mx-auto px-6"
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: false, amount: 0.3 }}
+                    viewport={{ once: true, amount: 0.2 }}
                     variants={{
                         hidden: {},
-                        visible: {
-                            transition: {
-                                staggerChildren: 0.2, // delay ne mes elementeve
-                            },
-                        },
+                        visible: { transition: { staggerChildren: 0.15 } }
                     }}
                 >
                     {/* Header */}
                     <motion.div
-                        className="text-center mb-10 -mt-10"
+                        className="text-center mb-16"
                         variants={{
-                            hidden: { opacity: 0, y: 50 },
-                            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 }
                         }}
                     >
-                        <h2 className="text-4xl font-bold text-gray-800 mb-4">
-                            Upgrade Your Travel Experience
+                        <span className="text-blue-600 font-bold tracking-widest text-xs uppercase bg-blue-50 px-4 py-1.5 rounded-full">
+                            Membership Plans
+                        </span>
+                        <h2 className="text-4xl md:text-4xl font-black text-slate-900 mt-4 mb-6 tracking-tight">
+                            Elevate Your Journey
                         </h2>
-                        <p className="text-gray-600 max-w-xl mx-auto text-lg">
-                            Discover the perks of our membership plans. Choose the plan that fits your travel style and enjoy exclusive benefits.
+                        <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+                            Unlock a world of exclusive travel benefits, priority support, and hidden deals tailored just for you.
                         </p>
                     </motion.div>
 
-                    {/* Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
-                        {previewCards.map((card, i) => (
-                            <motion.div
-                                key={i}
-                                className="bg-white rounded-3xl p-10 shadow-2xl border border-blue-300 hover:shadow-[0_25px_60px_rgba(59,130,246,0.25)] cursor-pointer transition-transform duration-500 transform hover:-translate-y-3"
-                                whileHover={{ scale: 1.05 }}
-                                variants={{
-                                    hidden: { opacity: 0, y: 50 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-                                }}
-                            >
-                                <div className="flex items-center justify-center mb-6">
-                                    {card.icon}
-                                </div>
-                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{card.title}</h3>
-                                <p className="text-gray-500 mb-6 text-lg">{card.highlight}</p>
-                                <p className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 mb-8">
-                                    {card.price}
-                                </p>
-                                <button
-                                    onClick={() => navigate("/membership")}
-                                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-black/80 font-bold text-lg shadow-lg border border-blue-800 hover:shadow-[0_0_40px_rgba(30,64,175,0.5)] transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                    {/* Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                        {previewCards.map((card, i) => {
+                            const isPremium = i === 1; // Supozojmë se plani i dytë (index 1) është më i popullarizuari
+
+                            return (
+                                <motion.div
+                                    key={i}
+                                    className={`relative rounded-3xl p-8 transition-all duration-500 ${isPremium
+                                        ? "bg-slate-900 text-white shadow-2xl scale-110 z-10 border-none py-12"
+                                        : "bg-white text-slate-800 shadow-xl border border-slate-100 hover:border-blue-200"
+                                        }`}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 30 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
                                 >
-                                    View Details
-                                </button>
-                            </motion.div>
-                        ))}
+                                    {isPremium && (
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+                                            Most Popular
+                                        </div>
+                                    )}
+
+                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isPremium ? "bg-blue-600" : "bg-blue-50"
+                                        }`}>
+                                        <div className={isPremium ? "text-white [&>svg]:stroke-white" : "text-blue-600 [&>svg]:stroke-blue-600"}>
+                                            {card.icon}
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-2xl font-bold mb-2">{card.title}</h3>
+                                    <p className={`text-sm mb-6 ${isPremium ? "text-slate-400" : "text-slate-500"}`}>
+                                        {card.highlight}
+                                    </p>
+
+                                    <div className="mb-8">
+                                        <span className="text-4xl font-black tracking-tight">{card.price}</span>
+                                        <span className={`text-sm ${isPremium ? "text-slate-400" : "text-slate-500"}`}></span>
+                                    </div>
+
+                                    <button
+                                        onClick={() => navigate("/membership")}
+                                        className={`w-full py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${isPremium
+                                            ? "bg-blue-600 hover:bg-blue-700 text-white"
+                                            : "bg-slate-900 hover:bg-blue-600 text-white"
+                                            }`}
+                                    >
+                                        Get Started
+                                        <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </motion.div>
             </section>
