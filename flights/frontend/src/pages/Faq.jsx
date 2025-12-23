@@ -19,10 +19,6 @@ export default function FAQ({ onShowContact }) {
             answer: "You can fill out our 'Contact Us' form with your name, email, and message. Our support team will respond within 24 hours."
         },
         {
-            question: "Can I chat with someone instantly?",
-            answer: "Yes! Use the Live Chat feature to talk directly with our staff or support bot in real-time."
-        },
-        {
             question: "Do you offer membership benefits?",
             answer: "Yes! Members enjoy exclusive discounts, priority support, and access to last-minute deals. Visit the Membership page to join and see all benefits."
         },
