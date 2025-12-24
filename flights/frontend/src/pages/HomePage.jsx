@@ -291,27 +291,32 @@ export default function Home() {
                     },
                 }}
             >
-                <div className="max-w-6xl mx-auto px-4 -mt-5">
-
-                    {/* Header */}
+                <div className="max-w-6xl mx-auto px-4 -mt-10">
                     <motion.div
-                        className="flex flex-col items-center mb-12"
-                        variants={{
-                            hidden: { opacity: 0, y: 50 },
-                            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-                        }}
+                        className="max-w-4xl mx-auto flex flex-col items-center mb-10 pt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
                     >
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
-                            <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">
-                                Special Offers
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100/50 mb-3">
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-600"></span>
                             </span>
-                            <span className="h-1 w-10 bg-blue-600 rounded-full"></span>
+                            <span className="text-blue-700 font-bold uppercase tracking-[0.15em] text-[9px]">
+                                Limited Offers
+                            </span>
                         </div>
 
-                        <h2 className="text-4xl font-bold text-gray-900 text-center">
-                            Last Minute Deals
+                        <h2 className="text-2xl md:text-4xl font-black text-gray-900 text-center tracking-tight leading-tight">
+                            Last Minute <span className="text-blue-600">Deals</span>
                         </h2>
+
+                        <div className="flex gap-1 mt-3">
+                            <div className="w-6 h-0.5 bg-blue-600 rounded-full"></div>
+                            <div className="w-1.5 h-0.5 bg-blue-200 rounded-full"></div>
+                        </div>
                     </motion.div>
 
                     {/* Cards */}
@@ -344,7 +349,7 @@ export default function Home() {
 
                                     {/* Price Badge */}
                                     <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-lg shadow-lg">
-                                        <span className="text-white/80 font-bold text-lg">
+                                        <span className="text-white/90 font-bold text-lg">
                                             {item.price}{item.currency}
                                         </span>
                                     </div>
@@ -413,54 +418,62 @@ export default function Home() {
                 </div>
             </motion.section>
 
-            {/* Memberships*/}
-            <section className="py-24 relative overflow-hidden">
+            {/* MEMBERSHIP */}
+            <motion.section
+                className="py-24 relative overflow-hidden"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.2 },
+                    },
+                }}
+            >
+                <motion.div className="max-w-6xl mx-auto px-6">
 
-                <motion.div
-                    className="max-w-6xl mx-auto px-6"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                        hidden: {},
-                        visible: { transition: { staggerChildren: 0.15 } }
-                    }}
-                >
                     {/* Header */}
                     <motion.div
                         className="text-center mb-16"
                         variants={{
-                            hidden: { opacity: 0, y: 20 },
-                            visible: { opacity: 1, y: 0 }
+                            hidden: { opacity: 0, y: 40 },
+                            visible: { opacity: 1, y: 0 },
                         }}
+                        transition={{ duration: 0.8 }}
                     >
                         <span className="text-blue-600 font-bold tracking-widest text-xs uppercase bg-blue-50 px-4 py-1.5 rounded-full">
                             Membership Plans
                         </span>
+
                         <h2 className="text-4xl md:text-4xl font-black text-slate-900 mt-4 mb-6 tracking-tight">
                             Elevate Your Journey
                         </h2>
+
                         <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
                             Unlock a world of exclusive travel benefits, priority support, and hidden deals tailored just for you.
                         </p>
                     </motion.div>
 
-                    {/* Cards Grid */}
+                    {/* Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                         {previewCards.map((card, i) => {
-                            const isPremium = i === 1; // Supozojmë se plani i dytë (index 1) është më i popullarizuari
+                            const isPremium = i === 1;
 
                             return (
                                 <motion.div
                                     key={i}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 40, scale: 0.95 },
+                                        visible: { opacity: 1, y: 0, scale: 1 },
+                                    }}
+                                    transition={{ duration: 0.8, delay: i * 0.15, ease: "easeOut" }}
+                                    whileHover={{ y: -12, scale: isPremium ? 1.07 : 1.05 }}
                                     className={`relative rounded-3xl p-8 transition-all duration-500 ${isPremium
-                                        ? "bg-slate-900 text-white shadow-2xl scale-110 z-10 border-none py-12"
+                                        ? "bg-slate-900 text-white shadow-2xl scale-110 z-10 py-12"
                                         : "bg-white text-slate-800 shadow-xl border border-slate-100 hover:border-blue-200"
                                         }`}
-                                    variants={{
-                                        hidden: { opacity: 0, y: 30 },
-                                        visible: { opacity: 1, y: 0 }
-                                    }}
                                 >
                                     {isPremium && (
                                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">
@@ -482,14 +495,14 @@ export default function Home() {
 
                                     <div className="mb-8">
                                         <span className="text-4xl font-black tracking-tight">{card.price}</span>
-                                        <span className={`text-sm ${isPremium ? "text-slate-400" : "text-slate-500"}`}></span>
                                     </div>
 
                                     <button
                                         onClick={() => navigate("/membership")}
-                                        className={`w-full py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${isPremium
-                                            ? "bg-blue-600 hover:bg-blue-700 text-white"
-                                            : "bg-slate-900 hover:bg-blue-600 text-white"
+                                        className={`w-full py-4 rounded-xl font-bold transition-all duration-300 
+                flex items-center justify-center gap-2 ${isPremium
+                                                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                                                : "bg-slate-900 hover:bg-blue-600 text-white"
                                             }`}
                                     >
                                         Get Started
@@ -500,7 +513,7 @@ export default function Home() {
                         })}
                     </div>
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* TRAVELERS REVIEWS */}
             <motion.section
