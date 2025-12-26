@@ -50,6 +50,9 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
     { label: "Flights", action: () => navigate("/flights") },
     { label: "Deals", action: () => setShowDealsOptions(!showDealsOptions) },
     { label: "Favorites", action: () => navigate("/favorites") },
+    ...(userData?.role === "admin"
+    ? [{ label: "Dashboard", action: () => navigate("/admin") }]
+    : []),
     { label: "Contact", action: openContact },
   ];
 

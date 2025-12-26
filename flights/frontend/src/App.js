@@ -24,6 +24,7 @@ import AirportGuide from "./pages/AirportGuide";
 import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -85,6 +86,7 @@ function App() {
               <Route path="/passager-rights" element={<PassagerRights />} />
               <Route path="/airport-guide" element={<AirportGuide />} />
               <Route path="/travel-tips" element={<TravelTips />} />
+              <Route path="/admin" element={<Dashboard />} />
 
             </Routes>
           </main>
@@ -98,6 +100,7 @@ function App() {
               onSwitchToRegister={handleSwitchToSignup}
               onLoginSuccess={(userData) => {
                 setUser(userData);
+                localStorage.setItem("user", JSON.stringify(userData)); // ruaj localStorage
                 setShowLogin(false);
                 setShowAccount(true);
               }}

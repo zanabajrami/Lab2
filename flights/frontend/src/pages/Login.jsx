@@ -25,7 +25,7 @@ function Login({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:8800/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -38,7 +38,9 @@ function Login({ isOpen, onClose, onSwitchToRegister, onLoginSuccess }) {
         return;
       }
 
-      onLoginSuccess(data.user); // kthen user-in
+      onLoginSuccess(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user)); // ✅ ruaj user
+      localStorage.setItem("token", data.accessToken); // opsionale
 
       // Ruaj token në localStorage/sessionStorage
       localStorage.setItem("token", data.token);
