@@ -1,21 +1,27 @@
-import dotenv from "dotenv";
-dotenv.config(); 
-
-console.log("ACCESS_SECRET:", process.env.ACCESS_SECRET);
-console.log("REFRESH_SECRET:", process.env.REFRESH_SECRET);
-
 import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
-import "./config/db.mongo.js"; 
+import mongoose from "mongoose";
+
+dotenv.config();
+
 import authRoutes from "./routes/auth.routes.js";
-import dashboardRoutes from "./routes/dashboard.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes); // login/register
-app.use("/api", dashboardRoutes); // dashboard access
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT} 🚀`));
+// Lidhja me MongoDB
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB connected ✅"))
+.catch(err => console.error("MongoDB connection error:", err));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+
+app.listen(8800, () => console.log("Server running on port 8800"));
