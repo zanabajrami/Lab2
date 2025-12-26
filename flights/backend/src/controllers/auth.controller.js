@@ -51,12 +51,19 @@ export const login = async (req, res) => {
     const accessToken = jwt.sign({ id: user.id, role: user.role }, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRES });
     const refreshToken = jwt.sign({ id: user.id }, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRES });
 
+    // save refresh token
     await RefreshToken.create({ userId: user.id, token: refreshToken });
 
     res.json({
       accessToken,
       refreshToken,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        firstName: user.first_name,
+        lastName: user.last_name,
+      },
     });
   } catch (err) {
     console.error("Login Error:", err);
