@@ -11,28 +11,37 @@ import {
 
 export default function Sidebar() {
   return (
-    <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 bg-white">
-      <div className="h-full px-3 py-4 overflow-y-auto flex flex-col">
-        <div className="flex items-center ps-2.5 mb-10">
-          <div className="bg-indigo-600 p-1.5 rounded-lg mr-3">
+    <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform border-r border-gray-100 bg-slate-50/50 backdrop-blur-xl">
+      <div className="h-full px-4 py-6 overflow-y-auto flex flex-col bg-white">
+        {/* Logo Section */}
+        <div className="flex items-center ps-2 mb-10">
+          <div className="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
             <ChartBarIcon className="w-6 h-6 text-white" />
           </div>
-          <span className="self-center text-xl font-bold whitespace-nowrap">TailAdmin</span>
+          <span className="ml-3 text-xl font-bold tracking-tight text-slate-800">
+            TailAdmin
+          </span>
         </div>
         
-        <ul className="space-y-2 font-medium flex-1">
+        {/* Navigation Items */}
+        <ul className="space-y-1.5 flex-1">
           <SidebarItem icon={<HomeIcon className="w-5 h-5"/>} label="Dashboard" active />
           <SidebarItem icon={<UsersIcon className="w-5 h-5"/>} label="Users" />
           <SidebarItem icon={<CalendarDaysIcon className="w-5 h-5"/>} label="Bookings" />
           <SidebarItem icon={<CurrencyDollarIcon className="w-5 h-5"/>} label="Revenue" />
-          <hr className="my-4 border-gray-100" />
+          
+          <div className="pt-4 pb-2">
+             <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pl-3">Settings</p>
+          </div>
+          
           <SidebarItem icon={<Cog6ToothIcon className="w-5 h-5"/>} label="Settings" />
         </ul>
 
-        <div className="mt-auto p-2 border-t border-gray-100 pt-4">
-          <button className="flex items-center w-full p-2 text-red-600 transition duration-75 rounded-lg hover:bg-red-50 group">
-            <ArrowLeftOnRectangleIcon className="w-5 h-5 mr-3" />
-            <span className="font-semibold">Logout</span>
+        {/* Logout Section */}
+        <div className="mt-auto pt-4 border-t border-gray-50">
+          <button className="flex items-center w-full p-3 text-slate-500 transition-all duration-200 rounded-xl hover:bg-red-50 hover:text-red-600 group">
+            <ArrowLeftOnRectangleIcon className="w-5 h-5 mr-3 transition-colors" />
+            <span className="font-semibold text-sm">Logout</span>
           </button>
         </div>
       </div>
@@ -43,13 +52,19 @@ export default function Sidebar() {
 function SidebarItem({ icon, label, active = false }) {
   return (
     <li>
-      <button className={`flex items-center w-full p-2.5 rounded-xl transition-all group ${
-        active ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "text-gray-600 hover:bg-gray-100"
+      <button className={`flex items-center w-full p-3 rounded-xl transition-all duration-200 group ${
+        active 
+          ? "bg-blue-600 text-white shadow-md shadow-blue-100" 
+          : "text-slate-600 hover:bg-blue-50 hover:text-blue-700"
       }`}>
-        <span className={`${active ? "text-white" : "text-gray-400 group-hover:text-indigo-600"}`}>
+        <span className={`${
+          active 
+            ? "text-white" 
+            : "text-slate-400 group-hover:text-blue-600"
+        } transition-colors duration-200`}>
           {icon}
         </span>
-        <span className="ml-3 font-semibold">{label}</span>
+        <span className="ml-3 font-semibold text-sm">{label}</span>
       </button>
     </li>
   );
