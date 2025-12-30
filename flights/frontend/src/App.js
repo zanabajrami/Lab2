@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import 'leaflet/dist/leaflet.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './index.css'; 
+import './index.css';
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -37,7 +37,10 @@ function App() {
   const [showAccount, setShowAccount] = useState(false);
 
   // KTU RUHEN TE DHENAT PAS SIGNUP
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const handleSwitchToSignup = () => {
     setShowLogin(false);
@@ -90,7 +93,9 @@ function App() {
               <Route path="/passager-rights" element={<PassagerRights />} />
               <Route path="/airport-guide" element={<AirportGuide />} />
               <Route path="/travel-tips" element={<TravelTips />} />
-              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin" element={<AdminRoute> <Dashboard /> </AdminRoute>}
+
+              />
 
             </Routes>
           </main>
