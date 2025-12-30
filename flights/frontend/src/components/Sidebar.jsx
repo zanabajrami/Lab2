@@ -15,7 +15,7 @@ export default function Sidebar() {
   <div className="h-full flex flex-col px-4 py-6 overflow-y-auto bg-white">
     {/* Logo Section */}
     <div className="flex items-center ps-2 mb-10">
-      <div className="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
+      <div className="bg-[#040628ff] p-2 rounded-xl shadow-lg shadow-blue-200">
         <ChartBarIcon className="w-6 h-6 text-white" />
       </div>
       <span className="ml-3 text-xl font-bold tracking-tight text-slate-800">
@@ -55,7 +55,7 @@ function SidebarItem({ icon, label, active = false }) {
     <li>
       <button className={`flex items-center w-full p-3 rounded-xl transition-all duration-200 group ${
         active 
-          ? "bg-blue-600 text-white shadow-md shadow-blue-100" 
+          ? "bg-[#040628ff] text-white shadow-md shadow-blue-100" 
           : "text-slate-600 hover:bg-blue-50 hover:text-blue-700"
       }`}>
         <span className={`${
