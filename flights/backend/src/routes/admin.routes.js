@@ -1,11 +1,16 @@
 import express from "express";
-import { verifyToken } from "../middleware/auth.middleware.js";
-import { verifyAdmin } from "../middleware/admin.middleware.js";
+import {
+  verifyToken,
+  verifyAdmin
+} from "../middlewares/admin.middleware.js";
 
 const router = express.Router();
 
-router.get("/dashboard", verifyToken, verifyAdmin, (req, res) => {
-  res.json({ message: "Welcome Admin Dashboard" });
-});
+router.get(
+  "/dashboard",
+  verifyToken,
+  verifyAdmin,
+  adminDashboardController
+);
 
 export default router;
