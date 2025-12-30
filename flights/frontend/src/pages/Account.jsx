@@ -48,11 +48,16 @@ function Account({ isOpen, onClose, userData, setUserData }) {
     };
 
     const handleLogout = () => {
-        setUserData(null); // mbyll account
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+
+        setUserData(null);       // React state
         setShowLogoutConfirm(false);
         onClose();
+
         alert("✔️ You have been logged out!");
     };
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 animate-fadeIn">
