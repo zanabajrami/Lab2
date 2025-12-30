@@ -29,6 +29,7 @@ import TravelTips from "./pages/TravelTips";
 import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
 import Dashboard from "./pages/admin/Dashboard";
+import AdminRoute from "./routes/AdminRoute";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
