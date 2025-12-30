@@ -1,11 +1,9 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
-import { Search, User, Menu, ChevronDown } from "lucide-react";
+import { Search, Menu, ChevronDown } from "lucide-react";
 
 export default function AdminLayout({ children, user }) {
-  // Fallback values if user data hasn't loaded yet
-  const userName = user?.name || "Admin User";
-  const userEmail = user?.email || "admin@example.com";
+  const userName = user?.name || "Admin";
   const initials = userName.split(" ").map(n => n[0]).join("").toUpperCase();
 
   return (
