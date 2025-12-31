@@ -2,7 +2,7 @@ import express from "express";
 import {
   verifyToken,
   verifyAdmin
-} from "../middlewares/admin.middleware.js";
+} from "../middleware/admin.middleware.js";
 
 const router = express.Router();
 
