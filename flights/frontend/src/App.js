@@ -30,6 +30,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminRoute from "./routes/AdminRoute";
+import Users from "./pages/admin/Users";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -94,9 +95,8 @@ function App() {
               <Route path="/passager-rights" element={<PassagerRights />} />
               <Route path="/airport-guide" element={<AirportGuide />} />
               <Route path="/travel-tips" element={<TravelTips />} />
-              <Route path="/admin" element={<AdminRoute> <Dashboard /> </AdminRoute>}
-
-              />
+              <Route path="/admin" element={<AdminRoute> <Dashboard /> </AdminRoute>} />
+              <Route path="/users" element={<Users />} />
 
             </Routes>
           </main>
