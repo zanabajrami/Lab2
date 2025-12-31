@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
+import usersRoutes from "./routes/users.js";
 
 dotenv.config();
 
@@ -23,5 +24,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/users", usersRoutes);
 
 app.listen(8800, () => console.log("Server running on port 8800"));
