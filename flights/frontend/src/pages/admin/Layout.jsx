@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import { Search, Menu, ChevronDown } from "lucide-react";
 
@@ -13,16 +14,16 @@ export default function AdminLayout({ children, user }) {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-        
+
         {/* Header */}
         <header className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-          
+
           {/* Left Side: Mobile Menu & Search */}
           <div className="flex items-center gap-4">
             <button className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <Menu size={20} />
             </button>
-            
+
             <div className="relative hidden md:block">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <Search size={18} />
@@ -46,7 +47,7 @@ export default function AdminLayout({ children, user }) {
                   {user?.role || "System Administrator"}
                 </p>
               </div>
-              
+
               {/* Profile Avatar with Dropdown Indicator */}
               <button className="flex items-center gap-2 group">
                 <div className="h-9 w-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold ring-2 ring-offset-2 ring-transparent group-hover:ring-indigo-100 transition-all">
@@ -60,14 +61,9 @@ export default function AdminLayout({ children, user }) {
 
         {/* Page content */}
         <main className="flex-1 p-8 overflow-auto">
-          {/* Breadcrumbs or Page Header context */}
-          <div className="mb-8">
-             <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard Overview</h2>
-             <p className="text-sm text-gray-500 mt-1">Manage your application data and settings.</p>
-          </div>
-          
-          {children}
+          <Outlet />
         </main>
+        
       </div>
     </div>
   );

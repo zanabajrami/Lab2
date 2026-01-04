@@ -32,15 +32,15 @@ export default function Sidebar() {
           <SidebarItem
             icon={<HomeIcon className="w-5 h-5" />}
             label="Dashboard"
-            active={location.pathname === "/admin"}
-            onClick={() => navigate("/admin")}
+            active={location.pathname === "/admin/"}
+            onClick={() => navigate("/admin/")}
           />
 
           <SidebarItem
             icon={<UsersIcon className="w-5 h-5" />}
             label="Users"
-            active={location.pathname === "/users"}
-            onClick={() => navigate("/users")}
+            active={location.pathname === "/admin/users"}
+            onClick={() => navigate("/admin/users")}
           />
 
           <SidebarItem
