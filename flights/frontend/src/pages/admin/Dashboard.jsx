@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { ArrowUpIcon, UsersIcon, ShoppingCartIcon, CurrencyEuroIcon, BellIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { ArrowUpIcon, UsersIcon, ShoppingCartIcon, CurrencyEuroIcon } from "@heroicons/react/24/outline";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
