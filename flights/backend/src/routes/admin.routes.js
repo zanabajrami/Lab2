@@ -10,7 +10,6 @@ router.get(
   "/dashboard",
   verifyToken,
   verifyAdmin,
-  adminDashboardController
 );
 
 export default router;
