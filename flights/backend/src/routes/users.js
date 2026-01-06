@@ -5,26 +5,34 @@ import { verifyToken, verifyAdmin } from "../middleware/admin.middleware.js";
 const router = express.Router();
 
 // GET all users (ADMIN ONLY)
-router.get("/", verifyToken, verifyAdmin, (req, res) => {
-  const q = `
-    SELECT id, username, email, role, created_at
-    FROM users
-    ORDER BY created_at DESC
-  `;
-
-  db.query(q, (err, data) => {
-    if (err) return res.status(500).json(err);
-    res.status(200).json(data);
-  });
+router.get("/", verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        id, 
+        CONCAT(first_name, ' ', last_name) AS username, 
+        email, 
+        role, 
+        IFNULL(created_at, NOW()) AS created_at
+      FROM users
+      ORDER BY created_at DESC
+    `);
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ message: "Failed to fetch users" });
+  }
 });
 
 // DELETE user (ADMIN ONLY)
-router.delete("/:id", verifyToken, verifyAdmin, (req, res) => {
-  const q = "DELETE FROM users WHERE id = ?";
-  db.query(q, [req.params.id], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: "User deleted" });
-  });
+router.delete("/:id", verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    await db.query("DELETE FROM users WHERE id = ?", [req.params.id]);
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ message: "Failed to delete user" });
+  }
 });
 
 export default router;
