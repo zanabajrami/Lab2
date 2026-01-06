@@ -16,7 +16,6 @@ import {
     UsersIcon, 
     ShoppingCartIcon, 
     CurrencyEuroIcon,
-    CalendarDaysIcon,
     ArrowPathIcon
 } from "@heroicons/react/24/outline";
 
