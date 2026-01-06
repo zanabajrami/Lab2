@@ -7,20 +7,23 @@ export default function Users() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const token = JSON.parse(localStorage.getItem("user"))?.accessToken;
+  const token = localStorage.getItem("token");
 
-  // Memoized load function to prevent unnecessary re-renders
   const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
+      console.log("Token being sent:", token);
+
       const res = await axios.get("http://localhost:8800/api/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      console.log("Response data:", res.data);
       setUsers(res.data);
       setError(null);
     } catch (err) {
+      console.error("Axios error:", err.response || err.message);
       setError("Failed to fetch users. Please check your connection.");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -37,8 +40,6 @@ export default function Users() {
       await axios.delete(`http://localhost:8800/api/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      
-      // Update local state instead of re-fetching everything (Optimistic UI)
       setUsers((prev) => prev.filter((u) => u.id !== id));
     } catch (err) {
       alert("Error deleting user. Please try again.");
@@ -88,9 +89,8 @@ export default function Users() {
                     <td className="p-4 font-medium text-slate-900">{u.username}</td>
                     <td className="p-4">{u.email}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-md text-xs font-semibold ${
-                        u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'
-                      } capitalize`}>
+                      <span className={`px-2 py-1 rounded-md text-xs font-semibold ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'
+                        } capitalize`}>
                         {u.role}
                       </span>
                     </td>
