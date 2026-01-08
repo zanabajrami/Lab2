@@ -1,28 +1,30 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { Trash2, Loader2, AlertCircle } from "lucide-react";
+import { Trash2, Loader2, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const usersPerPage = 8;
 
   const token = localStorage.getItem("token");
 
   const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
-      console.log("Token being sent:", token);
-
       const res = await axios.get("http://localhost:8800/api/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Response data:", res.data);
-      setUsers(res.data);
+      // Rendit userat nga id më i vogël tek më i madhi
+      const sortedUsers = res.data.sort((a, b) => a.id - b.id);
+
+      setUsers(sortedUsers);
       setError(null);
     } catch (err) {
-      console.error("Axios error:", err.response || err.message);
+      console.error(err.response || err.message);
       setError("Failed to fetch users. Please check your connection.");
     } finally {
       setLoading(false);
@@ -46,6 +48,12 @@ export default function Users() {
       console.error(err);
     }
   };
+
+  // Pagination logic
+  const lastIndex = page * usersPerPage;
+  const firstIndex = lastIndex - usersPerPage;
+  const currentUsers = users.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(users.length / usersPerPage);
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -83,22 +91,24 @@ export default function Users() {
                     <p className="mt-2 text-slate-500">Loading users...</p>
                   </td>
                 </tr>
-              ) : users.length > 0 ? (
-                users.map((u) => (
+              ) : currentUsers.length > 0 ? (
+                currentUsers.map((u) => (
                   <tr key={u.id} className="hover:bg-slate-50 transition-colors">
                     <td className="p-4 font-medium text-slate-900">{u.username}</td>
                     <td className="p-4">{u.email}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded-md text-xs font-semibold ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'
-                        } capitalize`}>
+                      <span
+                        className={`px-2 py-1 rounded-md text-xs font-semibold ${u.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-slate-100 text-slate-700"
+                          } capitalize`}
+                      >
                         {u.role}
                       </span>
                     </td>
                     <td className="p-4 text-slate-500">
                       {new Date(u.created_at).toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
                       })}
                     </td>
                     <td className="p-4 text-right">
@@ -122,6 +132,29 @@ export default function Users() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controls */}
+        {users.length > usersPerPage && (
+          <div className="flex justify-end items-center gap-2 p-4 border-t border-slate-200">
+            <button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1}
+              className="p-2 rounded-md hover:bg-slate-100 disabled:opacity-50"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <span className="px-2">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={page === totalPages}
+              className="p-2 rounded-md hover:bg-slate-100 disabled:opacity-50"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
