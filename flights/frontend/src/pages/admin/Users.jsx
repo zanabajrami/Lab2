@@ -24,8 +24,15 @@ export default function Users() {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const usersPerPage = 6;
-
   const token = localStorage.getItem("token");
+
+  const [editingUser, setEditingUser] = useState(null);
+  const [editData, setEditData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    role: "user"
+  });
 
   const loadUsers = useCallback(async () => {
     try {
@@ -95,15 +102,15 @@ export default function Users() {
                 className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all shadow-sm"
               />
             </div>
-         <button 
-  className="flex items-center justify-center h-11 w-11 bg-slate-950 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 shadow-md shadow-slate-200 active:scale-90 group"
-  title="Add New User"
->
-  <PiUserCirclePlus 
-    size={30} 
-    className="group-hover:scale-110 transition-transform duration-200" 
-  />
-</button>
+            <button
+              className="flex items-center justify-center h-11 w-11 bg-slate-950 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 shadow-md shadow-slate-200 active:scale-90 group"
+              title="Add New User"
+            >
+              <PiUserCirclePlus
+                size={30}
+                className="group-hover:scale-110 transition-transform duration-200"
+              />
+            </button>
           </div>
         </div>
 
@@ -179,8 +186,8 @@ export default function Users() {
                       </td>
                       <td className="px-8 py-5">
                         <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border shadow-sm ${u.role === "admin"
-                            ? "bg-blue-600 text-white border-blue-500"
-                            : "bg-white text-slate-600 border-slate-200"
+                          ? "bg-blue-600 text-white border-blue-500"
+                          : "bg-white text-slate-600 border-slate-200"
                           }`}>
                           {u.role === "admin" ? <ShieldCheck size={15} /> : <BiUserCircle size={17} />}
                           {u.role}
@@ -194,7 +201,19 @@ export default function Users() {
                       </td>
                       <td className="px-8 py-5">
                         <div className="flex justify-end gap-2">
-                          <button className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all border border-transparent hover:border-blue-100">
+                          <button
+                            onClick={() => {
+                              const names = u.username.split(" ");
+                              setEditingUser(u);
+                              setEditData({
+                                first_name: names[0] || "",
+                                last_name: names.slice(1).join(" ") || "",
+                                email: u.email,
+                                role: u.role
+                              });
+                            }}
+                            className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all border border-transparent hover:border-blue-100"
+                          >
                             <Edit3 size={18} />
                           </button>
                           <button onClick={() => deleteUser(u.id)} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all border border-transparent hover:border-red-100">
@@ -244,6 +263,70 @@ export default function Users() {
           </div>
         </div>
       </div>
+      {editingUser && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl w-96 shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Edit User</h2>
+            <div className="flex flex-col gap-3">
+              <input
+                type="text"
+                placeholder="First Name"
+                value={editData.first_name}
+                onChange={(e) => setEditData(prev => ({ ...prev, first_name: e.target.value }))}
+                className="p-2 border rounded"
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={editData.last_name}
+                onChange={(e) => setEditData(prev => ({ ...prev, last_name: e.target.value }))}
+                className="p-2 border rounded"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={editData.email}
+                onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
+                className="p-2 border rounded"
+              />
+              <select
+                value={editData.role}
+                onChange={(e) => setEditData(prev => ({ ...prev, role: e.target.value }))}
+                className="p-2 border rounded"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={() => setEditingUser(null)}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    await axios.put(`http://localhost:8800/api/users/${editingUser.id}`, editData, {
+                      headers: { Authorization: `Bearer ${token}` },
+                    });
+                    setEditingUser(null);
+                    loadUsers(); // Refresh user list
+                  } catch (err) {
+                    console.error(err.response?.data || err);
+                    alert("Failed to update user: " + (err.response?.data?.message || err.message));
+                  }
+                }}
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
