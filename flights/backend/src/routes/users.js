@@ -35,4 +35,25 @@ router.delete("/:id", verifyToken, verifyAdmin, async (req, res) => {
   }
 });
 
+// UPDATE user (ADMIN ONLY)
+router.put("/:id", verifyToken, verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, email, role } = req.body;
+
+  if (!first_name || !last_name || !email || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const [result] = await db.query(
+    "UPDATE users SET first_name = ?, last_name = ?, email = ?, role = ? WHERE id = ?",
+    [first_name, last_name, email, role, id]
+  );
+
+  if (result.affectedRows === 0) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json({ message: "User updated successfully" });
+});
+
 export default router;
