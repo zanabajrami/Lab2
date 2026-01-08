@@ -77,6 +77,21 @@ export default function Users() {
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const currentUsers = filteredUsers.slice((page - 1) * usersPerPage, page * usersPerPage);
+    
+  useEffect(() => {
+  if (editingUser) {
+    // kur modal hapet
+    document.body.style.overflow = "hidden";
+  } else {
+    // kur modal mbyllet
+    document.body.style.overflow = "auto";
+  }
+
+  // cleanup safety (kur komponenta unmount)
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [editingUser]);
 
   return (
     <div className="min-h-screen bg-[#f1f5f9] p-4 md:p-8 lg:p-12 font-sans text-slate-900 rounded-2xl">
