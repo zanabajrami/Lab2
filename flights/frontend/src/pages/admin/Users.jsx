@@ -263,65 +263,94 @@ export default function Users() {
           </div>
         </div>
       </div>
+
       {editingUser && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-2xl w-96 shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Edit User</h2>
-            <div className="flex flex-col gap-3">
-              <input
-                type="text"
-                placeholder="First Name"
-                value={editData.first_name}
-                onChange={(e) => setEditData(prev => ({ ...prev, first_name: e.target.value }))}
-                className="p-2 border rounded"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={editData.last_name}
-                onChange={(e) => setEditData(prev => ({ ...prev, last_name: e.target.value }))}
-                className="p-2 border rounded"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={editData.email}
-                onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
-                className="p-2 border rounded"
-              />
-              <select
-                value={editData.role}
-                onChange={(e) => setEditData(prev => ({ ...prev, role: e.target.value }))}
-                className="p-2 border rounded"
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300">
+          <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden transform animate-in zoom-in-95 duration-200">
+
+            {/* Header i Modal-it */}
+            <div className="bg-slate-50 px-8 py-6 border-b border-slate-100">
+              <h2 className="text-xl font-black text-slate-900 tracking-tight">Edit Profile</h2>
+              <p className="text-slate-500 text-sm mt-1">Update user information and access levels.</p>
             </div>
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                onClick={() => setEditingUser(null)}
-                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={async () => {
-                  try {
-                    await axios.put(`http://localhost:8800/api/users/${editingUser.id}`, editData, {
-                      headers: { Authorization: `Bearer ${token}` },
-                    });
-                    setEditingUser(null);
-                    loadUsers(); // Refresh user list
-                  } catch (err) {
-                    console.error(err.response?.data || err);
-                    alert("Failed to update user: " + (err.response?.data?.message || err.message));
-                  }
-                }}
-                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Save
-              </button>
+
+            <div className="p-8">
+              <div className="flex flex-col gap-5">
+                {/* Emri & Mbiemri në një rresht */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">First Name</label>
+                    <input
+                      type="text"
+                      placeholder="John"
+                      value={editData.first_name}
+                      onChange={(e) => setEditData(prev => ({ ...prev, first_name: e.target.value }))}
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Last Name</label>
+                    <input
+                      type="text"
+                      placeholder="Doe"
+                      value={editData.last_name}
+                      onChange={(e) => setEditData(prev => ({ ...prev, last_name: e.target.value }))}
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    value={editData.email}
+                    onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
+                  />
+                </div>
+
+                {/* Role Selection */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">System Permissions</label>
+                  <select
+                    value={editData.role}
+                    onChange={(e) => setEditData(prev => ({ ...prev, role: e.target.value }))}
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-bold text-slate-700 appearance-none"
+                  >
+                    <option value="user">Standard User</option>
+                    <option value="admin">Administrator</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 mt-8">
+                <button
+                  onClick={() => setEditingUser(null)}
+                  className="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-all active:scale-95"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    try {
+                      await axios.put(`http://localhost:8800/api/users/${editingUser.id}`, editData, {
+                        headers: { Authorization: `Bearer ${token}` },
+                      });
+                      setEditingUser(null);
+                      loadUsers();
+                    } catch (err) {
+                      alert("Failed to update user.");
+                    }
+                  }}
+                  className="px-6 py-3 rounded-xl bg-slate-950 text-white font-bold text-sm hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/10 active:scale-95"
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
           </div>
         </div>
