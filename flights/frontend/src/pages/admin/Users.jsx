@@ -34,6 +34,16 @@ export default function Users() {
     role: "user"
   });
 
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [addData, setAddData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    role: "user"
+  });
+
   const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
@@ -57,9 +67,11 @@ export default function Users() {
 
   // Real-time search filter
   const filteredUsers = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+
     return users.filter(u =>
-      u.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase())
+      (u.username || "").toLowerCase().includes(term) ||
+      (u.email || "").toLowerCase().includes(term)
     );
   }, [users, searchTerm]);
 
@@ -77,21 +89,18 @@ export default function Users() {
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const currentUsers = filteredUsers.slice((page - 1) * usersPerPage, page * usersPerPage);
-    
-  useEffect(() => {
-  if (editingUser) {
-    // kur modal hapet
-    document.body.style.overflow = "hidden";
-  } else {
-    // kur modal mbyllet
-    document.body.style.overflow = "auto";
-  }
 
-  // cleanup safety (kur komponenta unmount)
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [editingUser]);
+  useEffect(() => {
+    if (editingUser || showAddModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [editingUser, showAddModal]);
 
   return (
     <div className="min-h-screen bg-[#f1f5f9] p-4 md:p-8 lg:p-12 font-sans text-slate-900 rounded-2xl">
@@ -118,6 +127,7 @@ export default function Users() {
               />
             </div>
             <button
+              onClick={() => setShowAddModal(true)}
               className="flex items-center justify-center h-11 w-11 bg-slate-950 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 shadow-md shadow-slate-200 active:scale-90 group"
               title="Add New User"
             >
@@ -364,6 +374,97 @@ export default function Users() {
                   className="px-6 py-3 rounded-xl bg-slate-950 text-white font-bold text-sm hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/10 active:scale-95"
                 >
                   Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAddModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden">
+
+            <div className="bg-slate-50 px-8 py-6 border-b border-slate-100">
+              <h2 className="text-xl font-black text-slate-900">Add New User</h2>
+              <p className="text-slate-500 text-sm mt-1">Create a new account</p>
+            </div>
+
+            <div className="p-8 space-y-5">
+
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  placeholder="First name"
+                  value={addData.first_name}
+                  onChange={e => setAddData(p => ({ ...p, first_name: e.target.value }))}
+                  className="p-3 bg-slate-50 border rounded-xl"
+                />
+                <input
+                  placeholder="Last name"
+                  value={addData.last_name}
+                  onChange={e => setAddData(p => ({ ...p, last_name: e.target.value }))}
+                  className="p-3 bg-slate-50 border rounded-xl"
+                />
+              </div>
+
+              <input
+                placeholder="Email"
+                value={addData.email}
+                onChange={e => setAddData(p => ({ ...p, email: e.target.value }))}
+                className="w-full p-3 bg-slate-50 border rounded-xl"
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={addData.password}
+                onChange={e => setAddData(p => ({ ...p, password: e.target.value }))}
+                className="w-full p-3 bg-slate-50 border rounded-xl"
+              />
+
+              <select
+                value={addData.role}
+                onChange={e => setAddData(p => ({ ...p, role: e.target.value }))}
+                className="w-full p-3 bg-slate-50 border rounded-xl font-bold"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="px-6 py-3 border rounded-xl"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={async () => {
+                    try {
+                      await axios.post(
+                        "http://localhost:8800/api/auth/register",
+                        addData,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      );
+
+                      setShowAddModal(false);
+                      setAddData({
+                        first_name: "",
+                        last_name: "",
+                        email: "",
+                        password: "",
+                        role: "user"
+                      });
+
+                      loadUsers();
+                    } catch (err) {
+                      alert("Failed to create user");
+                    }
+                  }}
+                  className="px-6 py-3 bg-slate-950 text-white rounded-xl"
+                >
+                  Create User
                 </button>
               </div>
             </div>
