@@ -41,8 +41,11 @@ export default function Users() {
     last_name: "",
     email: "",
     password: "",
-    role: "user"
+    role: "user",
+    gender: "",
+    birthday: ""
   });
+
 
   const loadUsers = useCallback(async () => {
     try {
@@ -414,6 +417,23 @@ export default function Users() {
                 className="w-full p-3 bg-slate-50 border rounded-xl"
               />
 
+              <select
+                value={addData.gender}
+                onChange={e => setAddData(p => ({ ...p, gender: e.target.value }))}
+                className="w-full p-3 bg-slate-50 border rounded-xl font-bold"
+              >
+                <option value="">Select gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+
+              <input
+                type="date"
+                value={addData.birthday}
+                onChange={e => setAddData(p => ({ ...p, birthday: e.target.value }))}
+                className="w-full p-3 bg-slate-50 border rounded-xl"
+              />
+
               <input
                 type="password"
                 placeholder="Password"
@@ -454,7 +474,9 @@ export default function Users() {
                         last_name: "",
                         email: "",
                         password: "",
-                        role: "user"
+                        role: "user",
+                        gender: "",
+                        birthday: ""
                       });
 
                       loadUsers();
