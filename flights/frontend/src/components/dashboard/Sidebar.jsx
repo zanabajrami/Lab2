@@ -55,7 +55,12 @@ export default function Sidebar() {
             onClick={() => navigate("/admin/revenue")}
           />
 
-          <SidebarItem icon={<Cog6ToothIcon className="w-5 h-5" />} label="Settings" />
+          <SidebarItem
+            icon={<Cog6ToothIcon className="w-5 h-5" />}
+            label="Settings"
+            active={location.pathname === "/admin/settings"}
+            onClick={() => navigate("/admin/settings")}
+          />
         </ul>
 
         {/* Logout Section */}
