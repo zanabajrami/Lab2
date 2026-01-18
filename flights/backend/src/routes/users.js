@@ -65,4 +65,24 @@ router.put("/:id", verifyToken, verifyAdmin, async (req, res) => {
   }
 });
 
+// GET all users (ADMIN ONLY)
+router.get("/", verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        id, 
+        CONCAT(first_name, ' ', last_name) AS username, 
+        email, 
+        role, 
+        created_at
+      FROM users
+      ORDER BY created_at DESC
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ message: "Failed to fetch users" });
+  }
+});
+
 export default router;
