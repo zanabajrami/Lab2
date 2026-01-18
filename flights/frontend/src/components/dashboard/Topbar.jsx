@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Menu, ChevronDown, X, Bell } from "lucide-react";
+import { Search, Menu, ChevronDown, X } from "lucide-react";
 
 export default function Topbar({ user, onToggleSidebar }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -9,7 +9,6 @@ export default function Topbar({ user, onToggleSidebar }) {
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-3 flex items-center justify-between">
       
-      {/* Left Side: Mobile Menu & Desktop Search */}
       <div className="flex items-center gap-4 flex-1">
         <button
           className="lg:hidden p-2.5 hover:bg-slate-100 rounded-xl transition-all text-slate-600"
@@ -18,7 +17,6 @@ export default function Topbar({ user, onToggleSidebar }) {
           <Menu size={22} />
         </button>
 
-        {/* Desktop Search - I përshtatur me stilin e tabelës */}
         <div className="relative hidden md:block group">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 group-focus-within:text-blue-500 transition-colors">
             <Search size={18} />
@@ -31,10 +29,8 @@ export default function Topbar({ user, onToggleSidebar }) {
         </div>
       </div>
 
-      {/* Right Side: Search Toggle, Notifications, User */}
       <div className="flex items-center gap-2 md:gap-5">
         
-        {/* Mobile Search Toggle */}
         <button
           className="md:hidden p-2.5 text-slate-600 hover:bg-slate-100 rounded-xl transition-all"
           onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -42,7 +38,6 @@ export default function Topbar({ user, onToggleSidebar }) {
           {isSearchOpen ? <X size={22} /> : <Search size={22} />}
         </button>
 
-        {/* Profile Section */}
         <div className="flex items-center gap-3 pl-2 md:pl-5 border-l border-slate-100">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-bold text-slate-900 leading-none">
@@ -65,7 +60,6 @@ export default function Topbar({ user, onToggleSidebar }) {
         </div>
       </div>
 
-      {/* Mobile Search Overlay - E rregulluar që të mos prishë tabelën */}
       {isSearchOpen && (
         <div className="absolute top-[100%] left-0 w-full p-4 bg-white border-b border-slate-200 shadow-xl md:hidden animate-in slide-in-from-top-2 duration-200">
           <div className="relative">
