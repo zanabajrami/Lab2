@@ -1,21 +1,11 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import {
-  Trash2,
-  Edit3,
-  Loader2,
-  AlertCircle,
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  Mail,
-  Calendar,
-  ShieldCheck,
-  Search,
-  UserCheck
-} from "lucide-react";
+import { Trash2, Edit3, Loader2, AlertCircle, ChevronLeft, ChevronRight, Mail, Calendar, ShieldCheck, Search, UserCheck } from "lucide-react";
 import { BiUserCircle } from "react-icons/bi";
 import { PiUserCirclePlus } from "react-icons/pi";
+
+import EditUser from "../../components/dashboard/EditUser";
+import AddUser from "../../components/dashboard/AddUser";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -27,7 +17,7 @@ export default function Users() {
   const token = localStorage.getItem("token");
 
   const [editingUser, setEditingUser] = useState(null);
-  const [editData, setEditData] = useState({
+  const [, setEditData] = useState({
     first_name: "",
     last_name: "",
     email: "",
@@ -35,17 +25,6 @@ export default function Users() {
   });
 
   const [showAddModal, setShowAddModal] = useState(false);
-
-  const [addData, setAddData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    role: "user",
-    gender: "",
-    birthday: ""
-  });
-
 
   const loadUsers = useCallback(async () => {
     try {
@@ -292,207 +271,19 @@ export default function Users() {
         </div>
       </div>
 
-      {editingUser && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300">
-          <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden transform animate-in zoom-in-95 duration-200">
+      <EditUser
+        user={editingUser}
+        onClose={() => setEditingUser(null)}
+        onSuccess={loadUsers}
+        token={token}
+      />
 
-            {/* Header i Modal-it */}
-            <div className="bg-slate-50 px-8 py-6 border-b border-slate-100">
-              <h2 className="text-xl font-black text-slate-900 tracking-tight">Edit Profile</h2>
-              <p className="text-slate-500 text-sm mt-1">Update user information and access levels.</p>
-            </div>
-
-            <div className="p-8">
-              <div className="flex flex-col gap-5">
-                {/* Emri & Mbiemri në një rresht */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">First Name</label>
-                    <input
-                      type="text"
-                      placeholder="John"
-                      value={editData.first_name}
-                      onChange={(e) => setEditData(prev => ({ ...prev, first_name: e.target.value }))}
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Last Name</label>
-                    <input
-                      type="text"
-                      placeholder="Doe"
-                      value={editData.last_name}
-                      onChange={(e) => setEditData(prev => ({ ...prev, last_name: e.target.value }))}
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
-                    />
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="name@example.com"
-                    value={editData.email}
-                    onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-medium"
-                  />
-                </div>
-
-                {/* Role Selection */}
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">System Permissions</label>
-                  <select
-                    value={editData.role}
-                    onChange={(e) => setEditData(prev => ({ ...prev, role: e.target.value }))}
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500 transition-all text-sm font-bold text-slate-700 appearance-none"
-                  >
-                    <option value="user">Standard User</option>
-                    <option value="admin">Administrator</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3 mt-8">
-                <button
-                  onClick={() => setEditingUser(null)}
-                  className="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-all active:scale-95"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={async () => {
-                    try {
-                      await axios.put(`http://localhost:8800/api/users/${editingUser.id}`, editData, {
-                        headers: { Authorization: `Bearer ${token}` },
-                      });
-                      setEditingUser(null);
-                      loadUsers();
-                    } catch (err) {
-                      alert("Failed to update user.");
-                    }
-                  }}
-                  className="px-6 py-3 rounded-xl bg-slate-950 text-white font-bold text-sm hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/10 active:scale-95"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden">
-
-            <div className="bg-slate-50 px-8 py-6 border-b border-slate-100">
-              <h2 className="text-xl font-black text-slate-900">Add New User</h2>
-              <p className="text-slate-500 text-sm mt-1">Create a new account</p>
-            </div>
-
-            <div className="p-8 space-y-5">
-
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  placeholder="First name"
-                  value={addData.first_name}
-                  onChange={e => setAddData(p => ({ ...p, first_name: e.target.value }))}
-                  className="p-3 bg-slate-50 border rounded-xl"
-                />
-                <input
-                  placeholder="Last name"
-                  value={addData.last_name}
-                  onChange={e => setAddData(p => ({ ...p, last_name: e.target.value }))}
-                  className="p-3 bg-slate-50 border rounded-xl"
-                />
-              </div>
-
-              <input
-                placeholder="Email"
-                value={addData.email}
-                onChange={e => setAddData(p => ({ ...p, email: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border rounded-xl"
-              />
-
-              <select
-                value={addData.gender}
-                onChange={e => setAddData(p => ({ ...p, gender: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border rounded-xl font-bold"
-              >
-                <option value="">Select gender</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-              </select>
-
-              <input
-                type="date"
-                value={addData.birthday}
-                onChange={e => setAddData(p => ({ ...p, birthday: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border rounded-xl"
-              />
-
-              <input
-                type="password"
-                placeholder="Password"
-                value={addData.password}
-                onChange={e => setAddData(p => ({ ...p, password: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border rounded-xl"
-              />
-
-              <select
-                value={addData.role}
-                onChange={e => setAddData(p => ({ ...p, role: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border rounded-xl font-bold"
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-
-              <div className="flex justify-end gap-3 pt-4">
-                <button
-                  onClick={() => setShowAddModal(false)}
-                  className="px-6 py-3 border rounded-xl"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={async () => {
-                    try {
-                      await axios.post(
-                        "http://localhost:8800/api/auth/register",
-                        addData,
-                        { headers: { Authorization: `Bearer ${token}` } }
-                      );
-
-                      setShowAddModal(false);
-                      setAddData({
-                        first_name: "",
-                        last_name: "",
-                        email: "",
-                        password: "",
-                        role: "user",
-                        gender: "",
-                        birthday: ""
-                      });
-
-                      loadUsers();
-                    } catch (err) {
-                      alert("Failed to create user");
-                    }
-                  }}
-                  className="px-6 py-3 bg-slate-950 text-white rounded-xl"
-                >
-                  Create User
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <AddUser
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={loadUsers}
+        token={token}
+      />
 
     </div>
   );

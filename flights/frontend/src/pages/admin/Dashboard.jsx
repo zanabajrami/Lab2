@@ -10,6 +10,7 @@ import { IoTicketOutline } from "react-icons/io5";
 
 import NewUsersChart from "../../components/dashboard/NewUsersChart";
 import KPICard from "../../components/dashboard/KPICard";
+import EditUser from "../../components/dashboard/EditUser";
 
 export default function Dashboard() {
     const token = localStorage.getItem("token");
@@ -82,45 +83,45 @@ export default function Dashboard() {
                     </button>
                 </div>
 
-              {/* --- STAT CARDS --- */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-    {/* Kartela e parë - E bardhë me theks Blu */}
-    <KPICard
-        title="Total Users"
-        value={stats.users.toLocaleString()}
-        percent={12}
-        compareLabel="last week"
-        sparkline={[120, 125, 130, 140, 150, 158]}
-        tooltip="Total registered users"
-        icon={<UsersIcon className="w-6 h-6 text-blue-600" />}
-        className="bg-white border border-slate-200"
-    />
+                {/* --- STAT CARDS --- */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    {/* Kartela e parë - E bardhë me theks Blu */}
+                    <KPICard
+                        title="Total Users"
+                        value={stats.users.toLocaleString()}
+                        percent={12}
+                        compareLabel="last week"
+                        sparkline={[120, 125, 130, 140, 150, 158]}
+                        tooltip="Total registered users"
+                        icon={<UsersIcon className="w-6 h-6 text-blue-600" />}
+                        className="bg-white border border-slate-200"
+                    />
 
-    {/* Kartela e mesit - Slate 950 (Dark) */}
-    <KPICard
-        title="Total Bookings"
-        value={stats.bookings.toLocaleString()}
-        percent={-3}
-        compareLabel="yesterday"
-        sparkline={[80, 78, 76, 75, 73]}
-        tooltip="All completed bookings"
-        icon={<IoTicketOutline className="w-6 h-6 text-blue-400" />}
-        isDark={true}
-        className="bg-slate-950 text-white border border-slate-800 shadow-xl shadow-blue-900/10"
-    />
+                    {/* Kartela e mesit - Slate 950 (Dark) */}
+                    <KPICard
+                        title="Total Bookings"
+                        value={stats.bookings.toLocaleString()}
+                        percent={-3}
+                        compareLabel="yesterday"
+                        sparkline={[80, 78, 76, 75, 73]}
+                        tooltip="All completed bookings"
+                        icon={<IoTicketOutline className="w-6 h-6 text-blue-400" />}
+                        isDark={true}
+                        className="bg-slate-950 text-white border border-slate-800 shadow-xl shadow-blue-900/10"
+                    />
 
-    {/* Kartela e tretë - E bardhë me theks Emerald/Green */}
-    <KPICard
-        title="Total Revenue"
-        value={`€${stats.revenue.toLocaleString()}`}
-        percent={18}
-        compareLabel="last week"
-        sparkline={[2000, 2200, 2500, 2700, 3000]}
-        tooltip="Total generated revenue"
-        icon={<CurrencyEuroIcon className="w-6 h-6 text-emerald-600" />}
-        className="bg-white border border-slate-200"
-    />
-</div>
+                    {/* Kartela e tretë - E bardhë me theks Emerald/Green */}
+                    <KPICard
+                        title="Total Revenue"
+                        value={`€${stats.revenue.toLocaleString()}`}
+                        percent={18}
+                        compareLabel="last week"
+                        sparkline={[2000, 2200, 2500, 2700, 3000]}
+                        tooltip="Total generated revenue"
+                        icon={<CurrencyEuroIcon className="w-6 h-6 text-emerald-600" />}
+                        className="bg-white border border-slate-200"
+                    />
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* --- NEW USERS CHART SECTION --- */}
@@ -166,8 +167,13 @@ export default function Dashboard() {
                                     </div>
                                     <button
                                         onClick={() => {
-                                            setEditingUser(u);
-                                            setEditData({ first_name: u.name.split(" ")[0], last_name: u.name.split(" ")[1] || "", email: u.email, role: u.role });
+                                            const names = u.name.split(" ");
+                                            const userToEdit = {
+                                                ...u,
+                                                first_name: names[0],
+                                                last_name: names.slice(1).join(" ")
+                                            };
+                                            setEditingUser(userToEdit);
                                         }}
                                         className="p-2 text-slate-400 hover:text-slate-900"
                                     >
@@ -179,51 +185,14 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* --- EDIT MODAL (Sipas kodit tënd origjinal) --- */}
-                {editingUser && (
-                    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl p-8">
-                            <h2 className="text-xl font-black mb-6">Edit User</h2>
-                            <div className="space-y-4">
-                                <input
-                                    className="w-full p-3 bg-slate-50 border rounded-xl"
-                                    value={editData.first_name}
-                                    onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
-                                    placeholder="First Name"
-                                />
-                                <input
-                                    className="w-full p-3 bg-slate-50 border rounded-xl"
-                                    value={editData.last_name}
-                                    onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
-                                    placeholder="Last Name"
-                                />
-                                <select
-                                    className="w-full p-3 bg-slate-50 border rounded-xl font-bold"
-                                    value={editData.role}
-                                    onChange={(e) => setEditData({ ...editData, role: e.target.value })}
-                                >
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                            <div className="flex justify-end gap-3 mt-8">
-                                <button onClick={() => setEditingUser(null)} className="px-6 py-2 font-bold text-slate-500">Cancel</button>
-                                <button
-                                    onClick={async () => {
-                                        await axios.put(`http://localhost:8800/api/users/${editingUser.id}`, editData, {
-                                            headers: { Authorization: `Bearer ${token}` }
-                                        });
-                                        setEditingUser(null);
-                                        loadDashboardData();
-                                    }}
-                                    className="px-6 py-2 bg-slate-950 text-white rounded-xl font-bold"
-                                >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {/* --- EDIT MODAL --- */}
+                <EditUser
+                    user={editingUser}
+                    onClose={() => setEditingUser(null)}
+                    onSuccess={loadDashboardData} // Këtu përdorim funksionin tënd të refresh-it
+                    token={token}
+                />
+
             </div>
         </div>
     );
