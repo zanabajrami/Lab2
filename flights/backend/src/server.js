@@ -11,7 +11,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -23,4 +27,5 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/admin", adminRoutes);
 
-app.listen(8800, () => console.log("Server running on port 8800"));
+const PORT = process.env.PORT || 8800;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
