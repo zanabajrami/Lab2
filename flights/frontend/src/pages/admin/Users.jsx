@@ -234,9 +234,20 @@ export default function Users() {
                 </div>
 
                 <div className="flex gap-2">
-                  <button onClick={() => setEditingUser(u)} className="flex-1 py-2.5 bg-blue-50 text-blue-600 rounded-xl font-bold text-xs flex items-center justify-center gap-2">
-                    <Edit3 size={14} /> Edit
+                  <button
+                    onClick={() => {
+                      const [first_name = "", last_name = ""] = u.username.split(" ");
+                      setEditingUser({
+                        ...u,
+                        first_name,
+                        last_name,
+                      });
+                    }}
+                    className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+                  >
+                    <Edit3 size={18} />
                   </button>
+
                   <button onClick={() => deleteUser(u.id)} className="flex-1 py-2.5 bg-red-50 text-red-600 rounded-xl font-bold text-xs flex items-center justify-center gap-2">
                     <Trash2 size={14} /> Delete
                   </button>

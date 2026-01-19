@@ -12,11 +12,23 @@ export default function EditUserModal({ user, onClose, onSuccess, token }) {
 
     useEffect(() => {
         if (user) {
+            let first_name = "";
+            let last_name = "";
+
+            if (user.first_name || user.last_name) {
+                first_name = user.first_name || "";
+                last_name = user.last_name || "";
+            } else if (user.username) {
+                const parts = user.username.split(" ");
+                first_name = parts[0] || "";
+                last_name = parts.slice(1).join(" ") || "";
+            }
+
             setEditData({
-                first_name: user.first_name || "",
-                last_name: user.last_name || "",
+                first_name,
+                last_name,
                 email: user.email || "",
-                role: user.role || "user"
+                role: user.role || "user",
             });
         }
     }, [user]);
