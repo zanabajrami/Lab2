@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Contact({ onClose }) {
   const [name, setName] = useState("");
@@ -27,13 +28,34 @@ function Contact({ onClose }) {
     }, 300); // koha duhet të përputhet me animacionin
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Your message has been sent! 📩");
-    setName("");
-    setEmail("");
-    setMessage("");
-    handleClose();
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8800/api/messages",
+        {
+          name,
+          email,
+          message,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      alert("Your message has been sent! 📩");
+
+      setName("");
+      setEmail("");
+      setMessage("");
+      handleClose();
+    } catch (error) {
+      console.error("Message send error:", error);
+      alert("Something went wrong. Please try again ❌");
+    }
   };
 
   return (
