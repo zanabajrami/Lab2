@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Search, Menu, ChevronDown, Mail, MailOpen, Trash2} from "lucide-react";
+import { Search, Menu, ChevronDown, Mail, MailOpen, Trash2 } from "lucide-react";
 import axios from "axios";
 
 export default function Topbar({ user, onToggleSidebar }) {
@@ -43,7 +43,7 @@ export default function Topbar({ user, onToggleSidebar }) {
       }
     } catch (err) {
       console.error("Serveri nuk u përditësua:", err);
-      fetchMessages(); 
+      fetchMessages();
     }
   };
 
@@ -91,7 +91,9 @@ export default function Topbar({ user, onToggleSidebar }) {
           </button>
 
           {isMessagesOpen && (
-            <div className="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in duration-200">
+            /* NDRYSHIMI KËTU: shtuam fixed në mobile, absolute në md+, dhe rregulluam gjerësinë */
+            <div className="fixed inset-x-4 top-16 md:absolute md:inset-auto md:right-0 md:mt-3 w-auto md:w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in duration-200">
+
               <div className="px-4 py-3 font-bold border-b flex justify-between items-center bg-slate-50/50 text-slate-800">
                 <span>Messages</span>
                 {hasUnread && (
@@ -101,7 +103,8 @@ export default function Topbar({ user, onToggleSidebar }) {
                 )}
               </div>
 
-              <div className="max-h-[400px] overflow-y-auto">
+              {/* Rritëm lartësinë max për mobile që të shfrytëzohet ekrani */}
+              <div className="max-h-[60vh] md:max-h-[400px] overflow-y-auto">
                 {messages.length === 0 ? (
                   <div className="p-8 text-center text-slate-400 text-sm italic">No messages found</div>
                 ) : (
@@ -115,10 +118,10 @@ export default function Topbar({ user, onToggleSidebar }) {
                           if (isUnread) markAsRead(msg.id || msg._id);
                         }}
                         className={`group relative px-4 py-4 border-b last:border-b-0 cursor-pointer transition-all duration-300
-                          ${isUnread
+                  ${isUnread
                             ? "bg-blue-50/60 border-l-4 border-blue-600 opacity-100"
                             : "bg-white opacity-50 hover:opacity-100"}
-                        `}
+                `}
                       >
                         <div className="absolute top-5 left-3">
                           {isUnread ? (
@@ -130,7 +133,7 @@ export default function Topbar({ user, onToggleSidebar }) {
 
                         <div className="pl-6 pr-6">
                           <div className="flex justify-between items-start">
-                            <p className={`text-sm truncate ${isUnread ? "font-black text-slate-900" : "font-normal text-slate-500"}`}>
+                            <p className={`text-sm truncate max-w-[150px] md:max-w-none ${isUnread ? "font-black text-slate-900" : "font-normal text-slate-500"}`}>
                               {msg.name}
                             </p>
                             {isUnread && (
@@ -138,7 +141,7 @@ export default function Topbar({ user, onToggleSidebar }) {
                             )}
                           </div>
 
-                          <p className={`text-[11px] mb-1 ${isUnread ? "font-bold text-blue-700" : "font-normal text-slate-400"}`}>
+                          <p className={`text-[11px] mb-1 truncate ${isUnread ? "font-bold text-blue-700" : "font-normal text-slate-400"}`}>
                             {msg.email}
                           </p>
 
@@ -152,9 +155,9 @@ export default function Topbar({ user, onToggleSidebar }) {
                             e.stopPropagation();
                             deleteMessage(msg.id || msg._id);
                           }}
-                          className="absolute top-4 right-2 p-1.5 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-600 hover:bg-red-50 transition-all"
+                          className="absolute top-4 right-2 p-1.5 rounded-lg text-slate-400 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:text-red-600 hover:bg-red-50 transition-all"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     );
