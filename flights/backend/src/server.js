@@ -4,8 +4,9 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import authRoutes from "./routes/auth.routes.js";
-import usersRoutes from "./routes/users.js";
+import usersRoutes from "./routes/users.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import messagesRoutes from "./routes/messages.routes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/messages", messagesRoutes);
 
 const PORT = process.env.PORT || 8800;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
