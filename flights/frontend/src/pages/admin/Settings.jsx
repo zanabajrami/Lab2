@@ -8,24 +8,28 @@ function Settings() {
 
   const token = localStorage.getItem("token");
 
-useEffect(() => {
-  const fetchProfile = async () => {
-    if (!token) return setError("NOT_AUTH");
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!token) return setError("NOT_AUTH");
 
-    try {
-      const res = await axios.get("http://localhost:8800/api/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProfile(res.data);
-    } catch (err) {
-      if (err.response?.status === 401) setError("NOT_AUTH");
-      else setError("UNKNOWN");
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchProfile();
-}, [token]);
+      try {
+        const res = await axios.get("http://localhost:8800/api/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setProfile(res.data);
+      } catch (err) {
+        if (err.response?.status === 401) setError("NOT_AUTH");
+        else setError("UNKNOWN");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [token]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
