@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Search, Menu, ChevronDown, Mail, MailOpen, Trash2 } from "lucide-react";
 import axios from "axios";
+import { socket } from "../../socket";
 
 export default function Topbar({ user, onToggleSidebar }) {
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [replyInputs, setReplyInputs] = useState({});
 
   const userName = user?.name || "Admin";
   const initials = userName
@@ -23,10 +25,26 @@ export default function Topbar({ user, onToggleSidebar }) {
   };
 
   useEffect(() => {
+    // 1️⃣ Merr mesazhet ekzistuese
     fetchMessages();
-    const interval = setInterval(fetchMessages, 10000);
-    return () => clearInterval(interval);
+
+    // 2️⃣ Lidh socket
+    socket.connect();
+
+    // 3️⃣ Thuaj që je admin
+    socket.emit("join_admin");
+
+    // 4️⃣ Merr mesazhe të reja
+    socket.on("receive_message", (newMessage) => {
+      setMessages((prev) => [newMessage, ...prev]);
+    });
+
+    return () => {
+      socket.off("receive_message");
+      socket.disconnect();
+    };
   }, []);
+
 
   /* UNREAD CHECK */
   const hasUnread = messages.some((m) => Number(m.is_read) === 0);
@@ -54,6 +72,29 @@ export default function Topbar({ user, onToggleSidebar }) {
       setMessages((prev) => prev.filter((m) => m.id !== id));
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const sendReply = async (messageId) => {
+    const replyText = replyInputs[messageId];
+    if (!replyText) return;
+
+    try {
+      await axios.post("http://localhost:8800/api/messages/reply", {
+        messageId,
+        reply: replyText,
+      });
+
+      setMessages(prev =>
+        prev.map(m =>
+          m.id === messageId ? { ...m, reply: replyText } : m
+        )
+      );
+
+      setReplyInputs(prev => ({ ...prev, [messageId]: "" }));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send reply");
     }
   };
 
@@ -91,7 +132,6 @@ export default function Topbar({ user, onToggleSidebar }) {
           </button>
 
           {isMessagesOpen && (
-            /* NDRYSHIMI KËTU: shtuam fixed në mobile, absolute në md+, dhe rregulluam gjerësinë */
             <div className="fixed inset-x-4 top-16 md:absolute md:inset-auto md:right-0 md:mt-3 w-auto md:w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in duration-200">
 
               <div className="px-4 py-3 font-bold border-b flex justify-between items-center bg-slate-50/50 text-slate-800">
@@ -103,7 +143,6 @@ export default function Topbar({ user, onToggleSidebar }) {
                 )}
               </div>
 
-              {/* Rritëm lartësinë max për mobile që të shfrytëzohet ekrani */}
               <div className="max-h-[60vh] md:max-h-[400px] overflow-y-auto">
                 {messages.length === 0 ? (
                   <div className="p-8 text-center text-slate-400 text-sm italic">No messages found</div>
@@ -159,6 +198,28 @@ export default function Topbar({ user, onToggleSidebar }) {
                         >
                           <Trash2 size={16} />
                         </button>
+
+                        <div className="mt-2 flex gap-2 items-center">
+                          <input
+                            type="text"
+                            value={replyInputs[msg.id] || ""}
+                            onChange={(e) =>
+                              setReplyInputs(prev => ({ ...prev, [msg.id]: e.target.value }))
+                            }
+                            placeholder="Type your reply..."
+                            className="flex-1 px-2 py-1 border rounded-md text-sm"
+                          />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              sendReply(msg.id);
+                            }}
+                            className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md"
+                          >
+                            Send
+                          </button>
+                        </div>
+
                       </div>
                     );
                   })
