@@ -3,10 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import Account from "../pages/Account";
-import NotificationBell from "./notifications/NotificationBell";
-import NotificationDropdown from "./notifications/NotificationDropdown";
-import { useNotifications, NotificationProvider } from "./notifications/NotificationContext";
-import { socket } from "../socket";
 
 function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,9 +12,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const notifRef = useRef(null); // ref për notifications
-
-  const { setNotifications } = useNotifications();
 
   // Scroll listener
   useEffect(() => {
@@ -32,10 +25,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
       // mbyll Deals dropdown
       if (dealsRef.current && !dealsRef.current.contains(event.target)) {
         setShowDealsOptions(false);
-      }
-      // mbyll Notifications dropdown
-      if (notifRef.current && !notifRef.current.contains(event.target)) {
-        setOpen(false);
       }
     };
 
@@ -71,18 +60,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
     action();           // kryen navigimin ose çfarëdo funksioni
     setMenuOpen(false); // mbyll menunë
   };
-
-  useEffect(() => {
-    if (!userData) return;
-
-    socket.connect();
-    socket.emit("join_user", userData.id);
-
-    return () => {
-      socket.off("receive_notification");
-      socket.disconnect();
-    };
-  }, [userData]);
 
   return (
     <header
@@ -170,13 +147,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
               onClick={() => setIsAccountOpen(true)}
             />
           )}
-        </div>
-
-        <div ref={notifRef} className="relative">
-          <NotificationProvider user={userData}>
-            <NotificationBell onClick={() => setOpen(!open)} />
-            <NotificationDropdown open={open} onSelect={() => { }} />
-          </NotificationProvider>
         </div>
 
         {isAccountOpen && userData && (
