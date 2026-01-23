@@ -17,13 +17,6 @@ export default function Users() {
   const token = localStorage.getItem("token");
 
   const [editingUser, setEditingUser] = useState(null);
-  const [, setEditData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    role: "user"
-  });
-
   const [showAddModal, setShowAddModal] = useState(false);
 
   const loadUsers = useCallback(async () => {

@@ -26,7 +26,6 @@ import CookiesModal from "./components/CookiesModal";
 import PassagerRights from "./pages/PassagerRights";
 import AirportGuide from "./pages/AirportGuide";
 import TravelTips from "./pages/TravelTips";
-import { NotificationProvider } from "./context/NotificationContext";
 import Account from "./pages/Account";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminRoute from "./routes/AdminRoute";
@@ -70,7 +69,6 @@ function App() {
 
   return (
     <Router>
-      <NotificationProvider>
         <div className="flex flex-col min-h-screen">
           <Header
             openLogin={() => setShowLogin(true)}
@@ -150,7 +148,6 @@ function App() {
           )}
 
         </div>
-      </NotificationProvider>
     </Router>
   );
 }

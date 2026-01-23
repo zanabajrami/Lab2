@@ -19,7 +19,6 @@ export default function Dashboard() {
     const [latestUsers, setLatestUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingUser, setEditingUser] = useState(null);
-    const [editData, setEditData] = useState({ first_name: "", last_name: "", email: "", role: "user" });
 
     const loadDashboardData = async () => {
         try {
@@ -59,14 +58,16 @@ export default function Dashboard() {
         } finally {
             setLoading(false);
         }
-    };
+    }
 
-    useEffect(() => { loadDashboardData(); }, []);
+    useEffect(() => {
+        loadDashboardData(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
-      
+    }, []);
+
     return (
         <div className="min-h-screen bg-[#f8fafc] p-6 md:p-10 font-sans text-slate-900">
             <div className="max-w-7xl mx-auto">
@@ -197,26 +198,6 @@ export default function Dashboard() {
                     token={token}
                 />
 
-            </div>
-        </div>
-    );
-}
-
-function StatCard({ title, value, icon, isDark, color }) {
-    const colors = {
-        blue: "bg-blue-50 text-blue-600 border-blue-100",
-        emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
-        slate: "bg-slate-800 text-blue-400 border-slate-700"
-    };
-
-    return (
-        <div className={`${isDark ? 'bg-slate-900 text-white border-slate-800' : 'bg-white text-slate-900 border-slate-200'} p-6 rounded-[2rem] border shadow-sm flex items-center gap-5 transition-transform hover:-translate-y-1`}>
-            <div className={`h-14 w-14 rounded-2xl flex items-center justify-center ${colors[color] || colors.blue}`}>
-                {icon}
-            </div>
-            <div>
-                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em]">{title}</p>
-                <p className="text-3xl font-black mt-0.5">{value}</p>
             </div>
         </div>
     );

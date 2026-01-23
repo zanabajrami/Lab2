@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 function Contact({ onClose }) {
   const [name, setName] = useState("");
@@ -32,19 +31,6 @@ function Contact({ onClose }) {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:8800/api/messages",
-        {
-          name,
-          email,
-          message,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
 
       alert("Your message has been sent! 📩");
 
@@ -52,6 +38,7 @@ function Contact({ onClose }) {
       setEmail("");
       setMessage("");
       handleClose();
+      
     } catch (error) {
       console.error("Message send error:", error);
       alert("Something went wrong. Please try again ❌");
