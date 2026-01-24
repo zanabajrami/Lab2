@@ -11,7 +11,6 @@ function Header({ openLogin, openSignup, openContact, userData, setUserData }) {
   const dealsRef = useRef(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
 
   // Scroll listener
   useEffect(() => {

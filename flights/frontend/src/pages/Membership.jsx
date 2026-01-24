@@ -98,7 +98,7 @@ export default function Membership() {
   const cards = [
     {
       title: "Standard Membership",
-      price: "€49.99 / year",
+      price: "49.99 / year",
       badge: "Starter",
       benefits: [
         { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
@@ -109,7 +109,7 @@ export default function Membership() {
     },
     {
       title: "Premium Membership",
-      price: "€69.99 / year",
+      price: "69.99 / year",
       badge: "Most Popular",
       benefits: [
         { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
@@ -122,7 +122,7 @@ export default function Membership() {
     },
     {
       title: "VIP Membership",
-      price: "€99.99 / year",
+      price: "99.99 / year",
       badge: "VIP",
       benefits: [
         { icon: <Users className="w-5 h-5 text-blue-800" />, text: "Benefits for you and 1 companion", tooltip: "Share perks with 1 companion." },
