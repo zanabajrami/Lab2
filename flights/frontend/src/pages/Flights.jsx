@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, ArrowRight, X } from "lucide-react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/flights/Calendar";
@@ -133,140 +133,178 @@ const FlightsSection = () => {
         ))}
       </div>
 
-      {modalFlight && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={closeModal}
-        >
-          <div
-            className="bg-white rounded-2xl w-96 max-h-[90vh] overflow-hidden relative flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {modalStep === 1 ? (
-              <>
-                <div className="p-6 border-b">
-                  <h2 className="text-xl font-bold">{modalFlight.from} → {modalFlight.to}</h2>
-                </div>
+      <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {currentFlights.length > 0 ? currentFlights.map(f => (
+          <FlightCard
+            key={f.id}
+            flight={f}
+            openModal={openModal}
+            favorites={favorites}
+            setFavorites={setFavorites}
+          />
+        )) : <p className="col-span-full text-center text-gray-500">No flights found</p>}
+      </div>
 
-                <div className="p-6 flex-1 overflow-y-auto space-y-4">
-                  <Calendar
-                    selectedDate={departureDate}
-                    setSelectedDate={setDepartureDate}
-                    minDate={today}
-                    maxDate={maxDate}
-                  />
+      {/* Pagination */}
+      <div className="flex justify-center mt-6 gap-2">
+        {getPages(totalPages, currentPage).map((page, i) =>
+          page === "..." ? (
+            <span key={i} className="px-3 py-1 text-gray-500">...</span>
+          ) : (
+            <button
+              key={i}
+              onClick={() => { setCurrentPage(page); window.scrollTo(0, 0); }}
+              className={`px-3 py-1 rounded-lg border transition ${currentPage === page
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100"
+                }`}
+            >
+              {page}
+            </button>
+          )
+        )}
+      </div>
 
-                  {modalFlight.return && (
-                    <Calendar
-                      selectedDate={returnDate}
-                      setSelectedDate={setReturnDate}
-                      minDate={departureDate || today}
-                      maxDate={maxDate}
-                    />
-                  )}
-                </div>
+      {modalFlight && !showPaymentForm && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center z-[100] p-4" onClick={closeModal}>
+          <div className="bg-white rounded-[2.5rem] w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl relative flex flex-col animate-in fade-in zoom-in duration-300" onClick={(e) => e.stopPropagation()}>
 
-                <div className="p-6 border-t flex justify-between items-center">
-                  <select
-                    value={persons}
-                    onChange={(e) => setPersons(Number(e.target.value))}
-                    className="border p-2 rounded-lg"
-                  >
-                    {[1, 2, 3, 4, 5, 6].map(n => (
-                      <option key={n} value={n}>{n} {n === 1 ? "Passenger" : "Passengers"}</option>
-                    ))}
-                  </select>
+            {/* Progress Bar */}
+            <div className="h-1.5 w-full bg-slate-100">
+              <div
+                className="h-full bg-blue-600 transition-all duration-500"
+                style={{ width: modalStep === 1 ? '50%' : '100%' }}
+              />
+            </div>
 
-                  <div className="text-lg font-semibold">
-                    Total Price: €{basePrice * persons}
+            {/* Header */}
+            <div className="p-6 border-b border-slate-50 flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-black text-slate-800 flex items-center gap-2 uppercase tracking-tight">
+                  {modalFlight.from} <ArrowRight className="text-blue-500" size={18} /> {modalFlight.to}
+                </h2>
+                <p className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 inline-block uppercase">
+                  {modalStep === 1 ? "Step 1: Dates & Travelers" : `Step 2: Passenger ${currentPassengerIndex + 1} of ${persons}`}
+                </p>
+              </div>
+              <button onClick={closeModal} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-8 flex-1 overflow-y-auto space-y-6">
+              {modalStep === 1 ? (
+                <div className="space-y-6">
+                  <div className="grid gap-4">
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                      <label className="text-xs font-black text-slate-400 uppercase mb-2 block tracking-widest">Departure Date</label>
+                      <Calendar selectedDate={departureDate} setSelectedDate={setDepartureDate} minDate={today} maxDate={maxDate} />
+                    </div>
+                    {modalFlight.isReturn && (
+                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <label className="text-xs font-black text-slate-400 uppercase mb-2 block tracking-widest">Return Date</label>
+                        <Calendar selectedDate={returnDate} setSelectedDate={setReturnDate} minDate={departureDate || today} maxDate={maxDate} />
+                      </div>
+                    )}
                   </div>
-
-                  <button
-                    onClick={() => {
-                      if (!departureDate) {
-                        alert("Choose a departure date");
-                        return;
-                      }
-                      if (modalFlight.return && !returnDate) {
-                        alert("Choose a return date");
-                        return;
-                      }
-                      setModalStep(2);
-                    }}
-                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
-                  >
-                    Next
-                  </button>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase ml-2 tracking-widest">Number of Passengers</label>
+                    <select
+                      value={persons}
+                      onChange={(e) => setPersons(Number(e.target.value))}
+                      className="w-full bg-white border-2 border-slate-200 p-4 rounded-2xl focus:border-blue-500 outline-none font-bold text-slate-700 transition-all cursor-pointer"
+                    >
+                      {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n} {n === 1 ? "Passenger" : "Passengers"}</option>)}
+                    </select>
+                  </div>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
-                  <h3 className="text-lg font-semibold mb-2">
-                    Passenger {currentPassengerIndex + 1} of {persons}
-                  </h3>
-
-                  {["First Name", "Last Name","Birthday","Passport Number", "Nationality", "Email", "Phone Number"].map(field => (
-                    <input
-                      key={field}
-                      type="text"
-                      placeholder={field}
-                      className="border p-2 rounded-lg"
-                      value={passengerInfo[currentPassengerIndex][field]}
-                      onChange={(e) => {
-                        const copy = [...passengerInfo];
-                        copy[currentPassengerIndex][field] = e.target.value;
-                        setPassengerInfo(copy);
-                      }}
-                    />
+              ) : (
+                <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-right-4">
+                  {[
+                    { id: 'firstName', label: 'First Name', col: 'col-span-1' },
+                    { id: 'lastName', label: 'Last Name', col: 'col-span-1' },
+                    { id: 'dob', label: 'Date of Birth', col: 'col-span-2', type: 'date' },
+                    { id: 'email', label: 'Email Address', col: 'col-span-2', type: 'email' },
+                    { id: 'phone', label: 'Phone Number', col: 'col-span-1' },
+                    { id: 'nationality', label: 'Nationality', col: 'col-span-1' },
+                    { id: 'passportNumber', label: 'Passport Number', col: 'col-span-2' },
+                  ].map((field) => (
+                    <div key={field.id} className={`${field.col} space-y-1`}>
+                      <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-tighter">{field.label}</label>
+                      <input
+                        type={field.type || 'text'}
+                        className={`w-full bg-slate-50 border-2 p-3 rounded-xl focus:bg-white outline-none transition-all font-semibold text-slate-700 ${passengerInfo[currentPassengerIndex]?.[field.id] ? 'border-blue-100 focus:border-blue-500' : 'border-slate-100'
+                          }`}
+                        value={passengerInfo[currentPassengerIndex]?.[field.id] || ""}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          setPassengerInfo(prev => {
+                            const newArr = [...prev];
+                            newArr[currentPassengerIndex] = { ...newArr[currentPassengerIndex], [field.id]: value };
+                            return newArr;
+                          });
+                        }}
+                      />
+                    </div>
                   ))}
                 </div>
+              )}
+            </div>
 
-                <div className="p-6 border-t flex justify-between items-center">
+            {/* Footer */}
+            <div className="p-8 border-t border-slate-50 bg-slate-50/30 flex flex-col gap-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase">Total Amount</p>
+                  <p className="text-3xl font-black text-slate-900 leading-none">€{totalPrice}</p>
+                </div>
+                {modalStep === 2 && (
                   <button
-                    onClick={() => {
-                      if (currentPassengerIndex > 0) {
-                        setCurrentPassengerIndex(i => i - 1);
-                      } else {
-                        setModalStep(1);
-                      }
-                    }}
-                    className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
+                    onClick={() => currentPassengerIndex > 0 ? setCurrentPassengerIndex(i => i - 1) : setModalStep(1)}
+                    className="text-slate-400 font-bold hover:text-slate-800 text-sm underline transition-colors"
                   >
                     Back
                   </button>
+                )}
+              </div>
 
-                  <button
-                    onClick={() => {
-                      if (!validatePassenger(passengerInfo[currentPassengerIndex])) {
-                        alert("Please fill all required passenger fields");
-                        return;
-                      }
-
-                      if (currentPassengerIndex < persons - 1) {
-                        setCurrentPassengerIndex(i => i + 1);
-                      } else {
-                        setShowPaymentForm(true);
-                      }
-                    }}
-                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-                  >
-                    {currentPassengerIndex < persons - 1 ? "Next Passenger" : "Next"}
-                  </button>
-                </div>
-              </>
-            )}
+              <button
+                disabled={
+                  (modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
+                  (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex]))
+                }
+                onClick={() => {
+                  if (modalStep === 1) {
+                    setModalStep(2);
+                  } else {
+                    if (currentPassengerIndex < persons - 1) {
+                      setCurrentPassengerIndex(prev => prev + 1);
+                    } else {
+                      setShowPaymentForm(true);
+                    }
+                  }
+                }}
+                className={`w-full py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl ${((modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
+                    (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex])))
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                    : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
+                  }`}
+              >
+                {modalStep === 1 ? "Continue to Details" : (currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm & Pay Now")}
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {showPaymentForm && (
         <PaymentForm
-          amount={`€${totalPrice}`}
+          amount={totalPrice} 
           onClose={() => setShowPaymentForm(false)}
           onSubmit={() => {
-            alert("Booking confirmed");
-            closeModal();
+            alert("Booking successfully confirmed! Check your email.");
+            closeModal(); 
           }}
         />
       )}
