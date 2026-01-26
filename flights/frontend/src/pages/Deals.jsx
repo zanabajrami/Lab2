@@ -81,97 +81,117 @@ export default function LastMinuteDeals() {
   }, [query, date, maxPrice, sampleDeals]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white p-6 md:p-12">
-      <header className="max-w-7xl mx-auto text-center relative">
-        <h1 className="relative text-2xl md:text-3xl font-bold text-gray-800 mb-2 tracking-wide uppercase drop-shadow-sm overflow-hidden flex items-center justify-center gap-2">
-          <GiCommercialAirplane className="w-7 h-7" />
-          Last Minute Deals
-          <GiCommercialAirplane className="w-7 h-7" />
-          <span className="absolute top-0 left-[-75%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shine pointer-events-none"></span>
-        </h1>
-        <p className="text-gray-700 mb-8 italic transition-colors duration-300 hover:text-blue-900">
-          Discover the best deals for instant flights — book your trip now!
+    <div className="min-h-screen bg-slate-50 p-6 md:p-12 font-sans">
+      <style>{`
+        @keyframes shine {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        .animate-shine {
+          position: absolute;
+          top: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+          animation: shine 4s infinite;
+        }
+      `}</style>
+
+      <header className="max-w-7xl mx-auto text-center mb-12">
+        <div className="inline-flex items-center justify-center gap-3 mb-3">
+          <GiCommercialAirplane className="w-6 h-6 text-blue-600" />
+          <h1 className="relative text-2xl md:text-3xl font-black text-slate-800 tracking-tight overflow-hidden px-2 uppercase">
+            Last Minute Deals
+            <span className="animate-shine"></span>
+          </h1>
+          <GiCommercialAirplane className="w-6 h-6 text-blue-600 flip-horizontal" style={{ transform: 'scaleX(-1)' }} />
+        </div>
+        <p className="text-slate-500 text-base md:text-lg italic font-light">
+          Grab the best prices for your next adventure — <span className="text-blue-600 font-semibold">book instantly!</span>
         </p>
       </header>
 
-      {/* Deals grid */}
-      <main className="max-w-7xl mx-auto mt-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filtered.map((deal) => (
             <article
               key={deal.id}
-              className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+              className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
             >
-              <div className="relative h-52 md:h-64 w-full rounded-2xl overflow-hidden">
+              {/* Image Section */}
+              <div className="relative h-56 overflow-hidden">
                 <img
                   src={deal.image}
                   alt={deal.title}
-                  loading="eager"
-                  className="object-cover w-full h-full transform hover:scale-105 transition duration-500"
+                  className="object-cover w-full h-full transform group-hover:scale-105 transition duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{deal.title}</h3>
-                  <p className="text-sm flex items-center gap-1 opacity-90">
-                    <MapPinned className="w-4 h-4 text-blue-500" />
-                    {deal.from} ➝
-                    <MapPlus className="w-4 h-4 text-blue-500" />
-                    {deal.title}
-                  </p>
-
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                
+                {/* Price Badge */}
+                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-lg border border-white/20">
+                   <span className="text-[10px] font-bold text-slate-400 block leading-none text-right">FROM</span>
+                   <span className="text-lg font-extrabold text-blue-600">
+                    {deal.currency} {deal.price}
+                   </span>
                 </div>
-                <div className="absolute right-4 top-4 bg-white/30 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-base font-semibold shadow-md transform transition duration-300 hover:scale-110 hover:bg-white/50">
-                  {deal.currency} {deal.price}
+
+                <div className="absolute bottom-4 left-5">
+                  <h3 className="text-xl font-bold text-white leading-tight">{deal.title}</h3>
+                  <div className="flex items-center gap-2 text-blue-100 text-xs mt-1">
+                    <MapPinned className="w-3.5 h-3.5" />
+                    <span>{deal.from}</span>
+                    <span className="opacity-50">→</span>
+                    <span className="bg-blue-500/40 px-2 py-0.5 rounded-md backdrop-blur-sm">{deal.country}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-4 flex-1 flex flex-col justify-between">
-                <div className="flex flex-wrap gap-4 text-xs text-slate-600 mt-2 items-center">
-                  <span className="flex items-center gap-1">
-                    <PlaneTakeoff className="w-4 h-4 text-blue-900" />
-                    {deal.departure}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <PlaneLanding className="w-4 h-4 text-blue-900" />
-                    {deal.arrival}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4 text-blue-900" />
-                    {deal.duration}
-                  </span>
+              {/* Flight Details */}
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="flex items-center justify-between py-3 border-b border-slate-50 mb-5">
+                  <div className="text-center">
+                    <p className="text-[9px] text-slate-400 uppercase font-bold mb-1">Takeoff</p>
+                    <div className="flex items-center gap-1 text-slate-700 font-bold text-sm">
+                      <PlaneTakeoff className="w-3.5 h-3.5 text-blue-500" /> {deal.departure}
+                    </div>
+                  </div>
+                  <div className="h-8 w-px bg-slate-100"></div>
+                  <div className="text-center">
+                    <p className="text-[9px] text-slate-400 uppercase font-bold mb-1">Duration</p>
+                    <div className="flex items-center gap-1 text-slate-700 font-bold text-sm">
+                      <Clock className="w-3.5 h-3.5 text-blue-500" /> {deal.duration}
+                    </div>
+                  </div>
+                  <div className="h-8 w-px bg-slate-100"></div>
+                  <div className="text-center">
+                    <p className="text-[9px] text-slate-400 uppercase font-bold mb-1">Landing</p>
+                    <div className="flex items-center gap-1 text-slate-700 font-bold text-sm">
+                      <PlaneLanding className="w-3.5 h-3.5 text-blue-500" /> {deal.arrival}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between relative">
+                <div className="mt-auto flex items-center justify-between gap-3">
                   <button
-                    className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md transition transform duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105"
+                    className="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-bold text-sm transition-all hover:bg-blue-700 hover:shadow-md active:scale-95"
                     onClick={() => window.location.href = '/flights'}
                   >
-                  Explore Flights
+                    Explore Flights
                   </button>
 
-                  {/* Shiko më shumë me tooltip */}
-                  <div className="relative group">
-                    <button className="text-sm text-slate-500 underline hover:text-slate-700">
-                      More
+                  <div className="relative group/tooltip">
+                    <button className="p-2.5 rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100">
+                      <Check className="w-5 h-5" />
                     </button>
-                    <div className="absolute bottom-full mb-2 left-1/1 -translate-x-1/2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                      <p className="flex items-center gap-2">
-                        <Check className="w-5 h-5 text-blue-500" />
-                        Ticket for 1 person
-                      </p>
-
-                      <p className="flex items-center gap-2">
-                        <Check className="w-5 h-5 text-blue-500" />
-                        10 kg baggage
-                      </p>
-
-                      <p className="flex items-center gap-2">
-                        <Check className="w-5 h-5 text-blue-500" />
-                        All taxes included
-                      </p>
-
+                    
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full right-0 mb-3 w-44 bg-slate-800 text-white rounded-xl p-3 text-[11px] shadow-2xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-y-0 translate-y-2 transition-all duration-300 z-20">
+                      <div className="space-y-1.5">
+                        <p className="flex items-center gap-2"><Check className="w-3 h-3 text-green-400" /> 1 Passenger Ticket</p>
+                        <p className="flex items-center gap-2"><Check className="w-3 h-3 text-green-400" /> 10kg Cabin Bag</p>
+                        <p className="flex items-center gap-2"><Check className="w-3 h-3 text-green-400" /> All Taxes Included</p>
+                      </div>
+                      <div className="absolute top-full right-4 border-4 border-transparent border-t-slate-800"></div>
                     </div>
                   </div>
                 </div>
@@ -181,16 +201,15 @@ export default function LastMinuteDeals() {
         </div>
       </main>
 
-      {/* Scroll To Top Button */}
+      {/* Back to Top */}
       {showTopButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg border border-blue-200 hover:bg-blue-600 transition-all z-50"
+          className="fixed bottom-6 right-6 w-12 h-12 bg-white text-blue-600 rounded-full flex items-center justify-center shadow-xl border border-slate-100 hover:bg-blue-600 hover:text-white transition-all duration-300 z-50 group"
         >
-          <ChevronUp size={24} />
+          <ChevronUp size={24} className="group-hover:-translate-y-1 transition-transform" />
         </button>
       )}
-
     </div>
   );
 }
