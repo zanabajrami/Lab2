@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-    UsersIcon,
-    CurrencyEuroIcon,
-    ArrowPathIcon,
-    EllipsisVerticalIcon
-} from "@heroicons/react/24/outline";
+import {UsersIcon, CurrencyEuroIcon, ArrowPathIcon, EllipsisVerticalIcon} from "@heroicons/react/24/outline";
 import { IoTicketOutline } from "react-icons/io5";
 
 import NewUsersChart from "../../components/dashboard/NewUsersChart";
@@ -15,7 +10,7 @@ import EditUser from "../../components/dashboard/EditUser";
 export default function Dashboard() {
     const token = localStorage.getItem("token");
     const [stats, setStats] = useState({ users: 0, bookings: 0, revenue: 0 });
-    const [allUsers, setAllUsers] = useState([]); // Ruajmë të gjithë përdoruesit për grafikun
+    const [allUsers, setAllUsers] = useState([]); 
     const [latestUsers, setLatestUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingUser, setEditingUser] = useState(null);
@@ -61,7 +56,7 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        loadDashboardData(); // eslint-disable-next-line react-hooks/exhaustive-deps
+        loadDashboardData(); 
     }, []);
 
     useEffect(() => {
@@ -90,7 +85,6 @@ export default function Dashboard() {
 
                 {/* --- STAT CARDS --- */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    {/* Kartela e parë - E bardhë me theks Blu */}
                     <KPICard
                         title="Total Users"
                         value={stats.users.toLocaleString()}
@@ -102,7 +96,6 @@ export default function Dashboard() {
                         className="bg-white border border-slate-200"
                     />
 
-                    {/* Kartela e mesit - Slate 950 (Dark) */}
                     <KPICard
                         title="Total Bookings"
                         value={stats.bookings.toLocaleString()}
@@ -115,7 +108,6 @@ export default function Dashboard() {
                         className="bg-slate-950 text-white border border-slate-800 shadow-xl shadow-blue-900/10"
                     />
 
-                    {/* Kartela e tretë - E bardhë me theks Emerald/Green */}
                     <KPICard
                         title="Total Revenue"
                         value={`€${stats.revenue.toLocaleString()}`}
@@ -194,7 +186,7 @@ export default function Dashboard() {
                 <EditUser
                     user={editingUser}
                     onClose={() => setEditingUser(null)}
-                    onSuccess={loadDashboardData} // Këtu përdorim funksionin tënd të refresh-it
+                    onSuccess={loadDashboardData}
                     token={token}
                 />
 
