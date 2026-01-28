@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { MapPinned, PlaneTakeoff, PlaneLanding, Clock, Check, ChevronUp, Search, X } from "lucide-react";
+import {Check, ChevronUp, Search, X } from "lucide-react";
 import { GiCommercialAirplane } from "react-icons/gi";
 
 import budapestImage from "../images/budapest.webp";
