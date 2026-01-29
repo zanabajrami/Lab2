@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const generateFlightVariants = (flight, count = 5, intervalHours = 2) => {
+export const generateFlightVariants = (flight, count = 2, intervalHours = 2) => {
   if (!flight.oneWay) return [];
   const variants = [];
   for (let i = 0; i < count; i++) {

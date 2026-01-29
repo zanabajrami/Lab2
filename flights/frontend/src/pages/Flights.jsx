@@ -8,7 +8,7 @@ import FlightCard from "../components/flights/FlightCard";
 import { generateFlightVariants, useBodyScrollLock } from "../components/flights/FlightUtils";
 import { baseFlights } from "../data/FlightsData";
 
-const flights = baseFlights.flatMap(f => generateFlightVariants(f, 5, 2));
+const flights = baseFlights.flatMap(f => generateFlightVariants(f));
 
 const FlightsSection = () => {
   const [isReturn, setIsReturn] = useState(false);
@@ -133,7 +133,7 @@ const FlightsSection = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          flightId: modalFlight.id, 
+          flightId: modalFlight.id,
           departureDate,
           returnDate: modalFlight.isReturn ? returnDate : null,
           passengers: passengerInfo,
@@ -170,27 +170,21 @@ const FlightsSection = () => {
       </div>
 
       <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {currentFlights.map(f => (
-          <FlightCard
-            key={f.id}
-            flight={f}
-            openModal={openModal}
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-        ))}
-      </div>
-
-      <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {currentFlights.length > 0 ? currentFlights.map(f => (
-          <FlightCard
-            key={f.id}
-            flight={f}
-            openModal={openModal}
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-        )) : <p className="col-span-full text-center text-gray-500">No flights found</p>}
+        {currentFlights.length > 0 ? (
+          currentFlights.map(f => (
+            <FlightCard
+              key={f.id}
+              flight={f}
+              openModal={openModal}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            No flights found
+          </p>
+        )}
       </div>
 
       {/* Pagination */}
