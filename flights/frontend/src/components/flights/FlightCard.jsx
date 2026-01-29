@@ -1,5 +1,6 @@
 import React from "react";
 import { Plane, Heart } from "lucide-react";
+import { airlineLogos } from "../../data/FlightsData";
 
 const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
   const isReturn = !!flight.return;
@@ -22,7 +23,11 @@ const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
       </div>
       <div className="p-3 pb-1">
         <div className="flex items-center justify-between mb-4">
-          <img src={flight.airline} alt="Airline Logo" className="w-16 h-16 object-contain" />
+          <img
+            src={airlineLogos[flight.airline]}
+            alt={flight.airline}
+            className="w-16 h-16 object-contain"
+          />
         </div>
         <div className="flex items-center justify-between gap-4 -mt-5">
           <div>
