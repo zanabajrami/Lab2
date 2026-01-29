@@ -108,6 +108,54 @@ const FlightsSection = () => {
     return pages;
   };
 
+  const handleConfirmPayment = async () => {
+    try {
+      // VALIDIM PARA SE ME THIRR API
+      if (
+        !Array.isArray(passengerInfo) ||
+        passengerInfo.length !== persons ||
+        passengerInfo.some(p =>
+          !p.firstName ||
+          !p.lastName ||
+          !p.email ||
+          !p.phone ||
+          !p.passportNumber ||
+          !p.dob ||
+          !p.nationality
+        )
+      ) {
+        alert("Passenger information is incomplete!");
+        console.log("DEBUG passengerInfo:", passengerInfo);
+        return;
+      }
+
+      const res = await fetch("http://localhost:8800/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          flightId: modalFlight.id, 
+          departureDate,
+          returnDate: modalFlight.isReturn ? returnDate : null,
+          passengers: passengerInfo,
+          totalPrice
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Booking failed");
+      }
+
+      alert("Booking successfully confirmed!");
+      closeModal();
+
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
   return (
     <section className="py-20 w-full -mt-10 flex flex-col items-center">
       <div className="flex gap-4 mb-6">
@@ -286,9 +334,9 @@ const FlightsSection = () => {
                   }
                 }}
                 className={`w-full py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl ${((modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
-                    (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex])))
-                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
-                    : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
+                  (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex])))
+                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                  : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
                   }`}
               >
                 {modalStep === 1 ? "Continue to Details" : (currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm & Pay Now")}
@@ -298,14 +346,11 @@ const FlightsSection = () => {
         </div>
       )}
 
-      {showPaymentForm && (
+      {showPaymentForm && passengerInfo.length === persons && (
         <PaymentForm
-          amount={totalPrice} 
+          amount={totalPrice}
           onClose={() => setShowPaymentForm(false)}
-          onSubmit={() => {
-            alert("Booking successfully confirmed! Check your email.");
-            closeModal(); 
-          }}
+          onSubmit={handleConfirmPayment}
         />
       )}
 
