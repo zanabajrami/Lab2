@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.routes.js";
 import usersRoutes from "./routes/users.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import messagesRoutes from "./routes/messages.routes.js";
+import bookingRoutes from "./routes/booking.routes.js";
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 const PORT = process.env.PORT || 8800;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
