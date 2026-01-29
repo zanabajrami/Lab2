@@ -19,7 +19,7 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
     const handleExpiryChange = (e) => {
         let value = e.target.value.replace(/\D/g, ""); // Heq gjithçka që s'është numër
         if (value.length > 4) value = value.substring(0, 4);
-        
+
         if (value.length >= 3) {
             setExpiry(`${value.substring(0, 2)}/${value.substring(2, 4)}`);
         } else {
@@ -29,7 +29,7 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (onSubmit) onSubmit();
+        onSubmit();
     };
 
     useEffect(() => {
@@ -72,13 +72,13 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                                     <CreditCard size={18} />
                                 </span>
-                               <input 
-                                    type="text" 
-                                    placeholder="0000 0000 0000 0000" 
+                                <input
+                                    type="text"
+                                    placeholder="0000 0000 0000 0000"
                                     value={cardNumber}
                                     onChange={handleCardNumberChange}
-                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-mono font-bold text-slate-700" 
-                                    required 
+                                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-mono font-bold text-slate-700"
+                                    required
                                 />
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1 italic font-black text-[10px] text-slate-300">
                                     <span>VISA</span>
@@ -91,15 +91,15 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
                         <div className="flex gap-4">
                             <div className="w-1/2 space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-wider">Expiry Date</label>
-                               <div className="relative">
+                                <div className="relative">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"><Calendar size={18} /></span>
-                                    <input 
-                                        type="text" 
-                                        placeholder="MM/YY" 
+                                    <input
+                                        type="text"
+                                        placeholder="MM/YY"
                                         value={expiry}
                                         onChange={handleExpiryChange}
-                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold text-slate-700" 
-                                        required 
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold text-slate-700"
+                                        required
                                     />
                                 </div>
                             </div>
@@ -109,14 +109,14 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                                         <Hash size={18} />
                                     </span>
-                                   <input 
-                                        type="password" 
+                                    <input
+                                        type="password"
                                         maxLength="3"
                                         placeholder="***"
                                         value={cvc}
                                         onChange={(e) => setCvc(e.target.value.replace(/\D/g, ""))}
-                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold text-slate-700" 
-                                        required 
+                                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-500 focus:bg-white outline-none transition-all font-bold text-slate-700"
+                                        required
                                     />
                                 </div>
                             </div>
@@ -131,13 +131,13 @@ function PaymentForm({ amount = "", onClose, onSubmit }) {
                         </div>
 
                         {/* Action Button */}
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="w-full py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-700 transition-all active:scale-[0.98] shadow-xl shadow-blue-200 text-lg flex items-center justify-center gap-2"
                         >
                             Complete Payment
                         </button>
-                        
+
                         <p className="text-center text-[10px] text-slate-400 px-4 leading-relaxed">
                             By clicking "Complete Payment", you agree to our terms and conditions and our privacy policy.
                         </p>
