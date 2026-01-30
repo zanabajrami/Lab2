@@ -32,6 +32,7 @@ import AdminRoute from "./routes/AdminRoute";
 import Users from "./pages/admin/Users";
 import Layout from "./pages/admin/Layout";
 import Settings from "./pages/admin/Settings";
+import FlightsList from "./pages/admin/Flights";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -104,6 +105,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<Users />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="flights-list" element={<FlightsList />} />
               </Route>
 
             </Routes>
