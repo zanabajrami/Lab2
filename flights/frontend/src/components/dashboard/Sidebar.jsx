@@ -3,12 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   UsersIcon,
   CalendarDaysIcon,
-  CurrencyDollarIcon,
   HomeIcon,
   ChartBarIcon,
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon
 } from "@heroicons/react/24/outline";
+import { Plane, TicketsPlane, LayoutDashboard, Users, Settings} from "lucide-react";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -30,33 +30,34 @@ export default function Sidebar() {
         {/* Navigation Items */}
         <ul className="space-y-1.5 flex-1">
           <SidebarItem
-            icon={<HomeIcon className="w-5 h-5" />}
+            icon={<LayoutDashboard className="w-5 h-5" />}
             label="Dashboard"
             active={location.pathname === "/admin/"}
             onClick={() => navigate("/admin/")}
           />
 
           <SidebarItem
-            icon={<UsersIcon className="w-5 h-5" />}
+            icon={<Users className="w-5 h-5" />}
             label="Users"
             active={location.pathname === "/admin/users"}
             onClick={() => navigate("/admin/users")}
           />
 
           <SidebarItem
-            icon={<CalendarDaysIcon className="w-5 h-5" />}
+            icon={<Plane className="w-5 h-5" />}
+            label="Flights"
+            active={location.pathname === "/admin/flights-list"}
+            onClick={() => navigate("/admin/flights-list")}
+          />
+
+          <SidebarItem
+            icon={<TicketsPlane className="w-5 h-5" />}
             label="Bookings"
             onClick={() => navigate("/admin/bookings")}
           />
 
           <SidebarItem
-            icon={<CurrencyDollarIcon className="w-5 h-5" />}
-            label="Revenue"
-            onClick={() => navigate("/admin/revenue")}
-          />
-
-          <SidebarItem
-            icon={<Cog6ToothIcon className="w-5 h-5" />}
+            icon={<Settings className="w-5 h-5" />}
             label="Settings"
             active={location.pathname === "/admin/settings"}
             onClick={() => navigate("/admin/settings")}
@@ -80,18 +81,16 @@ function SidebarItem({ icon, label, active = false, onClick }) {
     <li>
       <button
         onClick={onClick}
-        className={`flex items-center justify-center sm:justify-start w-full p-3 rounded-xl transition-all duration-200 group ${
-          active
-            ? "bg-[#040628ff] text-white shadow-md shadow-blue-100"
-            : "text-slate-600 hover:bg-blue-50 hover:text-blue-700"
-        }`}
+        className={`flex items-center justify-center sm:justify-start w-full p-3 rounded-xl transition-all duration-200 group ${active
+          ? "bg-[#040628ff] text-white shadow-md shadow-blue-100"
+          : "text-slate-600 hover:bg-blue-50 hover:text-blue-700"
+          }`}
       >
         <span
-          className={`${
-            active
-              ? "text-white"
-              : "text-slate-400 group-hover:text-blue-600"
-          } transition-colors duration-200`}
+          className={`${active
+            ? "text-white"
+            : "text-slate-400 group-hover:text-blue-600"
+            } transition-colors duration-200`}
         >
           {icon}
         </span>
