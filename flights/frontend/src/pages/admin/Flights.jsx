@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Trash2, Edit3 } from "lucide-react";
+import { Trash2, Edit3} from "lucide-react";
 
 export default function Flights() {
     const [flights, setFlights] = useState([]);
     const [filteredFlights, setFilteredFlights] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [, setError] = useState("");
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const limit = 10;
     const [totalPages, setTotalPages] = useState(1);
 
-    // Funksion për të kthyer numrat e ditëve në emra (p.sh. "1,2" -> "Mon, Tue")
     const formatDays = (daysString) => {
         if (!daysString) return "N/A";
         const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -72,7 +71,7 @@ export default function Flights() {
 
     return (
         <div className="min-h-screen bg-slate-50 p-4 md:p-8 text-slate-950 font-sans">
-            <div className="max-w-[1600px] mx-auto"> {/* Zgjeruar pak për të zënë kolonat e reja */}
+            <div className="max-w-[1600px] mx-auto"> 
 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
@@ -158,7 +157,7 @@ export default function Flights() {
                                         </td>
                                         <td className="p-4 text-right whitespace-nowrap">
                                             <div className="flex justify-end gap-2">
-                                                {/* Butoni Edit */}
+                                                {/* Edit */}
                                                 <button
                                                     onClick={() => window.location.href = `/admin/flights-edit/${f.id}`}
                                                     className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
@@ -167,7 +166,7 @@ export default function Flights() {
                                                     <Edit3 size={18} />
                                                 </button>
 
-                                                {/* Butoni Delete */}
+                                                {/* Delete */}
                                                 <button
                                                     onClick={() => handleDelete(f.id)}
                                                     className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"

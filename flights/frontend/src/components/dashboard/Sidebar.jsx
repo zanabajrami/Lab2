@@ -1,13 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  UsersIcon,
-  CalendarDaysIcon,
-  HomeIcon,
-  ChartBarIcon,
-  Cog6ToothIcon,
-  ArrowLeftOnRectangleIcon
-} from "@heroicons/react/24/outline";
+import { ChartBarIcon, ArrowLeftOnRectangleIcon} from "@heroicons/react/24/outline";
 import { Plane, TicketsPlane, LayoutDashboard, Users, Settings} from "lucide-react";
 
 export default function Sidebar() {
