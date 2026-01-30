@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronUp, ArrowRight, X } from "lucide-react";
+import { ChevronUp, ArrowRight, X, Plane } from "lucide-react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/flights/Calendar";
@@ -158,15 +158,46 @@ const FlightsSection = () => {
 
   return (
     <section className="py-20 w-full -mt-10 flex flex-col items-center">
-      <div className="flex gap-4 mb-6">
-        <button onClick={() => setIsReturn(false)} className={`px-6 py-2 rounded-xl font-semibold transition ${!isReturn ? "bg-blue-600 text-white" : "bg-white text-gray-800 border border-gray-300"}`}>OneWay</button>
-        <button onClick={() => setIsReturn(true)} className={`px-6 py-2 rounded-xl font-semibold transition ${isReturn ? "bg-blue-600 text-white" : "bg-white text-gray-800 border border-gray-300"}`}>Return</button>
+      <div className="flex p-1.5 bg-white border border-gray-200 rounded-2xl shadow-sm mb-8">
+        <button
+          onClick={() => setIsReturn(false)}
+          className={`px-8 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center gap-2 ${!isReturn ? "bg-blue-600 text-white shadow-lg shadow-blue-200" : "bg-transparent text-gray-500 hover:text-gray-700"}`}
+        >
+          <Plane size={18} className={!isReturn ? "rotate-45" : ""} />
+          One Way
+        </button>
+        <button
+          onClick={() => setIsReturn(true)}
+          className={`px-8 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center gap-2 ${isReturn ? "bg-blue-600 text-white shadow-lg shadow-blue-200" : "bg-transparent text-gray-500 hover:text-gray-700"}`}
+        >
+          <ArrowRight size={18} className={isReturn ? "rotate-0" : ""} />
+          Return Trip
+        </button>
       </div>
 
       <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-        <CustomDropdown options={fromCities} selected={fromFilter} setSelected={(val) => { setFromFilter(val); setCurrentPage(1); }} placeholder="From" />
-        <CustomDropdown options={toCities} selected={toFilter} setSelected={(val) => { setToFilter(val); setCurrentPage(1); }} placeholder="To" />
-        <button onClick={() => { setFromFilter(""); setToFilter(""); setSearchParams({}); }} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 shadow-sm">Reset Filters</button>
+        <CustomDropdown
+          options={fromCities}
+          selected={fromFilter}
+          setSelected={(val) => { setFromFilter(val); setCurrentPage(1); }}
+          placeholder="From"
+          className="min-w-[140px] sm:min-w-[180px]" 
+        />
+
+        <CustomDropdown
+          options={toCities}
+          selected={toFilter}
+          setSelected={(val) => { setToFilter(val); setCurrentPage(1); }}
+          placeholder="To"
+          className="min-w-[140px] sm:min-w-[180px]"
+        />
+
+        <button
+          onClick={() => { setFromFilter(""); setToFilter(""); setSearchParams({}); }}
+          className="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 hover:shadow transition-all duration-200 shadow-sm font-medium"
+        >
+          Reset Filters
+        </button>
       </div>
 
       <div className="w-full max-w-[1400px] px-4 grid grid-cols-1 sm:grid-cols-2 gap-8">
