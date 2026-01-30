@@ -10,6 +10,7 @@ import usersRoutes from "./routes/users.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import messagesRoutes from "./routes/messages.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
+import flightsRoutes from "./routes/flights.routes.js";
 
 dotenv.config();
 
@@ -62,6 +63,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/flights", flightsRoutes);
 
 const PORT = process.env.PORT || 8800;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
