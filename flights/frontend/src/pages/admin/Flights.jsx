@@ -26,7 +26,7 @@ export default function Flights() {
             try {
                 setLoading(true);
                 const token = localStorage.getItem("token");
-                const res = await axios.get(`http://localhost:8800/api/flights?limit=1000`, {
+                const res = await axios.get(`http://localhost:8800/api/flights`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const sorted = res.data.data.sort((a, b) => a.id - b.id);
