@@ -3,19 +3,17 @@ import db from "../config/db.js";
 /* READ*/
 export const getFlights = async (req, res) => {
     try {
-        const page = Number(req.query.page) || 500;
-        let limit = Number(req.query.limit);  // merr nga query
+        const page = Number(req.query.page) || 1;
+        let limit = Number(req.query.limit);
         const offset = (page - 1) * limit;
 
-        // total rows
         const [[{ total }]] = await db.query("SELECT COUNT(*) AS total FROM flights");
 
-        // nëse limit nuk është dhënë, kthe krejt fluturimet
         if (!limit) {
             const [rows] = await db.query(
                 `SELECT id, flight_code, airline, origin, from_code,
                  destination, to_code, departure_time, arrival_time,
-                 duration, price, is_return
+                 duration, price, is_return, valid_days
                  FROM flights
                  ORDER BY id DESC`
             );
@@ -26,11 +24,10 @@ export const getFlights = async (req, res) => {
             });
         }
 
-        // pagination normal
         const [rows] = await db.query(
             `SELECT id, flight_code, airline, origin, from_code,
              destination, to_code, departure_time, arrival_time,
-             duration, price, is_return
+             duration, price, is_return, valid_days
              FROM flights
              ORDER BY id DESC
              LIMIT ? OFFSET ?`,
