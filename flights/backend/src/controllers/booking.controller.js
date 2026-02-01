@@ -61,10 +61,11 @@ export const createBooking = async (req, res) => {
         for (const p of passengers) {
             await connection.query(
                 `INSERT INTO passengers 
-         (booking_id, first_name, last_name, email, phone, passport_number, dob, nationality)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        (booking_id, booking_code, first_name, last_name, email, phone, passport_number, dob, nationality)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     bookingId,
+                    bookingCode,
                     p.firstName,
                     p.lastName,
                     p.email,
@@ -110,7 +111,7 @@ export const getBookings = async (req, res) => {
             JOIN flights f ON b.flight_id = f.id
             ORDER BY b.created_at DESC
         `;
-        
+
         const [rows] = await db.query(query);
         res.json(rows);
     } catch (error) {
@@ -153,7 +154,7 @@ export const getBookingById = async (req, res) => {
 export const deleteBooking = async (req, res) => {
     try {
         const [result] = await db.query("DELETE FROM bookings WHERE id = ?", [req.params.id]);
-        
+
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Booking not found" });
         }
@@ -176,5 +177,33 @@ export const cancelBooking = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error cancelling booking" });
+    }
+};
+
+// GET ALL PASSENGERS FOR ADMIN
+export const getAllPassengers = async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                p.id,
+                p.booking_code,
+                p.first_name,
+                p.last_name,
+                p.email,
+                p.phone,
+                p.passport_number,
+                p.nationality,
+                p.dob,
+                b.status AS booking_status
+            FROM passengers p
+            JOIN bookings b ON p.booking_id = b.id
+            ORDER BY p.id DESC
+        `;
+
+        const [rows] = await db.query(query);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching passengers:", error);
+        res.status(500).json({ message: "Server error while fetching passengers" });
     }
 };
