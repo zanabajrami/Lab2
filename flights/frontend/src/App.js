@@ -34,6 +34,7 @@ import Layout from "./pages/admin/Layout";
 import Settings from "./pages/admin/Settings";
 import FlightsList from "./pages/admin/Flights";
 import Bookings from "./pages/admin/Bookings";
+import Passengers from "./pages/admin/Passengers";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -108,6 +109,7 @@ function App() {
               <Route path="settings" element={<Settings />} />
               <Route path="flights-list" element={<FlightsList />} />
               <Route path="bookings" element={<Bookings />} />
+              <Route path="passengers" element={<Passengers />} />     
             </Route>
 
           </Routes>

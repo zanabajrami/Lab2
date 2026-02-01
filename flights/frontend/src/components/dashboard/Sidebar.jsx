@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChartBarIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Plane, TicketsPlane, LayoutDashboard, Users, Settings } from "lucide-react";
+import { Plane, TicketsPlane, LayoutDashboard, Users, Settings} from "lucide-react";
+import { TbCalendarUser } from "react-icons/tb";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -48,6 +49,13 @@ export default function Sidebar() {
             label="Bookings"
             active={location.pathname === "/admin/bookings"}
             onClick={() => navigate("/admin/bookings")}
+          />
+
+          <SidebarItem
+            icon={<TbCalendarUser className="w-5 h-5" />}
+            label="Passengers"
+            active={location.pathname === "/admin/passengers"}
+            onClick={() => navigate("/admin/passengers")}
           />
 
           <SidebarItem
