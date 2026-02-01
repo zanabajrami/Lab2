@@ -96,30 +96,85 @@ export const createBooking = async (req, res) => {
 
 // READ ALL
 export const getBookings = async (req, res) => {
-    const [rows] = await db.query("SELECT * FROM bookings ORDER BY created_at DESC");
-    res.json(rows);
-};
-
-// READ ONE
-export const getBookingById = async (req, res) => {
-    const [rows] = await db.query(
-        "SELECT * FROM bookings WHERE id = ?",
-        [req.params.id]
-    );
-
-    if (rows.length === 0) {
-        return res.status(404).json({ message: "Booking not found" });
+    try {
+        const query = `
+            SELECT 
+                b.*, 
+                f.flight_code, 
+                f.airline, 
+                f.origin, 
+                f.from_code, 
+                f.destination, 
+                f.to_code
+            FROM bookings b
+            JOIN flights f ON b.flight_id = f.id
+            ORDER BY b.created_at DESC
+        `;
+        
+        const [rows] = await db.query(query);
+        res.json(rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching bookings" });
     }
-
-    res.json(rows[0]);
 };
 
-// CANCEL BOOKING
-export const cancelBooking = async (req, res) => {
-    await db.query(
-        "UPDATE bookings SET status = 'cancelled' WHERE id = ?",
-        [req.params.id]
-    );
+// READ ONE 
+export const getBookingById = async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                b.*, 
+                f.flight_code, 
+                f.airline, 
+                f.origin, 
+                f.from_code, 
+                f.destination, 
+                f.to_code
+            FROM bookings b
+            JOIN flights f ON b.flight_id = f.id
+            WHERE b.id = ?
+        `;
 
-    res.json({ message: "Booking cancelled" });
+        const [rows] = await db.query(query, [req.params.id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching booking details" });
+    }
+};
+
+// DELETE BOOKING (Fshirja fizike nga databaza)
+export const deleteBooking = async (req, res) => {
+    try {
+        const [result] = await db.query("DELETE FROM bookings WHERE id = ?", [req.params.id]);
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        res.json({ message: "Booking deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error deleting booking" });
+    }
+};
+
+// CANCEL BOOKING (Update status)
+export const cancelBooking = async (req, res) => {
+    try {
+        await db.query(
+            "UPDATE bookings SET status = 'cancelled' WHERE id = ?",
+            [req.params.id]
+        );
+        res.json({ message: "Booking status updated to cancelled" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error cancelling booking" });
+    }
 };
