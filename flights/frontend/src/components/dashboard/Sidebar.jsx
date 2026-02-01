@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChartBarIcon, ArrowLeftOnRectangleIcon} from "@heroicons/react/24/outline";
-import { Plane, TicketsPlane, LayoutDashboard, Users, Settings} from "lucide-react";
+import { ChartBarIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import { Plane, TicketsPlane, LayoutDashboard, Users, Settings } from "lucide-react";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -46,6 +46,7 @@ export default function Sidebar() {
           <SidebarItem
             icon={<TicketsPlane className="w-5 h-5" />}
             label="Bookings"
+            active={location.pathname === "/admin/bookings"}
             onClick={() => navigate("/admin/bookings")}
           />
 

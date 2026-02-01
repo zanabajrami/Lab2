@@ -33,6 +33,7 @@ import Users from "./pages/admin/Users";
 import Layout from "./pages/admin/Layout";
 import Settings from "./pages/admin/Settings";
 import FlightsList from "./pages/admin/Flights";
+import Bookings from "./pages/admin/Bookings";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -70,86 +71,87 @@ function App() {
 
   return (
     <Router>
-        <div className="flex flex-col min-h-screen">
-          <Header
-            openLogin={() => setShowLogin(true)}
-            openSignup={() => setShowSignup(true)}
-            openContact={() => setShowContact(true)}
+      <div className="flex flex-col min-h-screen">
+        <Header
+          openLogin={() => setShowLogin(true)}
+          openSignup={() => setShowSignup(true)}
+          openContact={() => setShowContact(true)}
+          userData={user}
+          setUserData={setUser}
+        />
+        <CookiesModal />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/deals" element={<Deals />} />
+            <Route path="/destinations" element={<Destinations />} />
+            <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path="/baggage" element={<Baggage />} />
+            <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/cookies" element={<Cookies />} />
+            <Route path="/passager-rights" element={<PassagerRights />} />
+            <Route path="/airport-guide" element={<AirportGuide />} />
+            <Route path="/travel-tips" element={<TravelTips />} />
+            <Route path="/admin" element={
+              <AdminRoute>
+                <Layout user={user} />
+              </AdminRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="flights-list" element={<FlightsList />} />
+              <Route path="bookings" element={<Bookings />} />
+            </Route>
+
+          </Routes>
+        </main>
+
+        <Footer onShowContact={() => setShowContact(true)} />
+
+        {showLogin && (
+          <Login
+            isOpen={showLogin}
+            onClose={() => setShowLogin(false)}
+            onSwitchToRegister={handleSwitchToSignup}
+            onLoginSuccess={(userData) => {
+              setUser(userData);
+              localStorage.setItem("user", JSON.stringify(userData)); // ruaj localStorage
+              setShowLogin(false);
+              setShowAccount(true);
+            }}
+          />
+        )}
+
+        {showSignup && (
+          <Signup
+            isOpen={showSignup}
+            onClose={() => setShowSignup(false)}
+            onSwitchToLogin={handleSwitchToLogin}
+            onSignupSuccess={handleSignupSuccess}
+          />
+        )}
+
+        {showContact && (
+          <Contact onClose={() => setShowContact(false)} />
+        )}
+
+        {showAccount && user && (
+          <Account
+            isOpen={showAccount}
+            onClose={() => setShowAccount(false)}
             userData={user}
             setUserData={setUser}
           />
-          <CookiesModal />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/membership" element={<Membership />} />
-              <Route path="/deals" element={<Deals />} />
-              <Route path="/destinations" element={<Destinations />} />
-              <Route path="/flights" element={<Flights favorites={favorites} setFavorites={setFavorites} />} />
-              <Route path="/favorites" element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
-              <Route path="/baggage" element={<Baggage />} />
-              <Route path="/faq" element={<Faq onShowContact={() => setShowContact(true)} />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/cookies" element={<Cookies />} />
-              <Route path="/passager-rights" element={<PassagerRights />} />
-              <Route path="/airport-guide" element={<AirportGuide />} />
-              <Route path="/travel-tips" element={<TravelTips />} />
-              <Route path="/admin" element={
-                <AdminRoute>
-                  <Layout user={user} />
-                </AdminRoute>
-              }>
-                <Route index element={<Dashboard />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="users" element={<Users />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="flights-list" element={<FlightsList />} />
-              </Route>
+        )}
 
-            </Routes>
-          </main>
-
-          <Footer onShowContact={() => setShowContact(true)} />
-
-          {showLogin && (
-            <Login
-              isOpen={showLogin}
-              onClose={() => setShowLogin(false)}
-              onSwitchToRegister={handleSwitchToSignup}
-              onLoginSuccess={(userData) => {
-                setUser(userData);
-                localStorage.setItem("user", JSON.stringify(userData)); // ruaj localStorage
-                setShowLogin(false);
-                setShowAccount(true);
-              }}
-            />
-          )}
-
-          {showSignup && (
-            <Signup
-              isOpen={showSignup}
-              onClose={() => setShowSignup(false)}
-              onSwitchToLogin={handleSwitchToLogin}
-              onSignupSuccess={handleSignupSuccess}
-            />
-          )}
-
-          {showContact && (
-            <Contact onClose={() => setShowContact(false)} />
-          )}
-
-          {showAccount && user && (
-            <Account
-              isOpen={showAccount}
-              onClose={() => setShowAccount(false)}
-              userData={user}
-              setUserData={setUser}
-            />
-          )}
-
-        </div>
+      </div>
     </Router>
   );
 }
