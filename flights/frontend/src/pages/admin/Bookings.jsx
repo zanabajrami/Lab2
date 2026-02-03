@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import {Trash2, Search, Loader2, ChevronLeft, ChevronRight, User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, Fingerprint} from "lucide-react";
+import { Trash2, Search, Loader2, ChevronLeft, ChevronRight, User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, Fingerprint } from "lucide-react";
+import EditBooking from "../../components/dashboard/EditBooking";
 
 export default function Bookings() {
     const [bookings, setBookings] = useState([]);
@@ -9,6 +10,8 @@ export default function Bookings() {
     const [page, setPage] = useState(1);
     const itemsPerPage = 6;
     const token = localStorage.getItem("token");
+    const [editBooking, setEditBooking] = useState(null);
+    const [saving, setSaving] = useState(false);
 
     const fetchBookings = useCallback(async () => {
         try {
@@ -36,6 +39,36 @@ export default function Bookings() {
             setBookings(prev => prev.filter(b => b.id !== id));
         } catch (err) {
             alert("Delete failed.");
+        }
+    };
+
+    const handleUpdate = async () => {
+        try {
+            setSaving(true);
+            const formattedBooking = {
+                ...editBooking,
+                // .slice(0, 10) merr vetëm pjesën YYYY-MM-DD
+                departure_date: editBooking.departure_date ? editBooking.departure_date.slice(0, 10) : null,
+                return_date: editBooking.return_date ? editBooking.return_date.slice(0, 10) : null
+            };
+
+            await axios.put(
+                `http://localhost:8800/api/bookings/${editBooking.id}`,
+                formattedBooking,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setBookings(prev =>
+                prev.map(b => (b.id === editBooking.id ? formattedBooking : b))
+            );
+
+            setEditBooking(null);
+            alert("Booking updated successfully!");
+        } catch (err) {
+            console.error("Update Error:", err.response?.data || err.message);
+            alert("Update failed: Check console for details");
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -76,7 +109,7 @@ export default function Bookings() {
 
                 {/* --- DATA SECTION --- */}
                 <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
-                    
+
                     {/* TABLE HEADER (DESKTOP ONLY) */}
                     <div className="hidden xl:grid grid-cols-12 gap-4 bg-slate-50 p-6 border-b border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-500">
                         <div className="col-span-1 text-blue-600">Ref Code</div>
@@ -141,10 +174,12 @@ export default function Bookings() {
                                                 </span>
                                             </div>
                                             <div className="col-span-1 text-right flex items-center justify-end gap-1">
-                                                <button className="group/edit flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all active:scale-90">
+                                                <button onClick={() => setEditBooking(b)}
+                                                    className="group/edit flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all active:scale-90">
                                                     <Edit3 size={18} className="transition-transform group-hover/edit:rotate-12" />
                                                 </button>
-                                                <button onClick={() => handleDelete(b.id)} className="group/delete flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 transition-all active:scale-90">
+                                                <button onClick={() => handleDelete(b.id)}
+                                                    className="group/delete flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 transition-all active:scale-90">
                                                     <Trash2 size={18} className="transition-transform group-hover/delete:scale-110" />
                                                 </button>
                                             </div>
@@ -157,7 +192,7 @@ export default function Bookings() {
                             <div className="xl:hidden divide-y divide-slate-100">
                                 {currentItems.map(b => (
                                     <div key={b.id} className="p-5 flex flex-col gap-4">
-                                        
+
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-xs">
@@ -168,11 +203,10 @@ export default function Bookings() {
                                                     <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase">ID: {b.user_id}</p>
                                                 </div>
                                             </div>
-                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${
-                                                b.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
-                                                b.status === 'cancelled' ? 'bg-rose-50 text-rose-600 border-rose-100' : 
-                                                'bg-amber-50 text-amber-600 border-amber-100'
-                                            }`}>
+                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${b.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                b.status === 'cancelled' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                                                    'bg-amber-50 text-amber-600 border-amber-100'
+                                                }`}>
                                                 {b.status}
                                             </span>
                                         </div>
@@ -195,10 +229,12 @@ export default function Bookings() {
                                                 <p className="text-xl font-black text-slate-900 tracking-tighter">€{b.total_price.toLocaleString()}</p>
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <button className="flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-blue-600 active:scale-90 transition-all">
+                                                <button onClick={() => setEditBooking(b)}
+                                                    className="flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-blue-600 active:scale-90 transition-all">
                                                     <Edit3 size={18} />
                                                 </button>
-                                                <button onClick={() => handleDelete(b.id)} className="flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-rose-600 active:scale-90 transition-all">
+                                                <button onClick={() => handleDelete(b.id)}
+                                                    className="flex items-center justify-center h-10 w-10 text-slate-400 bg-slate-50 border border-slate-200 rounded-xl hover:text-rose-600 active:scale-90 transition-all">
                                                     <Trash2 size={18} />
                                                 </button>
                                             </div>
@@ -210,10 +246,18 @@ export default function Bookings() {
                     )}
                 </div>
 
+                <EditBooking
+                    booking={editBooking}
+                    setBooking={setEditBooking}
+                    saving={saving}
+                    onSave={handleUpdate}
+                    onClose={() => setEditBooking(null)}
+                />
+
                 {/* --- PAGINATION --- */}
                 <div className="mt-8 flex justify-center items-center gap-2 pb-8">
-                    <button 
-                        onClick={() => setPage(p => Math.max(1, p - 1))} 
+                    <button
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
                         disabled={page === 1}
                         className="p-3 bg-white rounded-xl shadow-sm border border-slate-200 disabled:opacity-50"
                     >
@@ -222,8 +266,8 @@ export default function Bookings() {
                     <div className="bg-slate-950 text-white px-5 py-3 rounded-xl font-black text-[10px] tracking-widest uppercase shadow-lg">
                         {page} / {totalPages}
                     </div>
-                    <button 
-                        onClick={() => setPage(p => Math.min(totalPages, p + 1))} 
+                    <button
+                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                         disabled={page === totalPages}
                         className="p-3 bg-white rounded-xl shadow-sm border border-slate-200 disabled:opacity-50"
                     >

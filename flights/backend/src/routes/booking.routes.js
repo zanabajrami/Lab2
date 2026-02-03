@@ -1,5 +1,5 @@
 import express from "express";
-import {createBooking, getBookings, getBookingById, cancelBooking, getAllPassengers} from "../controllers/booking.controller.js";
+import {createBooking, getBookings, getBookingById, cancelBooking, getAllPassengers, updateBooking} from "../controllers/booking.controller.js";
 
 import { verifyToken } from "../middleware/auth.middleware.js";
 import { verifyAdmin } from "../middleware/admin.middleware.js";
@@ -11,5 +11,8 @@ router.get("/", verifyToken, verifyAdmin, getBookings);
 router.post("/", verifyToken, createBooking);
 router.get("/:id", verifyToken, getBookingById);
 router.put("/:id/cancel", verifyToken, cancelBooking);
+router.put("/:id", updateBooking);
+
+router.put("/:id", verifyToken, verifyAdmin, updateBooking);
 
 export default router;

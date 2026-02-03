@@ -150,7 +150,7 @@ export const getBookingById = async (req, res) => {
     }
 };
 
-// DELETE BOOKING (Fshirja fizike nga databaza)
+// DELETE BOOKING (nga databaza)
 export const deleteBooking = async (req, res) => {
     try {
         const [result] = await db.query("DELETE FROM bookings WHERE id = ?", [req.params.id]);
@@ -177,6 +177,57 @@ export const cancelBooking = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error cancelling booking" });
+    }
+};
+
+// UPDATE BOOKING
+export const updateBooking = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const {
+            booking_code,
+            departure_date,
+            return_date,
+            passengers_count,
+            total_price,
+            status,
+            payment_method
+        } = req.body;
+
+        const [existing] = await db.query("SELECT id FROM bookings WHERE id = ?", [id]);
+        if (existing.length === 0) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        const query = `
+            UPDATE bookings 
+            SET 
+                booking_code = ?, 
+                departure_date = ?, 
+                return_date = ?, 
+                passengers_count = ?, 
+                total_price = ?, 
+                status = ?, 
+                payment_method = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        `;
+
+        await db.query(query, [
+            booking_code,
+            departure_date,
+            return_date || null,
+            passengers_count,
+            total_price,
+            status,
+            payment_method,
+            id
+        ]);
+
+        res.json({ message: "Booking updated successfully" });
+    } catch (error) {
+        console.error("Error updating booking:", error);
+        res.status(500).json({ message: "Server error while updating booking" });
     }
 };
 
