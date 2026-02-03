@@ -1,10 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import { 
-    Trash2, Search, Loader2, ChevronLeft, ChevronRight, 
-    User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, 
-    Fingerprint
-} from "lucide-react";
+import {Trash2, Search, Loader2, ChevronLeft, ChevronRight, User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, Fingerprint} from "lucide-react";
 
 export default function Bookings() {
     const [bookings, setBookings] = useState([]);
@@ -58,8 +54,6 @@ export default function Bookings() {
     return (
         <div className="min-h-screen p-4 lg:p-8 font-sans text-slate-900 bg-slate-50">
             <div className="max-w-[1600px] mx-auto">
-
-                {/* --- HEADER (Responsive fix) --- */}
                 <div className="bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 mb-8 shadow-2xl relative overflow-hidden">
                     <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-6">
                         <div className="text-center lg:text-left">
@@ -100,7 +94,7 @@ export default function Bookings() {
                         <div className="flex justify-center p-20"><Loader2 className="animate-spin text-blue-600" size={40} /></div>
                     ) : (
                         <>
-                            {/* --- VERSIONI DESKTOP --- */}
+                            {/* --- DESKTOP --- */}
                             <div className="hidden xl:block">
                                 <div className="divide-y divide-slate-100">
                                     {currentItems.map(b => (
@@ -159,7 +153,7 @@ export default function Bookings() {
                                 </div>
                             </div>
 
-                            {/* --- VERSIONI MOBILE (Rregulluar pa -ml-8) --- */}
+                            {/* --- MOBILE --- */}
                             <div className="xl:hidden divide-y divide-slate-100">
                                 {currentItems.map(b => (
                                     <div key={b.id} className="p-5 flex flex-col gap-4">

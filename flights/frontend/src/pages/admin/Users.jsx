@@ -73,7 +73,7 @@ export default function Users() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f1f5f9] px-4 py-6 sm:px-6 lg:px-8 rounded-2xl">
+    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
 
         {/* --- TOP BAR SECTION --- */}
