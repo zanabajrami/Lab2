@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { 
-  UserRoundSearch, Phone, Mail, Globe, Plus, Search, 
-  CreditCard, Trash2, Edit3, User, Loader2, Calendar,
-  ChevronLeft, ChevronRight 
-} from "lucide-react";
+import { UserRoundSearch, Phone, Mail, Globe, Plus, Search, CreditCard, Trash2, Edit3, Loader2, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import EditPassenger from "../../components/dashboard/EditPassenger";
 
 const Passengers = () => {
   const [passengers, setPassengers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-
-  // --- 1. SHTESAT PËR PAGINATION ---
+  const [editPassenger, setEditPassenger] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6); // Sa rekorde do të shfaqen për faqe
 
@@ -32,7 +28,6 @@ const Passengers = () => {
     fetchPassengers();
   }, []);
 
-  // Filtrimi (mbetet i njëjtë)
   const filteredPassengers = passengers.filter(p =>
     `${p.first_name} ${p.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.booking_code.toLowerCase().includes(searchTerm.toLowerCase())
@@ -102,7 +97,7 @@ const Passengers = () => {
           </div>
         </div>
 
-        {/* Desktop Table - Tash shfaqim 'currentItems' */}
+        {/* Desktop Table */}
         <div className="hidden lg:block overflow-hidden rounded-[2rem] border border-slate-800 bg-[#0b0f1a] backdrop-blur-md shadow-2xl">
           <table className="w-full text-left">
             <thead>
@@ -125,7 +120,7 @@ const Passengers = () => {
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 transition-colors">
-                        <span className="text-blue-400 font-bold text-xs">{p.first_name[0]}{p.last_name[0]}</span>
+                        <span className="text-blue-400 font-bold text-xs">{(p.first_name?.[0] || "?")}{(p.last_name?.[0] || "?")}</span>
                       </div>
                       <div>
                         <div className="text-white font-bold text-base group-hover:text-blue-400 transition-colors">{p.first_name} {p.last_name}</div>
@@ -147,7 +142,8 @@ const Passengers = () => {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex justify-center gap-2">
-                      <button className="p-2.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all"><Edit3 size={18} /></button>
+                      <button onClick={() => setEditPassenger(p)}
+                        className="p-2.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all"><Edit3 size={18} /></button>
                       <button className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"><Trash2 size={18} /></button>
                     </div>
                   </td>
@@ -157,20 +153,21 @@ const Passengers = () => {
           </table>
         </div>
 
-        {/* Mobile & iPad Cards - Tash shfaqim 'currentItems' */}
+        {/* Mobile & iPad Cards */}
         <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-4">
           {currentItems.map((p) => (
             <div key={p.id} className="bg-[#0b0f1a] border border-slate-800 rounded-[2rem] p-6 shadow-xl backdrop-blur-md">
               <div className="flex justify-between items-start mb-5">
                 <div className="text-blue-500 font-mono text-xs bg-blue-500/10 px-3 py-1 rounded-lg font-bold border border-blue-500/20">#{p.booking_code}</div>
                 <div className="flex gap-1">
-                  <button className="p-2 text-slate-400 hover:bg-slate-800 rounded-xl"><Edit3 size={18} /></button>
+                  <button onClick={() => setEditPassenger(p)}
+                    className="p-2 text-slate-400 hover:bg-slate-800 rounded-xl"><Edit3 size={18} /></button>
                   <button className="p-2 text-slate-400 hover:text-red-400 rounded-xl"><Trash2 size={18} /></button>
                 </div>
               </div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700">
-                  <span className="text-blue-400 font-bold">{p.first_name[0]}{p.last_name[0]}</span>
+                  <span className="text-blue-400 font-bold">{(p.first_name?.[0] || "?")}{(p.last_name?.[0] || "?")}</span>
                 </div>
                 <div>
                   <div className="text-white font-bold">{p.first_name} {p.last_name}</div>
@@ -178,20 +175,28 @@ const Passengers = () => {
                 </div>
               </div>
               <div className="pt-4 border-t border-slate-800/50 space-y-2">
-                <div className="flex items-center gap-2 text-slate-400 text-xs"><Mail size={12}/> {p.email}</div>
-                <div className="flex items-center gap-2 text-slate-400 text-xs"><CreditCard size={12}/> {p.passport_number}</div>
+                <div className="flex items-center gap-2 text-slate-400 text-xs"><Mail size={12} /> {p.email}</div>
+                <div className="flex items-center gap-2 text-slate-400 text-xs"><CreditCard size={12} /> {p.passport_number}</div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* --- 3. PAGINATION UI CONTROLS --- */}
+        {editPassenger && (
+          <EditPassenger
+            passenger={editPassenger}
+            onClose={() => setEditPassenger(null)}
+            onUpdated={() => window.location.reload()}
+          />
+        )}
+
+        {/* --- PAGINATION UI CONTROLS --- */}
         {filteredPassengers.length > itemsPerPage && (
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800/50 pt-6">
             <span className="text-slate-500 text-sm">
               Showing <span className="text-slate-200">{indexOfFirstItem + 1}</span> to <span className="text-slate-200">{Math.min(indexOfLastItem, filteredPassengers.length)}</span> of <span className="text-slate-200">{filteredPassengers.length}</span>
             </span>
-            
+
             <div className="flex items-center gap-2">
               <button
                 onClick={() => paginate(currentPage - 1)}
@@ -206,11 +211,10 @@ const Passengers = () => {
                   <button
                     key={i + 1}
                     onClick={() => paginate(i + 1)}
-                    className={`w-9 h-9 rounded-xl font-bold text-xs transition-all border ${
-                      currentPage === i + 1
-                        ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20"
-                        : "bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600 hover:text-white"
-                    }`}
+                    className={`w-9 h-9 rounded-xl font-bold text-xs transition-all border ${currentPage === i + 1
+                      ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20"
+                      : "bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600 hover:text-white"
+                      }`}
                   >
                     {i + 1}
                   </button>
