@@ -283,3 +283,20 @@ export const getAllPassengers = async (req, res) => {
         res.status(500).json({ message: "Server error while fetching passengers" });
     }
 };
+
+// GET all booking codes
+export const getBookingCodes = async (req, res) => {
+    try {
+        const [rows] = await db.query(`
+      SELECT booking_code, id, user_id
+      FROM bookings
+      WHERE status != 'cancelled'
+      ORDER BY created_at DESC
+    `);
+
+        res.json(rows);
+    } catch (err) {
+        console.error("Error fetching booking codes:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+};
