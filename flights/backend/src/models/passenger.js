@@ -28,7 +28,7 @@ const PassengerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    dob: {
+    birthday: {
         type: Date
     },
     nationality: {

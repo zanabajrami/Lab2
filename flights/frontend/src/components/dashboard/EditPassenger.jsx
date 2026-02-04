@@ -102,12 +102,12 @@ const EditPassenger = ({ passenger, onClose, onUpdated }) => {
                             <div className="flex items-center gap-2 pt-3 border-t border-blue-500/10">
                                 <div className="flex items-center gap-2 text-slate-400 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
                                     <Calendar size={13} className="text-blue-500" />
-                                    DOB:
+                                    Birthday:
                                 </div>
                                 <input
                                     type="date"
-                                    name="dob"
-                                    value={form.dob?.split("T")[0] || ""}
+                                    name="birthday"
+                                    value={form.birthday?.split("T")[0] || ""}
                                     onChange={handleChange}
                                     readOnly={!isUser}
                                     className={`text-slate-200 font-mono text-[11px] sm:text-xs bg-slate-800/50 px-2 py-0.5 rounded-md ${!isUser ? "opacity-50 cursor-not-allowed" : "focus:ring-1 focus:ring-blue-500 focus:outline-none"}`}

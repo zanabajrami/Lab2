@@ -10,12 +10,12 @@ export const updatePassenger = async (req, res) => {
       email,
       phone,
       passport_number,
-      dob,
+      birthday,
       nationality
     } = req.body;
 
-    if (dob) {
-      dob = new Date(dob).toISOString().split("T")[0];
+    if (birthday) {
+      birthday = new Date(birthday).toISOString().split("T")[0];
     }
 
     const [existing] = await db.query(
@@ -35,7 +35,7 @@ export const updatePassenger = async (req, res) => {
         email = ?,
         phone = ?,
         passport_number = ?,
-        dob = ?,
+        birthday = ?,
         nationality = ?
       WHERE id = ?
     `;
@@ -46,7 +46,7 @@ export const updatePassenger = async (req, res) => {
       email,
       phone,
       passport_number,
-      dob || null, // YYYY-MM-DD
+      birthday || null, // YYYY-MM-DD
       nationality,
       id
     ]);

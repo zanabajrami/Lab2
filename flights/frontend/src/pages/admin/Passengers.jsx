@@ -9,7 +9,11 @@ const Passengers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editPassenger, setEditPassenger] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // Sa rekorde do të shfaqen për faqe
+  const [itemsPerPage] = useState(6); // items per page
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const fetchPassengers = async () => {
@@ -33,13 +37,12 @@ const Passengers = () => {
     p.booking_code.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // --- 2. LLOGARITJA E REKORDEVE PËR FAQE ---
+  // --- ITEMS PER PAGE ---
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredPassengers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredPassengers.length / itemsPerPage);
 
-  // Funksioni për të ndërruar faqen
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
@@ -86,7 +89,7 @@ const Passengers = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reseto te faqja 1 kur kërkon diçka
+                setCurrentPage(1); // Reset te faqja 1 kur kërkon diçka
               }}
               className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl text-sm placeholder:text-slate-400 shadow-sm shadow-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:shadow-md transition-all duration-200 outline-none"
             />
@@ -138,7 +141,7 @@ const Passengers = () => {
                     <div className="flex items-center gap-2 text-slate-200 font-mono text-xs bg-slate-800/50 w-fit px-2.5 py-1 rounded-lg border border-slate-700">
                       <CreditCard size={14} className="text-blue-500" /> {p.passport_number}
                     </div>
-                    <div className="text-slate-500 text-[10px] mt-2 font-bold uppercase tracking-wider flex items-center gap-1.5"><Calendar size={12} /> Born: {p.dob ? new Date(p.dob).toLocaleDateString() : "---"}</div>
+                    <div className="text-slate-500 text-[10px] mt-2 font-bold uppercase tracking-wider flex items-center gap-1.5"><Calendar size={12} /> Born: {p.birthday ? new Date(p.birthday).toLocaleDateString() : "---"}</div>
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex justify-center gap-2">
