@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import { Trash2, Edit3, Loader2, AlertCircle, ChevronLeft, ChevronRight, Mail, Calendar, ShieldCheck, Search, UserCheck } from "lucide-react";
+import {Trash2, Edit3, Loader2, AlertCircle, ChevronLeft, ChevronRight, Mail, Calendar, ShieldCheck, Search, UserCheck} from "lucide-react";
 import { BiUserCircle } from "react-icons/bi";
 import { PiUserCirclePlus } from "react-icons/pi";
 
@@ -76,13 +76,13 @@ export default function Users() {
     <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
 
-        {/* --- TOP BAR SECTION --- */}
+        {/* --- TOP BAR --- */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 -mt-5 gap-6">
           <div>
             <h1 className="text-4xl font-black text-slate-950 tracking-tight">
               All <span className="text-blue-600">Users</span>
             </h1>
-            <p className="text-slate-500 font-medium mt-1">Manage your organization's directory and permissions.</p>
+            <p className="text-slate-500 font-medium mt-1">Control user access and profile information.</p>
           </div>
 
           <div className="flex items-center gap-3 w-full lg:w-auto">
@@ -134,10 +134,9 @@ export default function Users() {
           </div>
         )}
 
-        {/* --- MAIN CONTENT (TABLE & MOBILE CARDS) --- */}
         <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl overflow-hidden">
 
-          {/* 1. VERSIONI PER DESKTOP/IPAD (I njëjti si i joti) */}
+          {/* DESKTOP TABLE */}
           <div className="hidden lg:block overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -145,6 +144,8 @@ export default function Users() {
                   <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">User Profile</th>
                   <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">Email Address</th>
                   <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">Role</th>
+                  <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">Gender</th>
+                  <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">Birthday</th>
                   <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest">Joined Date</th>
                   <th className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                 </tr>
@@ -152,7 +153,7 @@ export default function Users() {
               <tbody className="divide-y divide-slate-50">
                 {loading ? (
                   <tr>
-                    <td colSpan="5" className="py-32 text-center">
+                    <td colSpan="7" className="py-32 text-center">
                       <Loader2 className="animate-spin mx-auto text-blue-600 mb-4" size={48} />
                       <p className="text-slate-400 font-bold tracking-widest uppercase text-xs">Syncing...</p>
                     </td>
@@ -182,7 +183,16 @@ export default function Users() {
                         {u.role}
                       </span>
                     </td>
+                    <td className="px-8 py-5 text-slate-600 font-medium text-sm">{u.gender === "M" ? "Male" : u.gender === "F" ? "Female" : "-"}</td>
                     <td className="px-8 py-5">
+                      <div className="flex items-center gap-2 text-slate-600 text-sm font-medium whitespace-nowrap">
+                        <div className="p-1.5 bg-blue-500/10 rounded-lg">
+                          <Calendar size={14} className="text-blue-600" />
+                        </div>
+                        <span>{u.birthday ? new Date(u.birthday).toLocaleDateString('en-GB') : "Not set"}</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-5 text-slate-600 font-medium text-sm">
                       <div className="flex items-center gap-2 text-slate-500 text-sm font-medium">
                         <Calendar size={14} className="text-slate-300" />
                         {new Date(u.created_at).toLocaleDateString()}
@@ -200,7 +210,7 @@ export default function Users() {
             </table>
           </div>
 
-          {/* 2. VERSIONI PER MOBILE (Kartela Moderne) */}
+          {/* MOBILE CARDS */}
           <div className="lg:hidden flex flex-col divide-y divide-slate-100">
             {loading ? (
               <div className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-blue-600" size={32} /></div>
@@ -226,6 +236,12 @@ export default function Users() {
                     <Mail size={14} className="text-slate-300" /> {u.email}
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-600">
+                    <UserCheck size={14} className="text-slate-300" /> {u.gender === "M" ? "Male" : u.gender === "F" ? "Female" : "-"}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-slate-600">
+                    <Calendar size={14} className="text-slate-300" /> {u.birthday ? new Date(u.birthday).toLocaleDateString() : "-"}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-slate-600">
                     <Calendar size={14} className="text-slate-300" /> {new Date(u.created_at).toLocaleDateString()}
                   </div>
                 </div>
@@ -234,17 +250,12 @@ export default function Users() {
                   <button
                     onClick={() => {
                       const [first_name = "", last_name = ""] = u.username.split(" ");
-                      setEditingUser({
-                        ...u,
-                        first_name,
-                        last_name,
-                      });
+                      setEditingUser({ ...u, first_name, last_name });
                     }}
                     className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                   >
                     <Edit3 size={18} />
                   </button>
-
                   <button onClick={() => deleteUser(u.id)} className="flex-1 py-2.5 bg-red-50 text-red-600 rounded-xl font-bold text-xs flex items-center justify-center gap-2">
                     <Trash2 size={14} /> Delete
                   </button>
@@ -253,7 +264,7 @@ export default function Users() {
             ))}
           </div>
 
-          {/* --- PAGINATION --- */}
+          {/* PAGINATION */}
           <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
               Showing <span className="text-slate-900">{currentUsers.length}</span> of {filteredUsers.length} Users
