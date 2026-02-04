@@ -65,7 +65,7 @@ const FlightsSection = () => {
   useEffect(() => {
     if (modalFlight) {
       setPassengerInfo(Array.from({ length: persons }, () => ({
-        firstName: "", lastName: "", email: "", phone: "", passportNumber: "", dob: "", nationality: ""
+        firstName: "", lastName: "", email: "", phone: "", passportNumber: "", birthday: "", nationality: ""
       })));
       setCurrentPassengerIndex(0);
     }
@@ -92,7 +92,7 @@ const FlightsSection = () => {
       p.email.trim() !== "" &&
       p.phone.trim() !== "" &&
       p.passportNumber.trim() !== "" &&
-      p.dob.trim() !== "" &&
+      p.birthday.trim() !== "" &&
       p.nationality.trim() !== ""
     );
   };
@@ -120,7 +120,7 @@ const FlightsSection = () => {
           !p.email ||
           !p.phone ||
           !p.passportNumber ||
-          !p.dob ||
+          !p.birthday ||
           !p.nationality
         )
       ) {
@@ -297,7 +297,7 @@ const FlightsSection = () => {
                   {[
                     { id: 'firstName', label: 'First Name', col: 'col-span-1' },
                     { id: 'lastName', label: 'Last Name', col: 'col-span-1' },
-                    { id: 'dob', label: 'Date of Birth', col: 'col-span-2', type: 'date' },
+                    { id: 'birthday', label: 'Date of Birth', col: 'col-span-2', type: 'date' },
                     { id: 'email', label: 'Email Address', col: 'col-span-2', type: 'email' },
                     { id: 'phone', label: 'Phone Number', col: 'col-span-1' },
                     { id: 'nationality', label: 'Nationality', col: 'col-span-1' },

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import { Trash2, Edit3, Loader2, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import EditFlight from "../../components/dashboard/EditFlight";
 
 export default function Flights() {
     const [flights, setFlights] = useState([]);
@@ -9,6 +10,8 @@ export default function Flights() {
     const [page, setPage] = useState(1);
     const flightsPerPage = 6;
     const token = localStorage.getItem("token");
+    const [editFlight, setEditFlight] = useState(null);
+    const [saving, setSaving] = useState(false);
 
     const loadFlights = useCallback(async () => {
         try {
@@ -49,6 +52,25 @@ export default function Flights() {
         }
     };
 
+    const handleUpdate = async () => {
+        try {
+            setSaving(true);
+            await axios.put(
+                `http://localhost:8800/api/flights/${editFlight.id}`,
+                editFlight,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setFlights(prev =>
+                prev.map(f => (f.id === editFlight.id ? editFlight : f))
+            );
+            setEditFlight(null);
+        } catch {
+            alert("Failed to update flight");
+        } finally {
+            setSaving(false);
+        }
+    };
+
     const totalPages = Math.ceil(filteredFlights.length / flightsPerPage);
     const currentFlights = filteredFlights.slice((page - 1) * flightsPerPage, page * flightsPerPage);
 
@@ -58,6 +80,10 @@ export default function Flights() {
         return daysString.split(",").map(day => dayNames[parseInt(day.trim())] || day).join(", ");
     };
 
+      useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+      
     return (
         <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8 rounded-2xl">
             <div className="max-w-[1600px] mx-auto">
@@ -129,7 +155,7 @@ export default function Flights() {
                                         <td className="px-6 py-4 font-bold text-slate-900">€{f.price}</td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2">
-                                                <button onClick={() => window.location.href = `/admin/flights-edit/${f.id}`} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"><Edit3 size={18} /></button>
+                                                <button onClick={() => setEditFlight(f)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"><Edit3 size={18} /></button>
                                                 <button onClick={() => handleDelete(f.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"><Trash2 size={18} /></button>
                                             </div>
                                         </td>
@@ -191,7 +217,7 @@ export default function Flights() {
 
                                         <div className="flex items-center gap-3 mt-1">
                                             <button
-                                                onClick={() => window.location.href = `/admin/flights-edit/${f.id}`}
+                                                onClick={() => setEditFlight(f)}
                                                 className="flex items-center justify-center h-11 w-11 text-slate-500 bg-white border border-slate-200 rounded-2xl shadow-sm hover:text-blue-600 hover:border-blue-500 hover:bg-blue-50 transition-all active:scale-95"
                                             >
                                                 <Edit3 size={19} />
@@ -208,6 +234,14 @@ export default function Flights() {
                             </div>
                         ))}
                     </div>
+
+                    <EditFlight
+                        flight={editFlight}
+                        setFlight={setEditFlight}
+                        saving={saving}
+                        onSave={handleUpdate}
+                        onClose={() => setEditFlight(null)}
+                    />
 
                     {/* --- PAGINATION --- */}
                     <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
