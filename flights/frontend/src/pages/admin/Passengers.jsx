@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { UserRoundSearch, Phone, Mail, Globe, Plus, Search, CreditCard, Trash2, Edit3, Loader2, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import EditPassenger from "../../components/dashboard/EditPassenger";
+import AddPassenger from "../../components/dashboard/AddPassenger";
 
 const Passengers = () => {
   const [passengers, setPassengers] = useState([]);
@@ -10,6 +11,7 @@ const Passengers = () => {
   const [editPassenger, setEditPassenger] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6); // items per page
+  const [addPassenger, setAddPassenger] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -73,7 +75,9 @@ const Passengers = () => {
             </div>
           </div>
 
-          <button className="group flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-blue-900/20 active:scale-95">
+          <button onClick={() => setAddPassenger(true)}
+            className="group flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-2xl 
+            font-bold text-sm transition-all shadow-lg shadow-blue-900/20 active:scale-95">
             <Plus size={20} className="group-hover:rotate-90 transition-transform duration-300" />
             <span>Add New Passenger</span>
           </button>
@@ -117,7 +121,7 @@ const Passengers = () => {
                 <tr key={p.id} className="hover:bg-blue-500/[0.02] transition-colors group">
                   <td className="px-8 py-6">
                     <div className="text-blue-500 font-mono text-sm bg-blue-500/10 px-3 py-1 rounded-lg w-fit font-bold border border-blue-500/20">
-                      #{p.booking_code}
+                      {p.booking_code}
                     </div>
                   </td>
                   <td className="px-8 py-6">
@@ -190,6 +194,13 @@ const Passengers = () => {
             passenger={editPassenger}
             onClose={() => setEditPassenger(null)}
             onUpdated={() => window.location.reload()}
+          />
+        )}
+
+        {addPassenger && (
+          <AddPassenger
+            onClose={() => setAddPassenger(false)}
+            onAdded={() => window.location.reload()}
           />
         )}
 
