@@ -84,6 +84,10 @@ export default function Bookings() {
     const currentItems = filteredBookings.slice((page - 1) * itemsPerPage, page * itemsPerPage);
     const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
 
+      useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+      
     return (
         <div className="min-h-screen p-4 lg:p-8 font-sans text-slate-900 bg-slate-50">
             <div className="max-w-[1600px] mx-auto">

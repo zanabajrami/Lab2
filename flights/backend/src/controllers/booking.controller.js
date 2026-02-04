@@ -61,17 +61,18 @@ export const createBooking = async (req, res) => {
         for (const p of passengers) {
             await connection.query(
                 `INSERT INTO passengers 
-        (booking_id, booking_code, first_name, last_name, email, phone, passport_number, dob, nationality)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+   (booking_id, booking_code, user_id, first_name, last_name, email, phone, passport_number, birthday, nationality)
+   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     bookingId,
                     bookingCode,
+                    userId,
                     p.firstName,
                     p.lastName,
                     p.email,
                     p.phone,
                     p.passportNumber,
-                    p.dob,
+                    p.birthday,
                     p.nationality
                 ]
             );
@@ -244,7 +245,7 @@ export const getAllPassengers = async (req, res) => {
                 p.phone,
                 p.passport_number,
                 p.nationality,
-                p.dob,
+                p.birthday,
                 b.status AS booking_status
             FROM passengers p
             JOIN bookings b ON p.booking_id = b.id
