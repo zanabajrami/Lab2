@@ -13,6 +13,4 @@ router.get("/:id", verifyToken, getBookingById);
 router.put("/:id/cancel", verifyToken, cancelBooking);
 router.put("/:id", updateBooking);
 
-router.put("/:id", verifyToken, verifyAdmin, updateBooking);
-
 export default router;

@@ -100,18 +100,30 @@ export const createBooking = async (req, res) => {
 export const getBookings = async (req, res) => {
     try {
         const query = `
-            SELECT 
-                b.*, 
-                f.flight_code, 
-                f.airline, 
-                f.origin, 
-                f.from_code, 
-                f.destination, 
-                f.to_code
-            FROM bookings b
-            JOIN flights f ON b.flight_id = f.id
-            ORDER BY b.created_at DESC
-        `;
+    SELECT 
+        b.id,
+        b.booking_code,
+        b.user_id,
+        b.flight_id,
+        b.departure_date,
+        b.return_date,
+        b.passengers_count,
+        b.total_price,
+        b.payment_method,
+        b.status,
+        b.created_at,
+        b.updated_at,
+
+        f.flight_code,
+        f.airline,
+        f.origin,
+        f.from_code,
+        f.destination,
+        f.to_code
+    FROM bookings b
+    JOIN flights f ON b.flight_id = f.id
+    ORDER BY b.created_at DESC
+`;
 
         const [rows] = await db.query(query);
         res.json(rows);
@@ -125,18 +137,30 @@ export const getBookings = async (req, res) => {
 export const getBookingById = async (req, res) => {
     try {
         const query = `
-            SELECT 
-                b.*, 
-                f.flight_code, 
-                f.airline, 
-                f.origin, 
-                f.from_code, 
-                f.destination, 
-                f.to_code
-            FROM bookings b
-            JOIN flights f ON b.flight_id = f.id
-            WHERE b.id = ?
-        `;
+    SELECT 
+        b.id,
+        b.booking_code,
+        b.user_id,
+        b.flight_id,
+        b.departure_date,
+        b.return_date,
+        b.passengers_count,
+        b.total_price,
+        b.payment_method,
+        b.status,
+        b.created_at,
+        b.updated_at,
+
+        f.flight_code,
+        f.airline,
+        f.origin,
+        f.from_code,
+        f.destination,
+        f.to_code
+    FROM bookings b
+    JOIN flights f ON b.flight_id = f.id
+    WHERE b.id = ?
+`;
 
         const [rows] = await db.query(query, [req.params.id]);
 

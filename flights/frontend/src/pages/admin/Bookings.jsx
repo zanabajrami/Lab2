@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import { Trash2, Search, Loader2, ChevronLeft, ChevronRight, User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, Fingerprint } from "lucide-react";
+import { Trash2, Search, Loader2, ChevronLeft, ChevronRight, User, Edit3, PlaneTakeoff, PlaneLanding, ArrowRight, Fingerprint, TicketPlus } from "lucide-react";
 import EditBooking from "../../components/dashboard/EditBooking";
+import AddBooking from "../../components/dashboard/AddBooking";
 
 export default function Bookings() {
     const [bookings, setBookings] = useState([]);
@@ -12,6 +13,7 @@ export default function Bookings() {
     const token = localStorage.getItem("token");
     const [editBooking, setEditBooking] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [showAddBooking, setShowAddBooking] = useState(false);
 
     const fetchBookings = useCallback(async () => {
         try {
@@ -84,29 +86,53 @@ export default function Bookings() {
     const currentItems = filteredBookings.slice((page - 1) * itemsPerPage, page * itemsPerPage);
     const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
 
-      useEffect(() => {
+    useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
-      
+    }, []);
+
     return (
         <div className="min-h-screen p-4 lg:p-8 font-sans text-slate-900 bg-slate-50">
             <div className="max-w-[1600px] mx-auto">
                 <div className="bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 mb-8 shadow-2xl relative overflow-hidden">
-                    <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-6">
-                        <div className="text-center lg:text-left">
+                    <div className="relative z-10 flex flex-col xl:flex-row justify-between gap-6">
+
+                        <div className="text-center xl:text-left">
                             <h1 className="text-2xl md:text-4xl font-black text-white italic tracking-tighter">
                                 FLIGHT <span className="text-blue-500">RESERVATIONS</span>
                             </h1>
-                            <p className="text-slate-500 mt-1 text-sm md:text-base font-medium">Live monitoring of booking traffic and routes.</p>
+                            <p className="text-slate-500 mt-1 text-sm md:text-base font-medium">
+                                Live monitoring of booking traffic and routes.
+                            </p>
                         </div>
-                        <div className="relative w-full max-w-md">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-                            <input
-                                type="text"
-                                placeholder="Search by Code, Origin, or User ID..."
-                                className="w-full pl-11 pr-4 py-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none text-sm"
-                                onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
-                            />
+
+                        <div className="flex flex-col sm:flex-row items-stretch gap-3 w-full xl:w-auto">
+                            {/* SEARCH */}
+                            <div className="relative w-full sm:w-[320px]">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                <input type="text" placeholder="Search by Code, Origin, or User ID..."
+                                    className="w-full pl-11 pr-4 py-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none text-sm"
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setPage(1);
+                                    }}
+                                />
+                            </div>
+
+                            {/* ADD BOOKING */}
+                            <div className="self-center sm:self-auto">
+                                <button
+                                    onClick={() => setShowAddBooking(true)}
+                                    title="Add Booking"
+                                    className="group relative flex items-center justify-center w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white 
+                 rounded-2xl shadow-lg shadow-blue-600/30 hover:shadow-blue-500/50 transition-all duration-300 active:scale-95
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950"
+                                >
+                                    <TicketPlus size={20} className="transition-transform duration-300 group-hover:scale-110" />
+
+                                    {/* subtle glow */}
+                                    <span className="absolute inset-0 rounded-2xl bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -143,16 +169,23 @@ export default function Bookings() {
                                                 </div>
                                             </div>
                                             <div className="col-span-3">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="text-sm font-black text-slate-800 flex items-center gap-2">
-                                                        <PlaneTakeoff size={14} className="text-blue-500" /> {b.origin || "N/A"}
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="text-sm font-black text-slate-800 flex items-center gap-2">
+                                                            <PlaneTakeoff size={14} className="text-blue-500" /> {b.origin || "N/A"}
+                                                        </div>
+                                                        <ArrowRight size={14} className="text-slate-300" />
+                                                        <div className="text-sm font-black text-slate-800 flex items-center gap-2">
+                                                            <PlaneLanding size={14} className="text-emerald-500" /> {b.destination || "N/A"}
+                                                        </div>
                                                     </div>
-                                                    <ArrowRight size={14} className="text-slate-300" />
-                                                    <div className="text-sm font-black text-slate-800 flex items-center gap-2">
-                                                        <PlaneLanding size={14} className="text-emerald-500" /> {b.destination || "N/A"}
+
+                                                    <div className="text-[10px] text-slate-400 font-bold mt-1 ml-14">
+                                                        Flight ID: {b.flight_id}
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="col-span-2 flex flex-col gap-1">
                                                 <div className="flex items-center gap-2 text-[11px] font-bold text-slate-700">
                                                     <PlaneTakeoff size={12} className="text-blue-500" />
@@ -215,15 +248,20 @@ export default function Bookings() {
                                             </span>
                                         </div>
 
-                                        <div className="flex items-center gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                                            <div className="flex-1">
-                                                <p className="text-[10px] text-slate-400 font-black uppercase">Origin</p>
-                                                <p className="text-xs font-black text-slate-800">{b.origin}</p>
+                                        <div className="flex flex-col gap-1 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex-1">
+                                                    <p className="text-[10px] text-slate-400 font-black uppercase">Origin</p>
+                                                    <p className="text-xs font-black text-slate-800">{b.origin}</p>
+                                                </div>
+                                                <ArrowRight size={14} className="text-slate-300" />
+                                                <div className="flex-1 text-right">
+                                                    <p className="text-[10px] text-slate-400 font-black uppercase">Dest</p>
+                                                    <p className="text-xs font-black text-slate-800">{b.destination}</p>
+                                                </div>
                                             </div>
-                                            <ArrowRight size={14} className="text-slate-300" />
-                                            <div className="flex-1 text-right">
-                                                <p className="text-[10px] text-slate-400 font-black uppercase">Dest</p>
-                                                <p className="text-xs font-black text-slate-800">{b.destination}</p>
+                                            <div className="text-[10px] text-slate-400 font-bold mt-1 text-center">
+                                                Flight ID: {b.flight_id}
                                             </div>
                                         </div>
 
@@ -257,6 +295,13 @@ export default function Bookings() {
                     onSave={handleUpdate}
                     onClose={() => setEditBooking(null)}
                 />
+
+                {showAddBooking && (
+                    <AddBooking
+                        onClose={() => setShowAddBooking(false)}
+                        onSuccess={fetchBookings}
+                    />
+                )}
 
                 {/* --- PAGINATION --- */}
                 <div className="mt-8 flex justify-center items-center gap-2 pb-8">
