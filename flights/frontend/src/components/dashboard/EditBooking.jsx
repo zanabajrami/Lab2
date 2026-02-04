@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { X, Loader2, Lock, PlaneTakeoff, PlaneLanding, Repeat, Ticket, CreditCard, ShieldCheck } from "lucide-react";
+import { X, Loader2, Lock, PlaneTakeoff, PlaneLanding, Repeat, Ticket, CreditCard} from "lucide-react";
 
 export default function EditBooking({
     booking,
