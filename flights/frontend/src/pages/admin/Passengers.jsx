@@ -39,6 +39,25 @@ const Passengers = () => {
     p.booking_code.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDeletePassenger = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this passenger?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.delete(
+        `http://localhost:8800/api/passengers/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // hiqe nga lista pa reload
+      setPassengers(prev => prev.filter(p => p.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete passenger");
+    }
+  };
+
   // --- ITEMS PER PAGE ---
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -145,13 +164,15 @@ const Passengers = () => {
                     <div className="flex items-center gap-2 text-slate-200 font-mono text-xs bg-slate-800/50 w-fit px-2.5 py-1 rounded-lg border border-slate-700">
                       <CreditCard size={14} className="text-blue-500" /> {p.passport_number}
                     </div>
-                    <div className="text-slate-500 text-[10px] mt-2 font-bold uppercase tracking-wider flex items-center gap-1.5"><Calendar size={12} /> Born: {p.birthday ? new Date(p.birthday).toLocaleDateString() : "---"}</div>
+                    <div className="text-slate-500 text-[10px] mt-2 font-bold uppercase tracking-wider flex items-center gap-1.5"><Calendar size={12} />
+                      Born: {p.birthday ? p.birthday.split("-").reverse().join(".") : "---"}
+                    </div>
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex justify-center gap-2">
                       <button onClick={() => setEditPassenger(p)}
                         className="p-2.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all"><Edit3 size={18} /></button>
-                      <button className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"><Trash2 size={18} /></button>
+                      <button onClick={() => handleDeletePassenger(p.id)} className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"><Trash2 size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -169,7 +190,7 @@ const Passengers = () => {
                 <div className="flex gap-1">
                   <button onClick={() => setEditPassenger(p)}
                     className="p-2 text-slate-400 hover:bg-slate-800 rounded-xl"><Edit3 size={18} /></button>
-                  <button className="p-2 text-slate-400 hover:text-red-400 rounded-xl"><Trash2 size={18} /></button>
+                  <button onClick={() => handleDeletePassenger(p.id)} className="p-2 text-slate-400 hover:text-red-400 rounded-xl"><Trash2 size={18} /></button>
                 </div>
               </div>
               <div className="flex items-center gap-4 mb-4">

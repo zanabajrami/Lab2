@@ -134,11 +134,11 @@ export default function AddPassenger({ onClose, onAdded }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
                                         <label className="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">First Name</label>
-                                        <input type="text" name="first_name" placeholder="John" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
+                                        <input type="text" name="first_name" placeholder="Alice" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Last Name</label>
-                                        <input type="text" name="last_name" placeholder="Doe" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
+                                        <input type="text" name="last_name" placeholder="Smith" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
                                     </div>
                                 </div>
 
@@ -146,7 +146,7 @@ export default function AddPassenger({ onClose, onAdded }) {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
                                         <label className="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1 flex items-center gap-2"><Mail size={12}/> Email</label>
-                                        <input type="email" name="email" placeholder="john@example.com" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
+                                        <input type="email" name="email" placeholder="alice@gmail.com" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1 flex items-center gap-2"><Phone size={12}/> Phone</label>
@@ -158,7 +158,7 @@ export default function AddPassenger({ onClose, onAdded }) {
                                 <div className="space-y-4">
                                     <div className="space-y-1.5">
                                         <label className="text-[9px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1 flex items-center gap-2"><Fingerprint size={12}/> Passport Number</label>
-                                        <input type="text" name="passport_number" placeholder="A0000000" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
+                                        <input type="text" name="passport_number" placeholder="AA000000" onChange={handleChange} className="w-full px-4 py-3 bg-slate-900/50 border border-slate-800 rounded-xl text-white focus:border-blue-500 outline-none transition-all text-sm font-bold" />
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

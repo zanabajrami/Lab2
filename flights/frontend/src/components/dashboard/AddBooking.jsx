@@ -188,17 +188,17 @@ export default function AddBooking({ onClose, onSuccess }) {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-black text-slate-400 uppercase ml-1">First Name</label>
-                                            <input placeholder="John" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "firstName", e.target.value)} />
+                                            <input placeholder="Alice" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "firstName", e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Last Name</label>
-                                            <input placeholder="Doe" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "lastName", e.target.value)} />
+                                            <input placeholder="Smith" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "lastName", e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Email</label>
                                             <div className="relative group">
                                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                                <input placeholder="email@test.com" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "email", e.target.value)} />
+                                                <input placeholder="alice@gmail.com" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "email", e.target.value)} />
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
