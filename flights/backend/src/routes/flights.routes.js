@@ -3,7 +3,7 @@ import {
   getFlights,
   createFlight,
   updateFlight,
-  deleteFlight,
+  deleteFlight
 } from "../controllers/flights.controller.js";
 import { verifyToken } from "../middleware/auth.middleware.js";
 

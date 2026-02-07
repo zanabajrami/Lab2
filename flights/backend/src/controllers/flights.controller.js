@@ -90,24 +90,76 @@ export const createFlight = async (req, res) => {
 
 /* UPDATE */
 export const updateFlight = async (req, res) => {
-    const { id } = req.params;
+    try {
+        let { id } = req.params;
+        id = id.trim(); // heq \n ose space
 
-    await db.query(
-        `UPDATE flights SET ? WHERE id = ?`,
-        [req.body, id]
-    );
+        const allowedFields = [
+            "airline",
+            "origin",
+            "from_code",
+            "destination",
+            "to_code",
+            "departure_time",
+            "arrival_time",
+            "duration",
+            "price",
+            "is_return",
+            "valid_days"
+        ];
 
-    res.json({ message: "Flight updated" });
+        const updates = [];
+        const values = [];
+
+        for (const field of allowedFields) {
+            if (req.body[field] !== undefined) {
+                updates.push(`${field} = ?`);
+                values.push(req.body[field]);
+            }
+        }
+
+        // NËSE nuk ka asgjë për update
+        if (updates.length === 0) {
+            return res.status(400).json({
+                message: "No valid fields provided for update"
+            });
+        }
+
+        const sql = `
+            UPDATE flights
+            SET ${updates.join(", ")}
+            WHERE id = ?
+        `;
+
+        values.push(id);
+
+        await db.query(sql, values);
+
+        res.json({ message: "Flight updated successfully" });
+    } catch (error) {
+        console.error("Update flight error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
 };
 
 /* DELETE */
 export const deleteFlight = async (req, res) => {
-    const { id } = req.params;
+    try {
+        let { id } = req.params;
+        id = id.trim(); // heq \n ose space
 
-    await db.query(
-        "DELETE FROM flights WHERE id = ?",
-        [id]
-    );
+        const [result] = await db.query(
+            "DELETE FROM flights WHERE id = ?",
+            [id]
+        );
 
-    res.json({ message: "Flight deleted" });
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Flight not found" });
+        }
+
+        res.json({ message: "Flight deleted successfully" });
+    } catch (error) {
+        console.error("Delete flight error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
 };
