@@ -3,47 +3,83 @@ import db from "../config/db.js";
 /* READ*/
 export const getFlights = async (req, res) => {
     try {
-        const page = Number(req.query.page) || 1;
-        let limit = Number(req.query.limit);
-        const offset = (page - 1) * limit;
+        const [results] = await db.query("SELECT * FROM flights");
 
-        const [[{ total }]] = await db.query("SELECT COUNT(*) AS total FROM flights");
+        const flightsMap = {};
 
-        if (!limit) {
-            const [rows] = await db.query(
-                `SELECT id, flight_code, airline, origin, from_code,
-                 destination, to_code, departure_time, arrival_time,
-                 duration, price, is_return, valid_days
-                 FROM flights
-                 ORDER BY id DESC`
-            );
+        results.forEach(f => {
+            const key = f.flight_code || f.id;
 
-            return res.json({
-                data: rows,
-                totalRows: total,
-            });
-        }
+            if (!flightsMap[key]) {
+                flightsMap[key] = {
+                    id: f.id,
+                    flight_code: f.flight_code || "",
+                    airline: f.airline || "",
 
-        const [rows] = await db.query(
-            `SELECT id, flight_code, airline, origin, from_code,
-             destination, to_code, departure_time, arrival_time,
-             duration, price, is_return, valid_days
-             FROM flights
-             ORDER BY id DESC
-             LIMIT ? OFFSET ?`,
-            [limit, offset]
-        );
+                    // ⬇️ KËTO DUHEN PËR ADMIN
+                    origin: f.origin || "",
+                    destination: f.destination || "",
+                    from_code: f.from_code || "",
+                    to_code: f.to_code || "",
+                    departure_time: "",
+                    arrival_time: "",
+                    duration: "",
+                    price: 0,
 
-        res.json({
-            data: rows,
-            page,
-            limit,
-            totalRows: total,
-            totalPages: Math.ceil(total / limit),
+                    // ⬇️ PËR FRONTEND PUBLIK
+                    from: f.origin || "",
+                    fromCode: f.from_code || "",
+                    to: f.destination || "",
+                    toCode: f.to_code || "",
+
+                    oneWay: null,
+                    return: null,
+                    hasReturn: false,
+                    valid_days: f.valid_days || "",
+                };
+            }
+
+            if (f.is_return === 0) {
+                flightsMap[key].oneWay = {
+                    id: f.id,
+                    departure: f.departure_time?.slice(0, 5) || "",
+                    arrival: f.arrival_time?.slice(0, 5) || "",
+                    duration: f.duration || "",
+                    price: f.price || 0,
+                };
+
+                flightsMap[key].departure_time = flightsMap[key].oneWay.departure;
+                flightsMap[key].arrival_time = flightsMap[key].oneWay.arrival;
+                flightsMap[key].price = flightsMap[key].oneWay.price;
+                flightsMap[key].duration = flightsMap[key].oneWay.duration;
+            }
+
+            if (f.is_return === 1) {
+                flightsMap[key].return = {
+                    id: f.id,
+                    departure: f.departure_time?.slice(0, 5) || "",
+                    arrival: f.arrival_time?.slice(0, 5) || "",
+                    duration: f.duration || "",
+                    price: f.price || 0,
+                    returnTo: f.origin || "",
+                    returnToCode: f.from_code || "",
+                };
+                flightsMap[key].hasReturn = true;
+
+                if (!flightsMap[key].oneWay) {
+                    flightsMap[key].departure_time = flightsMap[key].return.departure;
+                    flightsMap[key].arrival_time = flightsMap[key].return.arrival;
+                    flightsMap[key].price = flightsMap[key].return.price;
+                    flightsMap[key].duration = flightsMap[key].return.duration;
+                }
+            }
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Failed to fetch flights" });
+
+        res.json(Object.values(flightsMap)); // Direkt array
+
+    } catch (error) {
+        console.error("Get flights error:", error);
+        res.status(500).json({ message: "Server error" });
     }
 };
 

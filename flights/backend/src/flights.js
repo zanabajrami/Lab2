@@ -5,7 +5,7 @@ const generateFlightVariants = (flight, count = 2, intervalHours = 2) => {
   if (!flight.oneWay) return [];
   const variants = [];
   for (let i = 0; i < count; i++) {
-    const dep = new Date(`1970-01-01T${flight.oneWay.departure}:00`);
+    const dep = new Date(`1970-01-01T${flight.departureTime}:00`);
     const arr = new Date(`1970-01-01T${flight.oneWay.arrival}:00`);
     dep.setHours(dep.getHours() + i * intervalHours);
     arr.setHours(arr.getHours() + i * intervalHours);

@@ -17,12 +17,20 @@ export default function Flights() {
         try {
             setLoading(true);
             const res = await axios.get("http://localhost:8800/api/flights", {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
             });
-            const sortedFlights = res.data.data.sort((a, b) => a.id - b.id);
+
+            // res.data është direkt array, jo obj me .data
+            const sortedFlights = res.data.sort((a, b) => {
+                // sigurohu që krahasimi të funksionojë me string ose number
+                if (!isNaN(a.id) && !isNaN(b.id)) return a.id - b.id;
+                return a.id.toString().localeCompare(b.id.toString());
+            });
+
             setFlights(sortedFlights);
+
         } catch (err) {
-            console.error("Failed to fetch flights");
+            console.error("Failed to fetch flights", err);
         } finally {
             setLoading(false);
         }
@@ -34,11 +42,14 @@ export default function Flights() {
 
     const filteredFlights = useMemo(() => {
         const term = searchTerm.toLowerCase();
-        return flights.filter(f =>
-            f.flight_code.toLowerCase().includes(term) ||
-            (f.airline && f.airline.toLowerCase().includes(term))
-        );
+
+        return flights.filter(f => {
+            const code = f.flight_code || "";
+            const airline = f.airline || "";
+            return code.toLowerCase().includes(term) || airline.toLowerCase().includes(term);
+        });
     }, [flights, searchTerm]);
+
 
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this flight?")) return;
@@ -72,18 +83,20 @@ export default function Flights() {
     };
 
     const totalPages = Math.ceil(filteredFlights.length / flightsPerPage);
-    const currentFlights = filteredFlights.slice((page - 1) * flightsPerPage, page * flightsPerPage);
-
+    const currentFlights = filteredFlights.slice(
+        (page - 1) * flightsPerPage,
+        page * flightsPerPage
+    );
     const formatDays = (daysString) => {
         if (!daysString || daysString.trim() === "") return "Daily";
         const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         return daysString.split(",").map(day => dayNames[parseInt(day.trim())] || day).join(", ");
     };
 
-      useEffect(() => {
+    useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
-      
+    }, []);
+
     return (
         <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8 rounded-2xl">
             <div className="max-w-[1600px] mx-auto">

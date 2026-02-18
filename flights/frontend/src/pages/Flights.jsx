@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ChevronUp, ArrowRight, X, Plane } from "lucide-react";
 import { useLocation, useSearchParams } from "react-router-dom";
+import axios from "axios";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/flights/Calendar";
 import PaymentForm from "../components/PaymentForm";
 import FlightCard from "../components/flights/FlightCard";
-import { generateFlightVariants, useBodyScrollLock } from "../components/flights/FlightUtils";
-import { baseFlights } from "../data/FlightsData";
-
-const flights = baseFlights.flatMap(f => generateFlightVariants(f));
+import { useBodyScrollLock } from "../components/flights/FlightUtils";
 
 const FlightsSection = () => {
   const [isReturn, setIsReturn] = useState(false);
@@ -25,6 +23,10 @@ const FlightsSection = () => {
   const [modalStep, setModalStep] = useState(1);
   const [passengerInfo, setPassengerInfo] = useState([]);
   const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
+  const [flights, setFlights] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [fromCities, setFromCities] = useState([]);
+  const [toCities, setToCities] = useState([]);
 
   const flightsPerPage = 20;
   const today = new Date();
@@ -34,24 +36,44 @@ const FlightsSection = () => {
   const params = new URLSearchParams(search);
   const searchFrom = params.get("from");
   const searchTo = params.get("to");
-  const searchTrip = params.get("trip");
   const [, setSearchParams] = useSearchParams();
 
   useBodyScrollLock(!!modalFlight);
 
   const filteredFlights = flights.filter(flight => {
-    const matchesFrom = fromFilter ? flight.from.toLowerCase() === fromFilter.toLowerCase() : (searchFrom ? flight.from.toLowerCase() === searchFrom.toLowerCase() : true);
-    const matchesTo = toFilter ? flight.to.toLowerCase() === toFilter.toLowerCase() : (searchTo ? flight.to.toLowerCase() === searchTo.toLowerCase() : true);
-    const matchesTrip = !searchTrip || (searchTrip === "oneway" && !flight.isReturn) || (searchTrip === "return" && flight.isReturn);
-    return matchesFrom && matchesTo && matchesTrip;
+    if (fromFilter && flight.from !== fromFilter) return false;
+    if (toFilter && flight.to !== toFilter) return false;
+
+    if (!isReturn) return flight.oneWay !== null;
+    return flight.return !== null;
   });
 
-  const flightsByType = filteredFlights.filter(f => f.isReturn === isReturn);
-  const totalPages = Math.ceil(flightsByType.length / flightsPerPage);
-  const currentFlights = flightsByType.slice((currentPage - 1) * flightsPerPage, currentPage * flightsPerPage);
+  const totalPages = Math.ceil(filteredFlights.length / flightsPerPage);
+  const currentFlights = filteredFlights.slice(
+    (currentPage - 1) * flightsPerPage,
+    currentPage * flightsPerPage
+  );
 
-  const fromCities = [...new Set(baseFlights.map(f => f.from))];
-  const toCities = [...new Set(baseFlights.map(f => f.to))];
+  useEffect(() => {
+    const fetchFlights = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:8800/api/flights");
+        const flightsData = Array.isArray(res.data) ? res.data : [];
+        setFlights(flightsData);
+
+        // Dropdown From / To
+        setFromCities([...new Set(flightsData.map(f => f.from || ""))]);
+        setToCities([...new Set(flightsData.map(f => f.to || ""))]);
+      } catch (err) {
+        console.error("Failed to fetch flights:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFlights();
+  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
@@ -82,7 +104,12 @@ const FlightsSection = () => {
     setShowPaymentForm(false);
   };
 
-  const basePrice = modalFlight ? (modalFlight.return ? Math.round(modalFlight.oneWay.price * 1.6) : modalFlight.oneWay.price) : 0;
+  const basePrice = modalFlight
+    ? !isReturn
+      ? parsePrice(modalFlight.oneWay?.price)
+      : parsePrice(modalFlight.return?.price)
+    : 0;
+
   const totalPrice = basePrice * persons;
 
   const validatePassenger = (p) => {
@@ -135,7 +162,7 @@ const FlightsSection = () => {
         body: JSON.stringify({
           flightId: modalFlight.id,
           departureDate,
-          returnDate: modalFlight.isReturn ? returnDate : null,
+          returnDate: modalFlight.hasReturn ? returnDate : null,
           passengers: passengerInfo,
           totalPrice
         })
@@ -181,7 +208,7 @@ const FlightsSection = () => {
           selected={fromFilter}
           setSelected={(val) => { setFromFilter(val); setCurrentPage(1); }}
           placeholder="From"
-          className="min-w-[140px] sm:min-w-[180px]" 
+          className="min-w-[140px] sm:min-w-[180px]"
         />
 
         <CustomDropdown
@@ -274,7 +301,7 @@ const FlightsSection = () => {
                       <label className="text-xs font-black text-slate-400 uppercase mb-2 block tracking-widest">Departure Date</label>
                       <Calendar selectedDate={departureDate} setSelectedDate={setDepartureDate} minDate={today} maxDate={maxDate} />
                     </div>
-                    {modalFlight.isReturn && (
+                    {modalFlight.hasReturn && isReturn && (
                       <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                         <label className="text-xs font-black text-slate-400 uppercase mb-2 block tracking-widest">Return Date</label>
                         <Calendar selectedDate={returnDate} setSelectedDate={setReturnDate} minDate={departureDate || today} maxDate={maxDate} />

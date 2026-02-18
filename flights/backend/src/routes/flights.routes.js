@@ -9,7 +9,7 @@ import { verifyToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", verifyToken, getFlights);
+router.get("/", getFlights);
 router.post("/", verifyToken, createFlight);
 router.put("/:id", verifyToken, updateFlight);
 router.delete("/:id", verifyToken, deleteFlight);

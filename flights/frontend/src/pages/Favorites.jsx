@@ -74,7 +74,7 @@ const Favorites = ({ openModal }) => {
                   <h3 className="text-2xl font-bold ml-3">{flight.from}</h3>
                   <p className="text-gray-400 text-sm ml-3">{flight.fromCode}</p>
                   <p className="text-gray-800 font-semibold text-xl mt-1 ml-3">
-                    {flight.oneWay.departure || "—"}
+                    {flight.departureTime || "—"}
                   </p>
                 </div>
 
@@ -91,7 +91,7 @@ const Favorites = ({ openModal }) => {
                   <h3 className="text-2xl font-bold">{flight.to}</h3>
                   <p className="text-gray-400 text-sm">{flight.toCode}</p>
                   <p className="text-gray-800 font-semibold text-xl mt-1">
-                    {flight.oneWay.arrival || "—"}
+                    {flight.arrivalTime || "—"}
                   </p>
                 </div>
               </div>
