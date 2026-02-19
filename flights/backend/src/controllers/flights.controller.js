@@ -16,7 +16,7 @@ export const getFlights = async (req, res) => {
                     flight_code: f.flight_code || "",
                     airline: f.airline || "",
 
-                    // ⬇️ KËTO DUHEN PËR ADMIN
+                    // KËTO DUHEN PËR ADMIN
                     origin: f.origin || "",
                     destination: f.destination || "",
                     from_code: f.from_code || "",
@@ -26,7 +26,7 @@ export const getFlights = async (req, res) => {
                     duration: "",
                     price: 0,
 
-                    // ⬇️ PËR FRONTEND PUBLIK
+                    // PËR FRONTEND PUBLIK
                     from: f.origin || "",
                     fromCode: f.from_code || "",
                     to: f.destination || "",

@@ -7,10 +7,22 @@ const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
   const hasOneWay = !!flight.oneWay;
   const hasReturn = !!flight.return;
 
-  // Fallback price dhe duration
+  const parseEuroPrice = (price) => {
+    if (!price) return 0;
+    if (typeof price === "number") return price;
+
+    return Number(
+      price
+        .toString()
+        .replace("€", "")
+        .replace(",", ".")
+        .trim()
+    );
+  };
+
   const price =
-    (hasOneWay ? flight.oneWay.price : 0) +
-    (hasReturn && !hasOneWay ? flight.return.price : 0);
+    (hasOneWay ? parseEuroPrice(flight.oneWay.price) : 0) +
+    (!hasOneWay && hasReturn ? parseEuroPrice(flight.return.price) : 0);
 
   const duration =
     hasOneWay ? flight.oneWay.duration :
@@ -28,7 +40,6 @@ const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
 
-  // Flight Segment Component
   const FlightSegment = ({ title, from, fromCode, to, toCode, departure, arrival }) => {
     if (!departure || !arrival || !from || !to) return null;
 
@@ -97,7 +108,7 @@ const FlightCard = ({ flight, openModal, favorites = [], setFavorites }) => {
         {/* RETURN */}
         {hasReturn && (
           <>
-            <div className="border-t border-dashed border-gray-300 pt-4" />
+            <div/>
             <FlightSegment
               title="Return flight"
               from={flight.to}

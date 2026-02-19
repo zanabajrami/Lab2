@@ -104,10 +104,24 @@ const FlightsSection = () => {
     setShowPaymentForm(false);
   };
 
+  const parseEuroPrice = (price) => {
+    if (!price) return 0;
+
+    if (typeof price === "number") return price;
+
+    return Number(
+      price
+        .toString()
+        .replace("€", "")
+        .replace(",", ".")
+        .trim()
+    );
+  };
+
   const basePrice = modalFlight
     ? !isReturn
-      ? parsePrice(modalFlight.oneWay?.price)
-      : parsePrice(modalFlight.return?.price)
+      ? parseEuroPrice(modalFlight.oneWay?.price)
+      : parseEuroPrice(modalFlight.return?.price)
     : 0;
 
   const totalPrice = basePrice * persons;
