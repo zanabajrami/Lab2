@@ -13,7 +13,7 @@ export const createBooking = async (req, res) => {
         const { userId, flightId, departureDate, returnDate, passengers } = req.body;
 
         // Validime bazë
-        if (!userId || !flightId || !departureDate) {
+        if (!flightId || !departureDate) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
@@ -46,7 +46,7 @@ export const createBooking = async (req, res) => {
        VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
             [
                 bookingCode,
-                userId,
+                userId || null,
                 flightId,
                 departureDate,
                 returnDate || null,
@@ -66,7 +66,7 @@ export const createBooking = async (req, res) => {
                 [
                     bookingId,
                     bookingCode,
-                    userId,
+                    userId || null,
                     p.firstName,
                     p.lastName,
                     p.email,

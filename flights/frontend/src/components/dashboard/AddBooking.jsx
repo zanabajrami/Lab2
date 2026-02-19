@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {X, Plus, Trash2, PlaneTakeoff, Calendar, CreditCard, Mail, Phone, Fingerprint, Globe} from "lucide-react";
+import { X, Plus, Trash2, PlaneTakeoff, Calendar, CreditCard, Mail, Phone, Fingerprint, Globe } from "lucide-react";
 
 export default function AddBooking({ onClose, onSuccess }) {
     const token = localStorage.getItem("token");
@@ -15,6 +15,7 @@ export default function AddBooking({ onClose, onSuccess }) {
     ]);
 
     const [loading, setLoading] = useState(false);
+    const [bookingUserId, setBookingUserId] = useState(""); // default empty
 
     useEffect(() => {
         const fetchFlights = async () => {
@@ -22,9 +23,10 @@ export default function AddBooking({ onClose, onSuccess }) {
                 const res = await axios.get("http://localhost:8800/api/flights", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setFlights(res.data.data);
+                setFlights(res.data || []); // direkt array
             } catch (err) {
                 console.error(err);
+                setFlights([]); // gjithmonë array
             }
         };
         fetchFlights();
@@ -56,15 +58,33 @@ export default function AddBooking({ onClose, onSuccess }) {
             alert("Flight dhe departure date janë të detyrueshme");
             return;
         }
+
+        const payload = {
+            userId: bookingUserId ? Number(bookingUserId) : null, // if you add bookingUserId state
+            flightId: selectedFlight.id,
+            departureDate,
+            returnDate: tripType === "return" ? returnDate : null,
+            passengers: passengers.map(p => ({
+                firstName: p.firstName,
+                lastName: p.lastName,
+                email: p.email,
+                phone: p.phone,
+                passportNumber: p.passportNumber,
+                birthday: p.birthday,
+                nationality: p.nationality,
+                userId: p.userId ? Number(p.userId) : null
+            }))
+        };
+
         try {
             setLoading(true);
-            await axios.post("http://localhost:8800/api/bookings",
-                { userId: 10, flightId: selectedFlight.id, departureDate, returnDate: tripType === "return" ? returnDate : null, passengers },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await axios.post("http://localhost:8800/api/bookings", payload, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             onSuccess();
             onClose();
         } catch (err) {
+            console.error(err);
             alert("Failed to create booking");
         } finally {
             setLoading(false);
@@ -128,12 +148,15 @@ export default function AddBooking({ onClose, onSuccess }) {
                                 >
                                     <option value="">Search for available flight...</option>
                                     {flights
-                                        .filter(f => (tripType === "one-way" ? !f.is_return : f.is_return))
+                                        .filter(f => f && (tripType === "one-way" ? f.oneWay : f.return))
                                         .map(f => (
                                             <option key={f.id} value={f.id}>
-                                                {f.airline} • {f.origin} ➔ {f.destination} • {f.departure_time} - {f.arrival_time} • (€{f.price})
+                                                {f.airline} • {f.origin} ➔ {f.destination} •
+                                                {tripType === "one-way" ? f.oneWay.departure : f.return.departure} -
+                                                {tripType === "one-way" ? f.oneWay.arrival : f.return.arrival} • (€{tripType === "one-way" ? f.oneWay.price : f.return.price})
                                             </option>
-                                        ))}
+                                        ))
+                                    }
                                 </select>
                             </div>
 
@@ -201,6 +224,17 @@ export default function AddBooking({ onClose, onSuccess }) {
                                                 <input placeholder="alice@gmail.com" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-50 outline-none transition-all font-bold text-sm" onChange={e => handlePassengerChange(index, "email", e.target.value)} />
                                             </div>
                                         </div>
+                                        <div className="space-y-1.5">
+                                            <label>User ID (optional)</label>
+                                            <input
+                                                type="number"
+                                                value={bookingUserId}
+                                                onChange={e => setBookingUserId(e.target.value)}
+                                                placeholder="Leave empty for null"
+                                                className="w-full px-4 py-3 border rounded-xl"
+                                            />
+                                        </div>
+
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Phone Number</label>
                                             <div className="relative group">

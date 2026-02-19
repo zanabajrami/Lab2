@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {UsersIcon, CurrencyEuroIcon, ArrowPathIcon, EllipsisVerticalIcon} from "@heroicons/react/24/outline";
+import { UsersIcon, ArrowPathIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { IoTicketOutline } from "react-icons/io5";
+import { TbUserStar } from "react-icons/tb";
 
 import NewUsersChart from "../../components/dashboard/NewUsersChart";
 import KPICard from "../../components/dashboard/KPICard";
@@ -10,7 +11,7 @@ import EditUser from "../../components/dashboard/EditUser";
 export default function Dashboard() {
     const token = localStorage.getItem("token");
     const [stats, setStats] = useState({ users: 0, bookings: 0, revenue: 0 });
-    const [allUsers, setAllUsers] = useState([]); 
+    const [allUsers, setAllUsers] = useState([]);
     const [latestUsers, setLatestUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingUser, setEditingUser] = useState(null);
@@ -24,7 +25,7 @@ export default function Dashboard() {
             });
 
             const usersData = usersRes.data;
-            setAllUsers(usersData); // Dërgohet te grafiku
+            setAllUsers(usersData);
 
             const sortedUsers = [...usersData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             const latest = sortedUsers.slice(0, 5).map(u => ({
@@ -38,22 +39,25 @@ export default function Dashboard() {
             setStats(prev => ({ ...prev, users: usersData.length }));
             setLatestUsers(latest);
 
-            const bookingsRes = await axios.get("http://localhost:8800/api/bookings/stats", {
+            const bookingsRes = await axios.get("http://localhost:8800/api/bookings", {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            const bookingsData = bookingsRes.data;
+            setStats(prev => ({ ...prev, bookings: bookingsData.length }));
 
-            setStats(prev => ({
-                ...prev,
-                bookings: bookingsRes.data.totalBookings,
-                revenue: bookingsRes.data.totalRevenue
-            }));
+            const passengersRes = await axios.get("http://localhost:8800/api/bookings/all-passengers", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const totalPassengers = passengersRes.data.length;
+
+            setStats(prev => ({ ...prev, revenue: totalPassengers })); 
 
         } catch (err) {
             console.error("Dashboard load failed", err);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         loadDashboardData(); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,15 +113,16 @@ export default function Dashboard() {
                     />
 
                     <KPICard
-                        title="Total Revenue"
-                        value={`€${stats.revenue.toLocaleString()}`}
+                        title="Total Passengers"
+                        value={stats.revenue.toLocaleString()}
                         percent={18}
                         compareLabel="last week"
-                        sparkline={[2000, 2200, 2500, 2700, 3000]}
-                        tooltip="Total generated revenue"
-                        icon={<CurrencyEuroIcon className="w-6 h-6 text-emerald-600" />}
+                        sparkline={[20, 25, 30, 28, 32]}
+                        tooltip="Total passengers across all bookings"
+                        icon={<TbUserStar className="w-6 h-6 text-emerald-600" />}
                         className="bg-white border border-slate-200"
                     />
+
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
