@@ -31,17 +31,6 @@ export const getCurrentUser = async (req, res) => {
     }
 };
 
-// DELETE current logged-in user
-export const deleteCurrentUser = async (req, res) => {
-    try {
-        await db.query("DELETE FROM users WHERE id = ?", [req.user.id]);
-        res.json({ message: "Account deleted successfully" });
-    } catch (err) {
-        console.error("Error deleting account:", err);
-        res.status(500).json({ message: "Failed to delete account" });
-    }
-};
-
 // GET all users (ADMIN ONLY)
 export const getAllUsers = async (req, res) => {
     try {
@@ -100,21 +89,6 @@ export const updateUser = async (req, res) => {
     }
 };
 
-// DELETE user by ID (ADMIN)
-export const deleteUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const [result] = await db.query("DELETE FROM users WHERE id = ?", [id]);
-
-        if (result.affectedRows === 0) return res.status(404).json({ message: "User not found" });
-
-        res.json({ message: "User deleted successfully" });
-    } catch (err) {
-        console.error("Error deleting user:", err);
-        res.status(500).json({ message: "Failed to delete user" });
-    }
-};
-
 //CHANGE PASSWORD
 export const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
@@ -151,4 +125,38 @@ export const changePassword = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: "Server error" });
     }
+};
+
+// DELETE user by ID (ADMIN)
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Kontrollo nëse user ekziston
+    const [userRows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+    if (!userRows.length) return res.status(404).json({ message: "User not found" });
+
+    // Fshi userin nga tabela users
+    await db.query("DELETE FROM users WHERE id = ?", [id]);
+
+    res.json({ message: "User and all related data deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ message: "Failed to delete user" });
+  }
+};
+
+// DELETE current logged-in user
+export const deleteCurrentUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Fshi userin
+    await db.query("DELETE FROM users WHERE id = ?", [userId]);
+
+    res.json({ message: "Your account and all related data deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting account:", err);
+    res.status(500).json({ message: "Failed to delete account" });
+  }
 };

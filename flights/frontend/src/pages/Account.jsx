@@ -25,7 +25,7 @@ function Account({ isOpen, onClose, userData, setUserData }) {
             }
         };
         if (isOpen) fetchMe();
-    }, [isOpen]);
+    }, [isOpen, setUserData]);
 
     useEffect(() => {
         if (isOpen) {
