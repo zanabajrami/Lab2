@@ -7,6 +7,7 @@ import { TbUserStar } from "react-icons/tb";
 import NewUsersChart from "../../components/dashboard/NewUsersChart";
 import KPICard from "../../components/dashboard/KPICard";
 import EditUser from "../../components/dashboard/EditUser";
+import BookingsChart from "../../components/dashboard/BookingsChart";
 
 export default function Dashboard() {
     const token = localStorage.getItem("token");
@@ -15,6 +16,7 @@ export default function Dashboard() {
     const [latestUsers, setLatestUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingUser, setEditingUser] = useState(null);
+    const [allBookings, setAllBookings] = useState([]);
 
     const loadDashboardData = async () => {
         try {
@@ -50,13 +52,21 @@ export default function Dashboard() {
             });
             const totalPassengers = passengersRes.data.length;
 
-            setStats(prev => ({ ...prev, revenue: totalPassengers })); 
+            setStats(prev => ({ ...prev, revenue: totalPassengers }));
 
         } catch (err) {
             console.error("Dashboard load failed", err);
         } finally {
             setLoading(false);
         }
+
+        const bookingsRes = await axios.get("http://localhost:8800/api/bookings", {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const bookingsData = bookingsRes.data;
+        setAllBookings(bookingsData); // kjo është e reja
+        setStats(prev => ({ ...prev, bookings: bookingsData.length }));
+
     };
 
     useEffect(() => {
@@ -183,6 +193,55 @@ export default function Dashboard() {
                                     </button>
                                 </div>
                             ))}
+                        </div>
+                    </div>
+
+                    {/* --- BOOKINGS SECTION --- */}
+                    <div className="lg:col-span-3 bg-slate-950 p-6 rounded-[2.5rem] border border-slate-800 shadow-sm mt-8">
+
+                        {/* --- Monthly Bookings Chart --- */}
+                        <div className="mb-8">
+                            <h3 className="text-xl font-black text-slate-200 tracking-tight mb-4">
+                                <span className="text-blue-600">Booking </span>Overview
+                            </h3>
+                            {loading ? (
+                                <div className="h-full flex items-center justify-center text-slate-400">
+                                    Loading Chart...
+                                </div>
+                            ) : (
+                                <BookingsChart bookings={allBookings} />
+                            )}
+                        </div>
+
+                        {/* --- Latest Bookings Table --- */}
+                        <div className="flex flex-col bg-slate-900 p-4 rounded-[2rem] border border-slate-800 shadow-sm">
+                            <h4 className="text-lg font-black text-slate-200 mb-4">Latest Bookings</h4>
+
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full text-left text-slate-300">
+                                    <thead className="border-b border-slate-700">
+                                        <tr>
+                                            <th className="px-4 py-2 text-slate-400 font-bold text-sm">Booking Code</th>
+                                            <th className="px-4 py-2 text-slate-400 font-bold text-sm">Route</th>
+                                            <th className="px-4 py-2 text-slate-400 font-bold text-sm">Departure</th>
+                                            <th className="px-4 py-2 text-slate-400 font-bold text-sm">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-700">
+                                        {allBookings
+                                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                                            .slice(0, 5)
+                                            .map((b) => (
+                                                <tr key={b.id} className="hover:bg-slate-800 transition-all">
+                                                    <td className="px-4 py-2 font-bold text-slate-200">{b.booking_code}</td>
+                                                    <td className="px-4 py-2 text-slate-300">{b.origin} → {b.destination}</td>
+                                                    <td className="px-4 py-2 text-slate-400">{new Date(b.departure_date).toLocaleDateString('en-GB')}</td>
+                                                    <td className="px-4 py-2 text-blue-400 font-black">€{b.total_price}</td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
