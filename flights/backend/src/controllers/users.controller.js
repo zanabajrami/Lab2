@@ -1,21 +1,29 @@
 import db from "../config/db.js";
+import bcrypt from "bcryptjs";
 
 // GET current logged-in user
 export const getCurrentUser = async (req, res) => {
     try {
-        const [rows] = await db.query(`
-  SELECT 
-    id,
-    CONCAT(first_name, ' ', last_name) AS username,
-    email,
-    role,
-    gender,
-    DATE_FORMAT(birthday, '%Y-%m-%d') AS birthday,
-    created_at
-  FROM users
-`);
+        const [rows] = await db.query(
+            `
+      SELECT 
+        id,
+        first_name,
+        last_name,
+        email,
+        role,
+        gender,
+        DATE_FORMAT(birthday, '%Y-%m-%d') AS birthday,
+        created_at
+      FROM users
+      WHERE id = ?
+      `,
+            [req.user.id]
+        );
 
-        if (!rows.length) return res.status(404).json({ message: "User not found" });
+        if (!rows.length)
+            return res.status(404).json({ message: "User not found" });
+
         res.json(rows[0]);
     } catch (err) {
         console.error("Error fetching profile:", err);
@@ -55,7 +63,6 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json({ message: "Failed to fetch users" });
     }
 };
-
 
 // UPDATE user by ID (ADMIN)
 export const updateUser = async (req, res) => {
@@ -105,5 +112,43 @@ export const deleteUser = async (req, res) => {
     } catch (err) {
         console.error("Error deleting user:", err);
         res.status(500).json({ message: "Failed to delete user" });
+    }
+};
+
+//CHANGE PASSWORD
+export const changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "All required fields must be filled" });
+    }
+
+    try {
+        // Merr userin nga MySQL
+        const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [req.user.id]);
+
+        if (!rows.length) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const user = rows[0];
+
+        // Kontrollo password-in aktual
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Current password is incorrect" });
+        }
+
+        // Hash password i ri
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update user
+        await db.query("UPDATE users SET password = ? WHERE id = ?", [hashedPassword, req.user.id]);
+
+        res.json({ message: "Password updated successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
     }
 };

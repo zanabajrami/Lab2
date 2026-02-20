@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { CircleUserRound } from "lucide-react";
 
 function Account({ isOpen, onClose, userData, setUserData }) {
@@ -6,7 +7,25 @@ function Account({ isOpen, onClose, userData, setUserData }) {
     const [newPassword, setNewPassword] = useState("");
     const [isChangingPassword, setIsChangingPassword] = useState(false);
     const [error, setError] = useState("");
-    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false); // ✅ modal Log Out
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false); // modal Log Out
+
+    useEffect(() => {
+        const fetchMe = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                const res = await axios.get("http://localhost:8800/api/users/me", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                setUserData(res.data);
+            } catch (err) {
+                console.error("Failed to load account data", err);
+            }
+        };
+        if (isOpen) fetchMe();
+    }, [isOpen]);
 
     useEffect(() => {
         if (isOpen) {
@@ -22,42 +41,53 @@ function Account({ isOpen, onClose, userData, setUserData }) {
 
     if (!isOpen || !userData) return null;
 
-    const handleChangePassword = () => {
-        if (!userData) return;
-
-        if (yourPassword.trim() !== (userData.password || "").trim()) {
-            setError("❌ Your password is incorrect!");
-            return;
-        }
+    const handleChangePassword = async () => {
+        setError("");
 
         if (newPassword.trim().length < 8) {
-            setError("⚠️ New password must be at least 8 characters!");
+            setError("New password must be at least 8 characters!");
             return;
         }
 
-        setUserData({
-            ...userData,
-            password: newPassword,
-        });
+        try {
+            const token = localStorage.getItem("token");
 
-        setIsChangingPassword(false);
-        setYourPassword("");
-        setNewPassword("");
-        setError("");
-        alert("✔️ Password updated successfully!");
+            await axios.put(
+                "http://localhost:8800/api/users/change-password",
+                {
+                    currentPassword: yourPassword,
+                    newPassword: newPassword,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setIsChangingPassword(false);
+            setYourPassword("");
+            setNewPassword("");
+
+            alert("Password updated successfully!");
+        } catch (err) {
+            setError(
+                err.response?.data?.message ||
+                "Failed to change password"
+            );
+        }
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("user");
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-        setUserData(null);       // React state
+        setUserData(null);
         setShowLogoutConfirm(false);
         onClose();
 
-        alert("✔️ You have been logged out!");
+        alert("You have been logged out!");
     };
-
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 animate-fadeIn">
@@ -70,11 +100,11 @@ function Account({ isOpen, onClose, userData, setUserData }) {
                     Your Account
                 </h2>
 
-                <p className="mb-3"><strong>First Name:</strong> {userData.firstName}</p>
-                <p className="mb-3"><strong>Last Name:</strong> {userData.lastName}</p>
-                <p className="mb-3"><strong>Email:</strong> {userData.email}</p>
-                <p className="mb-3"><strong>Gender:</strong> {userData.gender}</p>
-                <p className="mb-3"><strong>Birthday:</strong> {userData.birthday}</p>
+                <p><strong>First Name:</strong> {userData.first_name}</p>
+                <p><strong>Last Name:</strong> {userData.last_name}</p>
+                <p><strong>Email:</strong> {userData.email}</p>
+                <p><strong>Gender:</strong> {userData.gender || "-"}</p>
+                <p><strong>Birthday:</strong> {userData.birthday || "-"}</p>
 
                 <div className="flex justify-between items-center mb-3">
                     <p><strong>Password:</strong> ••••••••</p>
