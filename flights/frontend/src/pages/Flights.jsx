@@ -4,9 +4,11 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/flights/Calendar";
-import PaymentForm from "../components/PaymentForm";
+import PaymentForm from "../components/payments/PaymentForm";
 import FlightCard from "../components/flights/FlightCard";
 import { useBodyScrollLock } from "../components/flights/FlightUtils";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "../utils/stripe";
 
 const FlightsSection = () => {
   const [isReturn, setIsReturn] = useState(false);
@@ -150,50 +152,25 @@ const FlightsSection = () => {
   };
 
   const handleConfirmPayment = async () => {
-    try {
-      // VALIDIM PARA SE ME THIRR API
-      if (
-        !Array.isArray(passengerInfo) ||
-        passengerInfo.length !== persons ||
-        passengerInfo.some(p =>
-          !p.firstName ||
-          !p.lastName ||
-          !p.email ||
-          !p.phone ||
-          !p.passportNumber ||
-          !p.birthday ||
-          !p.nationality
-        )
-      ) {
-        alert("Passenger information is incomplete!");
-        console.log("DEBUG passengerInfo:", passengerInfo);
-        return;
-      }
+    if (passengerInfo.some(p => !validatePassenger(p))) {
+      alert("Please complete all passenger info!");
+      return;
+    }
 
-      const res = await fetch("http://localhost:8800/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          flightId: modalFlight.id,
-          departureDate,
-          returnDate: modalFlight.hasReturn ? returnDate : null,
-          passengers: passengerInfo,
-          totalPrice
-        })
+    try {
+      const res = await axios.post("http://localhost:8800/api/bookings", {
+        flightId: modalFlight.id,
+        departureDate,
+        returnDate: isReturn ? returnDate : null,
+        passengers: passengerInfo,
+        totalPrice
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Booking failed");
-      }
-
-      alert("Booking successfully confirmed!");
-      closeModal();
-
+      alert("Booking confirmed!");
+      closeModal(); // mbyll modal + payment form
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      alert("Booking failed. Try again.");
     }
   };
 
@@ -389,14 +366,10 @@ const FlightsSection = () => {
                   (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex]))
                 }
                 onClick={() => {
-                  if (modalStep === 1) {
-                    setModalStep(2);
-                  } else {
-                    if (currentPassengerIndex < persons - 1) {
-                      setCurrentPassengerIndex(prev => prev + 1);
-                    } else {
-                      setShowPaymentForm(true);
-                    }
+                  if (modalStep === 1) setModalStep(2);
+                  else {
+                    if (currentPassengerIndex < persons - 1) setCurrentPassengerIndex(prev => prev + 1);
+                    else setShowPaymentForm(true);
                   }
                 }}
                 className={`w-full py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl ${((modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
@@ -413,11 +386,13 @@ const FlightsSection = () => {
       )}
 
       {showPaymentForm && passengerInfo.length === persons && (
-        <PaymentForm
-          amount={totalPrice}
-          onClose={() => setShowPaymentForm(false)}
-          onSubmit={handleConfirmPayment}
-        />
+        <Elements stripe={stripePromise}>
+          <PaymentForm
+            amount={totalPrice}
+            onClose={() => setShowPaymentForm(false)}
+            onSubmit={handleConfirmPayment}
+          />
+        </Elements>
       )}
 
       {showTopButton && (

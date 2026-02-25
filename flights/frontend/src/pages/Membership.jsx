@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, Users, TicketPercent, Utensils, CircleDollarSign, HandPlatter, BadgeCheck, Luggage, Calendar, TicketsPlane, Feather } from "lucide-react";
-import PaymentForm from "../components/PaymentForm"; // siguro path-in e saktë
+import PaymentModal from "../components/payments/PaymentModal";
 
 function MembershipCard({ title, price, benefits, badge, onJoin }) {
   const [activeTips, setActiveTips] = useState({});
@@ -75,10 +75,11 @@ function MembershipCard({ title, price, benefits, badge, onJoin }) {
 
         <button
           onClick={() => onJoin(title, price)}
-          className="w-full py-3.5 text-white font-semibold text-lg rounded-2xl bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 shadow-lg hover:shadow-xl"
+          className="w-full py-3 mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-colors duration-300 shadow-md hover:shadow-lg"
         >
           Join Now
         </button>
+
       </div>
     </motion.div>
   );
@@ -153,13 +154,12 @@ export default function Membership() {
       </div>
 
       {showPaymentForm && (
-        <PaymentForm
-          title={`Payment for ${selectedItem}`}
-          amount={selectedAmount}
+        <PaymentModal
+          amount={parseFloat(selectedAmount)}
           onClose={() => setShowPaymentForm(false)}
-          onSubmit={() => console.log("Paid", selectedItem, selectedAmount)}
         />
       )}
+
     </div>
   );
 }
