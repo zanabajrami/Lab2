@@ -1,5 +1,5 @@
 import axios from "axios";
-import { X, Loader2, Globe, CreditCard, Calendar, Phone, Lock, Save } from "lucide-react";
+import { X, Loader2, Calendar, Lock, Save } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 
 const EditPassenger = ({ passenger, onClose, onUpdated }) => {

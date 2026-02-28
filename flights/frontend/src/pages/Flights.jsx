@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronUp, ArrowRight, X, Plane } from "lucide-react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import CustomDropdown from "../components/CustomDropdown";
 import Calendar from "../components/flights/Calendar";
@@ -26,18 +26,15 @@ const FlightsSection = () => {
   const [passengerInfo, setPassengerInfo] = useState([]);
   const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
   const [flights, setFlights] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [fromCities, setFromCities] = useState([]);
   const [toCities, setToCities] = useState([]);
+  const [bookingId, setBookingId] = useState(null);
 
   const flightsPerPage = 20;
   const today = new Date();
   const maxDate = new Date(today.getFullYear(), today.getMonth() + 12, today.getDate());
 
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-  const searchFrom = params.get("from");
-  const searchTo = params.get("to");
   const [, setSearchParams] = useSearchParams();
 
   useBodyScrollLock(!!modalFlight);
@@ -158,19 +155,29 @@ const FlightsSection = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8800/api/bookings", {
-        flightId: modalFlight.id,
-        departureDate,
-        returnDate: isReturn ? returnDate : null,
-        passengers: passengerInfo,
-        totalPrice
-      });
+      const token = localStorage.getItem("token");
 
-      alert("Booking confirmed!");
-      closeModal(); // mbyll modal + payment form
+      const res = await axios.post(
+        "http://localhost:8800/api/bookings",
+        {
+          flightId: modalFlight.id,
+          departureDate,
+          returnDate: isReturn ? returnDate : null,
+          passengers: passengerInfo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setBookingId(res.data.bookingId); // kurr s’është null
+      setShowPaymentForm(true);
+
     } catch (err) {
       console.error(err);
-      alert("Booking failed. Try again.");
+      alert("Booking creation failed");
     }
   };
 
@@ -359,27 +366,33 @@ const FlightsSection = () => {
                   </button>
                 )}
               </div>
-
               <button
                 disabled={
-                  (modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
+                  (modalStep === 1 && (!departureDate || (modalFlight.hasReturn && !returnDate))) ||
                   (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex]))
                 }
                 onClick={() => {
-                  if (modalStep === 1) setModalStep(2);
-                  else {
-                    if (currentPassengerIndex < persons - 1) setCurrentPassengerIndex(prev => prev + 1);
-                    else setShowPaymentForm(true);
+                  if (modalStep === 1) {
+                    setModalStep(2);
+                  } else {
+                    if (currentPassengerIndex < persons - 1) {
+                      setCurrentPassengerIndex(prev => prev + 1);
+                    } else {
+                      handleConfirmPayment();
+                    }
                   }
                 }}
-                className={`w-full py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl ${((modalStep === 1 && (!departureDate || (modalFlight.isReturn && !returnDate))) ||
+                className={`w-full py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl ${((modalStep === 1 && (!departureDate || (modalFlight.hasReturn && !returnDate))) ||
                   (modalStep === 2 && !validatePassenger(passengerInfo[currentPassengerIndex])))
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
                   : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
                   }`}
               >
-                {modalStep === 1 ? "Continue to Details" : (currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm & Pay Now")}
+                {modalStep === 1
+                  ? "Continue to Details"
+                  : (currentPassengerIndex < persons - 1 ? "Next Passenger" : "Confirm & Pay Now")}
               </button>
+
             </div>
           </div>
         </div>
@@ -389,8 +402,14 @@ const FlightsSection = () => {
         <Elements stripe={stripePromise}>
           <PaymentForm
             amount={totalPrice}
+            bookingData={{
+              flightId: modalFlight.id,
+              departureDate,
+              returnDate: isReturn ? returnDate : null,
+              passengers: passengerInfo,
+            }}
+            passengerName={passengerInfo[0].firstName + " " + passengerInfo[0].lastName}
             onClose={() => setShowPaymentForm(false)}
-            onSubmit={handleConfirmPayment}
           />
         </Elements>
       )}

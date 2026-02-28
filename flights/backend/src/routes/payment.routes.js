@@ -1,8 +1,12 @@
 import express from "express";
-import { createPaymentIntent } from "../controllers/payment.controller.js";
+import {
+  createPaymentIntent,
+  confirmPayment,
+} from "../controllers/payment.controller.js";
 
 const router = express.Router();
 
 router.post("/create-payment-intent", createPaymentIntent);
+router.post("/confirm", confirmPayment);
 
 export default router;

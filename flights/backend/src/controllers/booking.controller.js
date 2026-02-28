@@ -33,11 +33,30 @@ export const createBooking = async (req, res) => {
 
         // Llogarit total price
         const passengersCount = passengers.length;
-        const totalPrice = flight.price * passengersCount;
-        const bookingCode = generateBookingCode();
+        // Konverto flight.price në number (nëse është string me € ose me komma)
+        const flightPrice = typeof flight.price === "string"
+            ? parseFloat(flight.price.replace("€", "").replace(",", "."))
+            : flight.price;
+
+        const totalPrice = flightPrice * passengersCount; const bookingCode = generateBookingCode();
 
         // START TRANSACTION
         await connection.beginTransaction();
+
+        // Funksion helper për SQL datetime
+        const formatDateForSQL = (d) => {
+            const dt = new Date(d);
+            return dt.getFullYear() + '-' +
+                String(dt.getMonth() + 1).padStart(2, '0') + '-' +
+                String(dt.getDate()).padStart(2, '0') + ' ' +
+                String(dt.getHours()).padStart(2, '0') + ':' +
+                String(dt.getMinutes()).padStart(2, '0') + ':' +
+                String(dt.getSeconds()).padStart(2, '0');
+        }
+
+        // Konverto datat për MySQL
+        const departureDateSQL = departureDate ? formatDateForSQL(departureDate) : null;
+        const returnDateSQL = returnDate ? formatDateForSQL(returnDate) : null;
 
         // INSERT në bookings
         const [bookingResult] = await connection.query(
@@ -48,8 +67,8 @@ export const createBooking = async (req, res) => {
                 bookingCode,
                 userId || null,
                 flightId,
-                departureDate,
-                returnDate || null,
+                departureDateSQL,
+                returnDateSQL,
                 passengersCount,
                 totalPrice
             ]
