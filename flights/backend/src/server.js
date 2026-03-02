@@ -11,6 +11,7 @@ import bookingRoutes from "./routes/booking.routes.js";
 import flightsRoutes from "./routes/flights.routes.js";
 import passengerRoutes from "./routes/passenger.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import stripeWebhook from "./routes/stripeWebhook.js";
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ app.use(cors({
   origin: "http://localhost:3000",
   credentials: true,
 }));
+
+//Sripe Webhook
+app.use("/api/webhook", stripeWebhook);
 
 // MongoDB
 mongoose.connect(process.env.MONGO_URI)

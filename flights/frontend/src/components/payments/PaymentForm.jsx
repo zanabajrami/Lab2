@@ -14,12 +14,13 @@ function PaymentForm({ amount, bookingId, passengerName, onClose }) {
         if (!stripe || !elements) return;
 
         // 1️⃣ Krijo PaymentIntent
+        const token = localStorage.getItem("token");
+
         const { data } = await axios.post(
             "http://localhost:8800/api/payments/create-payment-intent",
-            {
-                amount: Number(amount),
-                bookingId
-            });
+            { amount: Number(amount), bookingId },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
         console.log("PaymentIntent response:", data);
 
         const clientSecret = data.clientSecret;
@@ -38,26 +39,8 @@ function PaymentForm({ amount, bookingId, passengerName, onClose }) {
         }
 
         if (paymentIntent.status === "succeeded") {
-            try {
-                // 3️⃣ POST booking vetëm pas suksesit të pagesës
-                const token = localStorage.getItem("token");
-                await axios.post(
-                    "http://localhost:8800/api/bookings",
-                    bookingData,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
-
-                alert("Payment successful! Booking confirmed ✅");
-                onClose();
-            } catch (err) {
-                console.error(err);
-                alert("Booking failed even after payment. Contact support.");
-            }
+            alert("Payment successful! Booking confirmed ✅");
+            onClose();
         }
     };
 

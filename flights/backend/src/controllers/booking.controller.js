@@ -10,7 +10,8 @@ export const createBooking = async (req, res) => {
     const connection = await db.getConnection();
 
     try {
-        const { userId, flightId, departureDate, returnDate, passengers } = req.body;
+        const { flightId, departureDate, returnDate, passengers } = req.body;
+        const userId = req.user?.id || null;
 
         // Validime bazë
         if (!flightId || !departureDate) {
@@ -61,11 +62,11 @@ export const createBooking = async (req, res) => {
         // INSERT në bookings
         const [bookingResult] = await connection.query(
             `INSERT INTO bookings 
-       (booking_code, user_id, flight_id, departure_date, return_date, passengers_count, total_price, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
+   (booking_code, user_id, flight_id, departure_date, return_date, passengers_count, total_price, status)
+   VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
             [
                 bookingCode,
-                userId || null,
+                userId,
                 flightId,
                 departureDateSQL,
                 returnDateSQL,
@@ -80,12 +81,12 @@ export const createBooking = async (req, res) => {
         for (const p of passengers) {
             await connection.query(
                 `INSERT INTO passengers 
-   (booking_id, booking_code, user_id, first_name, last_name, email, phone, passport_number, birthday, nationality)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+     (booking_id, booking_code, user_id, first_name, last_name, email, phone, passport_number, birthday, nationality)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     bookingId,
                     bookingCode,
-                    userId || null,
+                    userId,
                     p.firstName,
                     p.lastName,
                     p.email,

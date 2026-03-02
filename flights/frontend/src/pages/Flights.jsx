@@ -402,13 +402,10 @@ const FlightsSection = () => {
         <Elements stripe={stripePromise}>
           <PaymentForm
             amount={totalPrice}
-            bookingData={{
-              flightId: modalFlight.id,
-              departureDate,
-              returnDate: isReturn ? returnDate : null,
-              passengers: passengerInfo,
-            }}
-            passengerName={passengerInfo[0].firstName + " " + passengerInfo[0].lastName}
+            bookingId={bookingId}
+            passengerName={
+              passengerInfo[0].firstName + " " + passengerInfo[0].lastName
+            }
             onClose={() => setShowPaymentForm(false)}
           />
         </Elements>
